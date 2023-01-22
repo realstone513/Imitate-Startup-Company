@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System;
 
 public enum Direction
 {
@@ -14,15 +16,15 @@ public class OfficeGenerator : MonoBehaviour
     public GameObject wallCorner;
     public GameObject wallDoor;
 
-    private List<GameObject> walls = new ();
-    private int[] data;
+    private List<GameObject> walls = new();
+    private List<int> data = new();
     private int row;
     private int col;
 
     public void GenerateWall(Vector3 startPos)
     {
         Quaternion qi = Quaternion.identity;
-        row = data.Length / col;
+        row = data.Count / col;
         startPos.x -= col / 2;
         startPos.z += row / 2;
         Vector3 interval = Vector3.zero;
@@ -100,27 +102,26 @@ public class OfficeGenerator : MonoBehaviour
         return true;
     }
 
+    private void ReadData()
+    {
+        StreamReader sr = new("Assets/Resources/Map.txt");
+
+        string line = sr.ReadLine();
+        col = int.Parse(line);
+
+        while ((line = sr.ReadLine()) != null)
+        {
+            foreach (char c in line)
+            {
+                data.Add(c - '0');
+            }
+        }
+        sr.Close();
+    }
+
     private void Start()
     {
-        col = 13;
-        // TODO: file IO
-        int[] datas =
-        {
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
-            1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
-            1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
-            1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-            1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-            1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-            1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        };
-        data = datas;
-
+        ReadData();
         GenerateWall(Vector3.zero);
         gameObject.transform.Rotate(new Vector3(0, 45, 0));
     }
