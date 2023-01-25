@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using System;
 
 public enum Direction
 {
@@ -91,7 +90,6 @@ public class OfficeGenerator : MonoBehaviour
         }
     }
 
-
     private bool CheckEdge(int r, int c)
     {
         // out range
@@ -123,6 +121,5 @@ public class OfficeGenerator : MonoBehaviour
     {
         ReadData();
         GenerateWall(Vector3.zero);
-        gameObject.transform.Rotate(new Vector3(0, 45, 0));
     }
 }
