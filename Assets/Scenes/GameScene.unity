@@ -325,6 +325,7 @@ MonoBehaviour:
   variance: 1
   rangeMin: 1
   rangeMax: 10
+  diff: 0
 --- !u!4 &671937363
 Transform:
   m_ObjectHideFlags: 0

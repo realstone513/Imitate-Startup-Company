@@ -17,6 +17,8 @@ public class EmployeeGenerator : MonoBehaviour
     public int variance = 5;
     public int rangeMin = 1;
     public int rangeMax = 10;
+    [Range(0f, 1f)]
+    public float diff = 0f;
 
     private void Start()
     {
@@ -43,7 +45,7 @@ public class EmployeeGenerator : MonoBehaviour
             int randomNumber =
                 Mathf.RoundToInt(
                     NormalDistribution.RangeAdditive(
-                    rangeMin, rangeMax, variance));
+                    rangeMin, rangeMax, variance, diff));
 
             result[randomNumber]++;
         }
