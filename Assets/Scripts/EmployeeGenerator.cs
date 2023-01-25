@@ -24,17 +24,8 @@ public class EmployeeGenerator : MonoBehaviour
 
     private void TestND()
     {
-        int size = rangeMax - rangeMin + 1;
-        int[] result = new int[size];
-
-        for (int i = 0; i < tryCount; i++)
-        {
-            int randomNumber =
-                    (int) (NormalDistribution.RangeAdditive(
-                    rangeMin, rangeMax) + 0.5f);
-
-            result[randomNumber - rangeMin]++;
-        }
+        int[] result = NormalDistribution.GetRange(tryCount, rangeMin, rangeMax);
+        int size = result.Length;
 
         for (int i = 0; i < size; i++)
             Debug.Log($"{i + rangeMin}:{result[i]}");
@@ -48,7 +39,7 @@ public class EmployeeGenerator : MonoBehaviour
 
     private int GetNormalDistributionNumber(int min, int max)
     {
-        return Mathf.RoundToInt(NormalDistribution.RangeAdditive(min, max));
+        return Mathf.RoundToInt(NormalDistribution.GetData(min, max));
     }
 
     private string CreateName()

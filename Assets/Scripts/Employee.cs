@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class Employee
 {
-    int creativity;
-    int conscientiousness;
-    int scrupulosity;
+    private string name;
 
-    int creativityLimit;
-    int conscientiousnessLimit;
-    int scrupulosityLimit;
+    private int creativity;
+    private int conscientiousness;
+    private int scrupulosity;
+
+    private int creativityLimit;
+    private int conscientiousnessLimit;
+    private int scrupulosityLimit;
 
     public Employee()
     {
-        creativity = Random.Range(1, 10);
-        conscientiousness = Random.Range(1, 10);
-        scrupulosity = Random.Range(1, 10);
     }
 
 }
