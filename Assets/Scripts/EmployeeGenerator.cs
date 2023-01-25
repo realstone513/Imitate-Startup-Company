@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 public enum Gender
@@ -13,61 +12,56 @@ public class EmployeeGenerator : MonoBehaviour
     private List<Dictionary<string, string>> nameTable = new();
     private int tableLength;
 
-    public int tryCount = 100000;
-    public int variance = 5;
-    public int rangeMin = 1;
-    public int rangeMax = 10;
-    [Range(0f, 1f)]
-    public float diff = 0f;
-
     private void Start()
     {
         nameTable = CSVReader.Read("NameTable");
         tableLength = nameTable.Count;
-        TestND();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TestND();
-        }
-    }
+    public int tryCount = 100000;
+    public int rangeMin = 1;
+    public int rangeMax = 10;
 
     private void TestND()
     {
-        int size = rangeMax + 1;
+        int size = rangeMax - rangeMin + 1;
         int[] result = new int[size];
 
         for (int i = 0; i < tryCount; i++)
         {
             int randomNumber =
-                Mathf.RoundToInt(
-                    NormalDistribution.RangeAdditive(
-                    rangeMin, rangeMax, variance, diff));
+                    (int) (NormalDistribution.RangeAdditive(
+                    rangeMin, rangeMax) + 0.5f);
 
-            result[randomNumber]++;
+            result[randomNumber - rangeMin]++;
         }
 
-        for (int i = rangeMin; i < size; i++)
-            Debug.Log($"{i}:{result[i]}");
+        for (int i = 0; i < size; i++)
+            Debug.Log($"{i + rangeMin}:{result[i]}");
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            TestND();
+    }
+
+    private int GetNormalDistributionNumber(int min, int max)
+    {
+        return Mathf.RoundToInt(NormalDistribution.RangeAdditive(min, max));
     }
 
     private string CreateName()
     {
         Gender gender = (Gender)Random.Range(0, 2);
-        Debug.Log(gender);
-        int selectFirst = Random.Range(0, tableLength);
-        int selectLast = Random.Range(0, tableLength);
+        int first = Random.Range(0, tableLength);
+        int last = Random.Range(0, tableLength);
+
+        string name;
         if (gender == Gender.Male)
-        {
-            Debug.Log($"{nameTable[selectFirst]["First"]} {nameTable[selectLast]["Male"]}");
-        }
+            name = $"{nameTable[first]["First"]} {nameTable[last]["Male"]}";
         else
-        {
-            Debug.Log($"{nameTable[selectFirst]["First"]} {nameTable[selectLast]["Female"]}");
-        }
-        return "";
+            name = $"{nameTable[first]["First"]} {nameTable[last]["Female"]}";
+        return name;
     }
 }
