@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NormalDistribution
@@ -18,15 +19,17 @@ public class NormalDistribution
         return sum;
     }
 
-    public static int[] GetRange(int tryCount, int min, int max)
+    public static Dictionary<int, int> GetRange(int tryCount, int min, int max)
     {
-        int size = max - min + 1;
-        int[] result = new int[size];
+        Dictionary<int, int> result = new();
 
         for (int i = 0; i < tryCount; i++)
         {
             int num = (int)(GetData(min, max) + 0.5f);
-            result[num - min]++;
+            if (result.ContainsKey(num))
+                result[num]++;
+            else
+                result.Add(num, 1);
         }
         return result;
     }
