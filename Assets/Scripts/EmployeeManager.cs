@@ -14,11 +14,12 @@ public enum EmployeeRating
     Expert,
 }
 
-public class EmployeeGenerator : MonoBehaviour
+public class EmployeeManager : MonoBehaviour
 {
+    public GameObject employeePrefab;
     private List<Dictionary<string, string>> nameTable = new();
     private int tableLength;
-    private List<Employee> employees = new();
+    private List<GameObject> employees = new();
 
     private void Awake()
     {
@@ -30,18 +31,34 @@ public class EmployeeGenerator : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            employees.Add(new Employee(CreateName(),
-                CreateEmployeeBaseAbility(EmployeeRating.Beginner)));
+            GameObject employee =
+                Instantiate(employeePrefab, gameObject.transform); ;
+            employees.Add(employee);
+            employee.GetComponent<Employee>().SetInit(CreateName(),
+                CreateEmployeeBaseAbility(EmployeeRating.Beginner));
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            employees.Add(new Employee(CreateName(),
-                CreateEmployeeBaseAbility(EmployeeRating.Intermediate)));
+            GameObject employee =
+                Instantiate(employeePrefab, gameObject.transform); ;
+            employees.Add(employee);
+            employee.GetComponent<Employee>().SetInit(CreateName(),
+                CreateEmployeeBaseAbility(EmployeeRating.Intermediate));
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            employees.Add(new Employee(CreateName(),
-                CreateEmployeeBaseAbility(EmployeeRating.Expert)));
+            GameObject employee =
+                Instantiate(employeePrefab, gameObject.transform); ;
+            employees.Add(employee);
+            employee.GetComponent<Employee>().SetInit(CreateName(),
+                CreateEmployeeBaseAbility(EmployeeRating.Expert));
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            foreach (GameObject emp in employees)
+            {
+                emp.GetComponent<Employee>().TestPrint();
+            }
         }
     }
 

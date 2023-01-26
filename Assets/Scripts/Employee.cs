@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public struct EmployeeBaseAblity
@@ -39,8 +37,9 @@ public struct EmployeeBaseAblity
     }
 }
 
-public enum EmployeeState
+public enum States
 {
+    None = -1,
     GoToWork,
     Working,
     OffWork,
@@ -48,19 +47,26 @@ public enum EmployeeState
     Education
 }
 
-public class Employee
+public class Employee : MonoBehaviour
 {
-    private string name;
+    private string empName;
     private EmployeeBaseAblity ability;
+    private float workload;
+    private float currentWorkload;
+    private float timer;
+    private float duration;
+    private States state;
 
-    public Employee(string _name, EmployeeBaseAblity _ability)
+    public void SetInit(string _name, EmployeeBaseAblity _ability)
     {
-        name = _name;
+        empName = _name;
         ability = _ability;
+        state = States.None;
+
         TestPrint();
     }
 
-    private void TestPrint()
+    public void TestPrint()
     {
         Debug.Log($"{name} " +
             $"Ã¢ÀÇ¼º: {ability.creativity}/{ability.creativityLimit} " +
