@@ -18,8 +18,8 @@ public class EmployeeManager : MonoBehaviour
 {
     public GameObject employeePrefab;
     private List<Dictionary<string, string>> nameTable = new();
-    private int tableLength;
     private List<GameObject> employees = new();
+    private int tableLength;
 
     private void Awake()
     {
