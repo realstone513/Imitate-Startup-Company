@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public struct EmployeeBaseAblity
@@ -57,6 +58,14 @@ public class Employee : MonoBehaviour
     private float duration;
     private States state;
 
+    private void Update()
+    {
+        if (state == States.None)
+            return;
+
+
+    }
+
     public void SetInit(string _name, EmployeeBaseAblity _ability)
     {
         empName = _name;
@@ -66,9 +75,15 @@ public class Employee : MonoBehaviour
         TestPrint();
     }
 
+    public void PlaceOnDesk(Vector3 pos)
+    {
+        state = States.Working;
+        gameObject.transform.position = pos;
+    }
+
     public void TestPrint()
     {
-        Debug.Log($"{name} " +
+        Debug.Log($"{empName} " +
             $"芒狼己: {ability.creativity}/{ability.creativityLimit} " +
             $"己角己: {ability.conscientiousness}/{ability.conscientiousnessLimit} " +
             $"林档己: {ability.scrupulosity}/{ability.scrupulosityLimit}");

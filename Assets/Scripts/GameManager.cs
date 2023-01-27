@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI ymwText;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI retirementText;
+    public Slider timerSlider;
     private int year = 1;
     private int month = 1;
     private int week = 1;
@@ -15,6 +18,7 @@ public class GameManager : MonoBehaviour
     private int timeScale = 0;
     public int constantSpeed = 5;
     public int constantSkipSpeed = 100;
+    private int endYear = 10;
 
     private readonly (float hour, float minute) goToWorkTime = (10, 00);
     private readonly (float hour, float minute) offWorkTime = (19, 00);
@@ -41,7 +45,8 @@ public class GameManager : MonoBehaviour
         if (timeScale != 0)
         {
             int additionalSpeed = onSkip ? constantSkipSpeed : constantSpeed * timeScale;
-            timer.minute += (additionalSpeed *  Time.deltaTime);
+            timer.minute += (additionalSpeed * Time.deltaTime);
+            timerSlider.value += Time.deltaTime;
             if (timer.minute >= 60f)
             {
                 timer.minute = 0f;
@@ -51,16 +56,22 @@ public class GameManager : MonoBehaviour
 
             if (timer.hour >= 24f)
             {
-                Debug.Log("Next Week");
                 timer = (0f, 0f);
+                timerSlider.value = 0f;
                 week++;
                 if (week > 4)
+                {
                     month++;
+                    week = 1;
+                }
                 if (month > 12)
+                {
                     year++;
+                    month = 1;
+                }
                 SetYmdText();
             }
-            if (onSkip && (!AfterOffWorkTime() && !BeforeGoToWorkTime()))
+            if (onSkip && !(AfterOffWorkTime() || BeforeGoToWorkTime()))
             {
                 Debug.Log("Stop skip");
                 onSkip = false;
@@ -94,13 +105,13 @@ public class GameManager : MonoBehaviour
                 onSkip = true;
                 Debug.Log("Start Skip");
             }
-            else Debug.Log("Fail Skip");
         }
     }
 
     private void SetYmdText()
     {
-        ymwText.text = $"{year}년차 {month}월 {week}주차";
+        ymwText.text = $"{year}년 {month}월 {week}주";
+        retirementText.text = $"{endYear - year}년 뒤에 종료";
     }
 
     private bool BeforeGoToWorkTime()

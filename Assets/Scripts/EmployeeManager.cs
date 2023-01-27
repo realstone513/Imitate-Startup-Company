@@ -16,41 +16,51 @@ public enum EmployeeRating
 
 public class EmployeeManager : MonoBehaviour
 {
-    public GameObject employeePrefab;
+    public List<GameObject> employeeBeginners;
+    public List<GameObject> employeeIntermediates;
+    public List<GameObject> employeeExperts;
     private List<Dictionary<string, string>> nameTable = new();
     private List<GameObject> employees = new();
     private int tableLength;
+    private Vector3 spawnPosition;
 
     private void Awake()
     {
         nameTable = CSVReader.Read("NameTable");
         tableLength = nameTable.Count;
+        spawnPosition = new Vector3(0, -10, 0);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
+            int random = Random.Range(0, employeeBeginners.Count);
             GameObject employee =
-                Instantiate(employeePrefab, gameObject.transform); ;
+                Instantiate(employeeBeginners[random], gameObject.transform);
             employees.Add(employee);
-            employee.GetComponent<Employee>().SetInit(CreateName(),
+            Employee emp = employee.AddComponent<Employee>();
+            emp.SetInit(CreateName(),
                 CreateEmployeeBaseAbility(EmployeeRating.Beginner));
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
+            int random = Random.Range(0, employeeIntermediates.Count);
             GameObject employee =
-                Instantiate(employeePrefab, gameObject.transform); ;
+                Instantiate(employeeIntermediates[random], gameObject.transform);
             employees.Add(employee);
-            employee.GetComponent<Employee>().SetInit(CreateName(),
+            Employee emp = employee.AddComponent<Employee>();
+            emp.SetInit(CreateName(),
                 CreateEmployeeBaseAbility(EmployeeRating.Intermediate));
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
+            int random = Random.Range(0, employeeExperts.Count);
             GameObject employee =
-                Instantiate(employeePrefab, gameObject.transform); ;
+                Instantiate(employeeExperts[random], gameObject.transform);
             employees.Add(employee);
-            employee.GetComponent<Employee>().SetInit(CreateName(),
+            Employee emp = employee.AddComponent<Employee>();
+            emp.SetInit(CreateName(),
                 CreateEmployeeBaseAbility(EmployeeRating.Expert));
         }
         if (Input.GetKeyDown(KeyCode.F))
@@ -68,11 +78,9 @@ public class EmployeeManager : MonoBehaviour
         int first = Random.Range(0, tableLength);
         int last = Random.Range(0, tableLength);
 
-        string name;
-        if (gender == Gender.Male)
-            name = $"{nameTable[first]["First"]} {nameTable[last]["Male"]}";
-        else
-            name = $"{nameTable[first]["First"]} {nameTable[last]["Female"]}";
+        string name = (gender == Gender.Male) ?
+            $"{nameTable[first]["First"]} {nameTable[last]["Male"]}" :
+            $"{nameTable[first]["First"]} {nameTable[last]["Female"]}";
         return name;
     }
 
