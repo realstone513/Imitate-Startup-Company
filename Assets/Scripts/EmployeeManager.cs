@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum Gender
@@ -70,6 +71,11 @@ public class EmployeeManager : MonoBehaviour
                 emp.GetComponent<Employee>().TestPrint();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TestND();
+        }
     }
 
     private string CreateName()
@@ -111,22 +117,41 @@ public class EmployeeManager : MonoBehaviour
         return Mathf.RoundToInt(NormalDistribution.GetData(min, max));
     }
 
-    /*public int tryCount = 100000;
+    public int tryCount = 100000;
     public int rangeMin = 1;
     public int rangeMax = 10;
+
+    public int innerSumPoint;
 
     private void TestND()
     {
         Dictionary<int, int> result = NormalDistribution.GetRange(tryCount, rangeMin, rangeMax);
 
+        int sum = 0;
+        int ispIdx = 0;
+        int count = 0;
         var sort = result.OrderBy(x => x.Key);
-        foreach (var i in sort)
-            Debug.Log(i);
-    }
+        int[] points = { innerSumPoint, rangeMax - innerSumPoint, sort.Last().Key };
+        int before = rangeMin;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            TestND();
-    }*/
+        /*foreach (var i in sort)
+        {
+            Debug.Log(i);
+        }*/
+
+        foreach (var i in sort)
+        {
+            //Debug.Log(i);
+            sum += i.Value;
+            count++;
+
+            if (count == points[ispIdx])
+            {
+                Debug.Log($"{before} ~ {count} : {(float)sum / tryCount * 100}");
+                ispIdx++;
+                before = count;
+                sum = 0;
+            }
+        }
+    }
 }
