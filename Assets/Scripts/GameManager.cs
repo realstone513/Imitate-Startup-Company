@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI retirementText;
     public Slider timerSlider;
+    public Button[] buttons;
+
     private int year = 1;
     private int month = 1;
     private int week = 1;
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            // DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
@@ -45,8 +47,9 @@ public class GameManager : MonoBehaviour
         if (timeScale != 0)
         {
             int additionalSpeed = onSkip ? constantSkipSpeed : constantSpeed * timeScale;
-            timer.minute += (additionalSpeed * Time.deltaTime);
-            timerSlider.value += Time.deltaTime;
+            float adder = (additionalSpeed * Time.deltaTime);
+            timer.minute += adder;
+            timerSlider.value += adder;
             if (timer.minute >= 60f)
             {
                 timer.minute = 0f;
@@ -71,47 +74,44 @@ public class GameManager : MonoBehaviour
                 }
                 SetYmdText();
             }
+
+            if (!onSkip && timeScale == 3 && (AfterOffWorkTime() || BeforeGoToWorkTime()))
+            {
+                SetSkipMode(true);
+            }
+
             if (onSkip && !(AfterOffWorkTime() || BeforeGoToWorkTime()))
             {
-                Debug.Log("Stop skip");
-                onSkip = false;
+                SetSkipMode(false);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            timeScale = 0;
-            Debug.Log("Timer stop");
-        }
+            SetTimeScale(0);
         else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            timeScale = 1;
-            Debug.Log("Timer x1");
-        }
+            SetTimeScale(1);
         else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            timeScale = 2;
-            Debug.Log("Timer x2");
-        }
+            SetTimeScale(2);
         else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            timeScale = 3;
-            Debug.Log("Timer x3");
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            if (AfterOffWorkTime() || BeforeGoToWorkTime())
-            {
-                onSkip = true;
-                Debug.Log("Start Skip");
-            }
-        }
+            SetTimeScale(3);
     }
 
     private void SetYmdText()
     {
         ymwText.text = $"{year}년 {month}월 {week}주";
         retirementText.text = $"{endYear - year}년 뒤에 종료";
+    }
+
+    public void SetTimeScale(int value)
+    {
+        timeScale = value;
+        buttons[value].Select();
+    }
+
+    public void SetSkipMode(bool value)
+    {
+        onSkip = value;
+        Debug.Log($"Skip {(onSkip ? "Start" : "Stop")}");
     }
 
     private bool BeforeGoToWorkTime()

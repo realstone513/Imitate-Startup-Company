@@ -86,6 +86,7 @@ public class Employee : MonoBehaviour
         Debug.Log($"{empName} " +
             $"芒狼己: {ability.creativity}/{ability.creativityLimit} " +
             $"己角己: {ability.conscientiousness}/{ability.conscientiousnessLimit} " +
-            $"林档己: {ability.scrupulosity}/{ability.scrupulosityLimit}");
+            $"林档己: {ability.scrupulosity}/{ability.scrupulosityLimit}" +
+            $"眉仿: {ability.maxHP}");
     }
 }
