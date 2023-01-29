@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI retirementText;
     public Slider timerSlider;
     public Button[] buttons;
+    public TextMeshProUGUI playModeText;
 
     private int year = 1;
     private int month = 1;
@@ -106,12 +107,19 @@ public class GameManager : MonoBehaviour
     {
         timeScale = value;
         buttons[value].Select();
+        if (value != 0)
+            playModeText.text = $"x{value}";
+        else
+            playModeText.text = $"Stop";
     }
 
     public void SetSkipMode(bool value)
     {
         onSkip = value;
-        Debug.Log($"Skip {(onSkip ? "Start" : "Stop")}");
+        if (onSkip)
+            playModeText.text = "Skip";
+        else
+            playModeText.text = $"x{timeScale}";
     }
 
     private bool BeforeGoToWorkTime()
