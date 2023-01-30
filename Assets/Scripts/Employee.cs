@@ -1,40 +1,20 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public struct EmployeeBaseAblity
 {
-    // 창의력, 성실성, 주도성
-    public int creativity;
-    public int conscientiousness;
-    public int scrupulosity;
-
-    public int creativityLimit;
-    public int conscientiousnessLimit;
-    public int scrupulosityLimit;
-
-    public int maxHP;
-    public int currentHP;
-
-    public void SetLimit(int cre, int con, int scr)
-    {
-        creativityLimit = cre;
-        conscientiousnessLimit = con;
-        scrupulosityLimit = scr;
-    }
+    // 창의력, 성실성, 주도성, 체력
+    public (int current, int limit) creativity;
+    public (int current, int limit) conscientiousness;
+    public (int current, int limit) scrupulosity;
+    public (int current, int limit) hp;
 
     public EmployeeBaseAblity(
         (int min, int max) range, int cre, int con, int scr, int hp)
     {
-        creativityLimit = cre;
-        conscientiousnessLimit = con;
-        scrupulosityLimit = scr;
-
-        creativity = Random.Range(range.min, cre + 1);
-        conscientiousness = Random.Range(range.min, con + 1);
-        scrupulosity = Random.Range(range.min, scr + 1);
-
-        maxHP = hp;
-        currentHP = maxHP;
+        creativity = (Random.Range(range.min, cre + 1), cre);
+        conscientiousness = (Random.Range(range.min, con + 1), con);
+        scrupulosity = (Random.Range(range.min, scr + 1), scr);
+        this.hp = (hp, hp);
     }
 }
 
@@ -48,15 +28,25 @@ public enum States
     Education
 }
 
+public enum EmployeeType
+{
+    None = -1,
+    Planner,
+    Developer,
+    Artist,
+    // Player,
+}
+
 public class Employee : MonoBehaviour
 {
-    private string empName;
+    public string empName;
     private EmployeeBaseAblity ability;
-    private float workload;
-    private float currentWorkload;
-    private float timer;
-    private float duration;
+    private (float current, float amount) workload;
+    private (float current, float duration) timer;
     private States state;
+    public EmployeeType eType;
+    public EmployeeRating rating;
+    public Date hiredDate;
 
     private void Update()
     {
@@ -66,11 +56,14 @@ public class Employee : MonoBehaviour
 
     }
 
-    public void SetInit(string _name, EmployeeBaseAblity _ability)
+    public void SetInit(EmployeeType _eType, EmployeeRating _rating, string _name, EmployeeBaseAblity _ability)
     {
+        eType = _eType;
+        rating = _rating;
         empName = _name;
         ability = _ability;
         state = States.None;
+        hiredDate = GameManager.instance.GetToday();
 
         TestPrint();
     }
@@ -83,10 +76,11 @@ public class Employee : MonoBehaviour
 
     public void TestPrint()
     {
-        Debug.Log($"{empName} " +
-            $"창의성: {ability.creativity}/{ability.creativityLimit} " +
-            $"성실성: {ability.conscientiousness}/{ability.conscientiousnessLimit} " +
-            $"주도성: {ability.scrupulosity}/{ability.scrupulosityLimit}" +
-            $"체력: {ability.maxHP}");
+        Debug.Log($"{eType} {rating} {empName} " +
+            $"{hiredDate.GetString()}에 채용\n" +
+            $"창의성: {ability.creativity} " +
+            $"성실성: {ability.conscientiousness} " +
+            $"주도성: {ability.scrupulosity} " +
+            $"체력: {ability.hp}");
     }
 }

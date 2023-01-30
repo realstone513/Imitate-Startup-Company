@@ -1,20 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProductManager : MonoBehaviour
 {
-    public GameObject content;
-    public GameObject product;
+    public Transform content;
     Product prod;
+
+    private void Start()
+    {
+        prod = null;
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
             //Instantiate(product, content.transform);
-            prod = new();
-            prod.SetPlan(10, 10, 10);
+            if (prod == null)
+                NewProduct();
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            prod?.PrintPlan();
+        }
+    }
+
+    public void NewProduct()
+    {
+        prod = new();
+        prod.SetPlan(10, 10, 10);
     }
 }

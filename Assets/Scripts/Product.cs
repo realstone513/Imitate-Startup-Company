@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public struct Plan
@@ -42,9 +40,14 @@ public struct Plan
         completenessResult = Utils.GetTupleRatio(completeness);
         return (originalityResult + graphicResult + completenessResult) / 3;
     }
+
+    public void PrintPlan()
+    {
+        Debug.Log($"기획: {plan} 개발: {develop} 아트: {art}");
+    }
 }
 
-public class Product : MonoBehaviour
+public class Product
 {
     private Plan prodPlan;
 
@@ -53,6 +56,11 @@ public class Product : MonoBehaviour
         prodPlan.Init(plan, dev, art);
     }
     
+    public void PrintPlan()
+    {
+        prodPlan.PrintPlan();
+    }
+
     public float GetProgress()
     {
         return prodPlan.CheckProgress();

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 186030131021690803}
   - component: {fileID: 186030131023017875}
   - component: {fileID: 186030131023983955}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: mug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 228138452521400954}
   - component: {fileID: 228138452520106586}
   - component: {fileID: 228138452518975642}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: photo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5216299346686838619}
-  m_Layer: 0
+  - component: {fileID: 5530379744968649149}
+  m_Layer: 6
   m_Name: ExpertTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,6 +207,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5530379744968649149
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2913529587684880690}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5, y: 1.5, z: 2}
+  m_Center: {x: 0, y: 0.75, z: 0.5}
 --- !u!1 &3085325046930848588
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +231,7 @@ GameObject:
   - component: {fileID: 3085325046930614124}
   - component: {fileID: 3085325046929844044}
   - component: {fileID: 3085325046928844172}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +316,7 @@ GameObject:
   - component: {fileID: 3961918462033693786}
   - component: {fileID: 3961918462034496634}
   - component: {fileID: 3961918462035594938}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: desk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +399,7 @@ GameObject:
   - component: {fileID: 4551018929141746257}
   - component: {fileID: 4551018929143073393}
   - component: {fileID: 4551018929144170673}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: bin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -469,7 +483,7 @@ GameObject:
   - component: {fileID: 4700871640089396578}
   - component: {fileID: 4700871640086005058}
   - component: {fileID: 4700871640087103362}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: mouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +568,7 @@ GameObject:
   - component: {fileID: 4700871640998453006}
   - component: {fileID: 4700871640997682990}
   - component: {fileID: 4700871640996552174}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: laptop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -639,7 +653,7 @@ GameObject:
   - component: {fileID: 4700871641096023784}
   - component: {fileID: 4700871641092599496}
   - component: {fileID: 4700871641093729288}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: pc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -724,7 +738,7 @@ GameObject:
   - component: {fileID: 7926048854107681984}
   - component: {fileID: 7926048854104782048}
   - component: {fileID: 7926048854105912864}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}

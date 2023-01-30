@@ -2,6 +2,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public struct Date
+{
+    public int year;
+    public int month;
+    public int week;
+
+    public void SetInit(int year, int month, int week)
+    {
+        this.year = year;
+        this.month = month;
+        this.week = week;
+    }
+
+    public string GetString()
+    {
+        return $"{year}년 {month}월 {week}주";
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -13,9 +32,7 @@ public class GameManager : MonoBehaviour
     public Button[] buttons;
     public TextMeshProUGUI playModeText;
 
-    private int year = 1;
-    private int month = 1;
-    private int week = 1;
+    private Date date;
     private (float hour, float minute) timer = (0f, 0f);
 
     private int timeScale = 0;
@@ -27,24 +44,34 @@ public class GameManager : MonoBehaviour
     private readonly (float hour, float minute) offWorkTime = (19, 00);
     private bool onSkip = false;
 
+    public LayerMask clickableLayer;
+    RaycastHit hit;
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         SetYmdText();
         timerText.text = "00:00";
+        date.SetInit(1, 1, 1);
     }
 
     private void Update()
     {
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
+        {
+            if (Input.GetMouseButtonDown(0))
+                Debug.Log($"{hit.collider.name} {hit.collider.transform.position}");
+        }
+
         if (timeScale != 0)
         {
             int additionalSpeed = onSkip ? constantSkipSpeed : constantSpeed * timeScale;
@@ -62,29 +89,24 @@ public class GameManager : MonoBehaviour
             {
                 timer = (0f, 0f);
                 timerSlider.value = 0f;
-                week++;
-                if (week > 4)
+                date.week++;
+                if (date.week > 4)
                 {
-                    month++;
-                    week = 1;
+                    date.month++;
+                    date.week = 1;
                 }
-                if (month > 12)
+                if (date.month > 12)
                 {
-                    year++;
-                    month = 1;
+                    date.year++;
+                    date.month = 1;
                 }
                 SetYmdText();
             }
 
             if (!onSkip && timeScale == 3 && (AfterOffWorkTime() || BeforeGoToWorkTime()))
-            {
                 SetSkipMode(true);
-            }
-
-            if (onSkip && !(AfterOffWorkTime() || BeforeGoToWorkTime()))
-            {
+            else if (onSkip && !(AfterOffWorkTime() || BeforeGoToWorkTime()))
                 SetSkipMode(false);
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -99,8 +121,8 @@ public class GameManager : MonoBehaviour
 
     private void SetYmdText()
     {
-        ymwText.text = $"{year}년 {month}월 {week}주";
-        retirementText.text = $"{endYear - year}년 뒤에 종료";
+        ymwText.text = date.GetString();
+        retirementText.text = $"{endYear - date.year}년 뒤에 종료";
     }
 
     public void SetTimeScale(int value)
@@ -108,13 +130,16 @@ public class GameManager : MonoBehaviour
         timeScale = value;
         buttons[value].Select();
         if (value != 0)
-            playModeText.text = $"x{value}";
+            playModeText.text = value == 3 && onSkip ? "Skip" : $"x{value}";
         else
             playModeText.text = $"Stop";
     }
 
     public void SetSkipMode(bool value)
     {
+        if (onSkip == value)
+            return;
+
         onSkip = value;
         if (onSkip)
             playModeText.text = "Skip";
@@ -149,5 +174,10 @@ public class GameManager : MonoBehaviour
     public (float hour, float minute) GetOffWorkTime()
     {
         return offWorkTime;
+    }
+
+    public Date GetToday()
+    {
+        return date;
     }
 }

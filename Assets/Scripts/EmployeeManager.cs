@@ -17,56 +17,79 @@ public enum EmployeeRating
 
 public class EmployeeManager : MonoBehaviour
 {
+    public static EmployeeManager instance;
+
     public List<GameObject> employeeBeginners;
     public List<GameObject> employeeIntermediates;
     public List<GameObject> employeeExperts;
     private List<Dictionary<string, string>> nameTable = new();
-    private List<GameObject> employees = new();
+    private List<GameObject> unassign = new();
+    private List<GameObject> assign = new();
     private int tableLength;
-    private Vector3 spawnPosition;
+    private Vector3 employeeSpawnPosition;
+    public GameObject employeeInfo;
+    public Transform employeeInfoSpawnTransform;
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         nameTable = CSVReader.Read("NameTable");
         tableLength = nameTable.Count;
-        spawnPosition = new Vector3(0, -10, 0);
+        employeeSpawnPosition = new Vector3(0, -10, 0);
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            CreateNewEmployee(EmployeeRating.Beginner, EmployeeType.Planner);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            CreateNewEmployee(EmployeeRating.Intermediate, EmployeeType.Planner);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            CreateNewEmployee(EmployeeRating.Expert, EmployeeType.Planner);
+        }
+
         if (Input.GetKeyDown(KeyCode.A))
         {
-            int random = Random.Range(0, employeeBeginners.Count);
-            GameObject employee =
-                Instantiate(employeeBeginners[random], gameObject.transform);
-            employees.Add(employee);
-            Employee emp = employee.AddComponent<Employee>();
-            emp.SetInit(CreateName(),
-                CreateEmployeeBaseAbility(EmployeeRating.Beginner));
+            CreateNewEmployee(EmployeeRating.Beginner, EmployeeType.Developer);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            int random = Random.Range(0, employeeIntermediates.Count);
-            GameObject employee =
-                Instantiate(employeeIntermediates[random], gameObject.transform);
-            employees.Add(employee);
-            Employee emp = employee.AddComponent<Employee>();
-            emp.SetInit(CreateName(),
-                CreateEmployeeBaseAbility(EmployeeRating.Intermediate));
+            CreateNewEmployee(EmployeeRating.Intermediate, EmployeeType.Developer);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            int random = Random.Range(0, employeeExperts.Count);
-            GameObject employee =
-                Instantiate(employeeExperts[random], gameObject.transform);
-            employees.Add(employee);
-            Employee emp = employee.AddComponent<Employee>();
-            emp.SetInit(CreateName(),
-                CreateEmployeeBaseAbility(EmployeeRating.Expert));
+            CreateNewEmployee(EmployeeRating.Expert, EmployeeType.Developer);
         }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            CreateNewEmployee(EmployeeRating.Beginner, EmployeeType.Artist);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            CreateNewEmployee(EmployeeRating.Intermediate, EmployeeType.Artist);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CreateNewEmployee(EmployeeRating.Expert, EmployeeType.Artist);
+        }
+
         if (Input.GetKeyDown(KeyCode.F))
         {
-            foreach (GameObject emp in employees)
+            foreach (GameObject emp in unassign)
             {
                 emp.GetComponent<Employee>().TestPrint();
             }
@@ -76,6 +99,37 @@ public class EmployeeManager : MonoBehaviour
         {
             TestND();
         }
+    }
+
+    private void MoveList(GameObject select, List<GameObject> start, List<GameObject> dest)
+    {
+        start.Remove(select);
+        dest.Add(select);
+    }
+
+    private void CreateNewEmployee(EmployeeRating rating, EmployeeType eType)
+    {
+        List<GameObject> tempList;
+        switch (rating)
+        {
+            case EmployeeRating.Beginner:
+                tempList = employeeBeginners;
+                break;
+            case EmployeeRating.Intermediate:
+                tempList = employeeIntermediates;
+                break;
+            case EmployeeRating.Expert:
+            default:
+                tempList = employeeExperts;
+                break;
+        }
+
+        int random = Random.Range(0, tempList.Count);
+        GameObject employee =
+            Instantiate(tempList[random], employeeSpawnPosition, Quaternion.identity, gameObject.transform);
+        unassign.Add(employee);
+        Employee emp = employee.AddComponent<Employee>();
+        emp.SetInit(eType, rating, CreateName(), CreateEmployeeBaseAbility(rating));
     }
 
     private string CreateName()
@@ -94,29 +148,26 @@ public class EmployeeManager : MonoBehaviour
     {
         var range = rating switch
         {
-            EmployeeRating.Intermediate => (2, 8),
-            EmployeeRating.Expert => (4, 10),
-            _ => (0, 6),
+            EmployeeRating.Intermediate => (3, 8),
+            EmployeeRating.Expert => (5, 10),
+            _ => (1, 6),
         };
         EmployeeBaseAblity ablity =
             new(range,
             GetNormalNumber(range),
             GetNormalNumber(range),
             GetNormalNumber(range),
-            GetNormalNumber(5000, 10000));
+            GetNormalNumber((5000, 10000)));
         return ablity;
     }
 
     private int GetNormalNumber((int min, int max) range)
     {
-        return GetNormalNumber(range.min, range.max);
+        return Mathf.RoundToInt(NormalDistribution.GetData(range.min, range.max));
     }
 
-    private int GetNormalNumber(int min, int max)
-    {
-        return Mathf.RoundToInt(NormalDistribution.GetData(min, max));
-    }
 
+    // Test Code
     public int tryCount = 100000;
     public int rangeMin = 1;
     public int rangeMax = 10;
