@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     public LayerMask clickableLayer;
     RaycastHit hit;
+    private GameObject currentDesk;
 
     private void Awake()
     {
@@ -59,9 +60,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        date.SetInit(1, 1, 1);
         SetYmdText();
         timerText.text = "00:00";
-        date.SetInit(1, 1, 1);
     }
 
     private void Update()
@@ -69,7 +70,10 @@ public class GameManager : MonoBehaviour
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
         {
             if (Input.GetMouseButtonDown(0))
-                Debug.Log($"{hit.collider.name} {hit.collider.transform.position}");
+            {
+                currentDesk = hit.collider.gameObject;
+                WindowManager.instance.Open(Windows.EmptyWorkspace);
+            }
         }
 
         if (timeScale != 0)
@@ -179,5 +183,10 @@ public class GameManager : MonoBehaviour
     public Date GetToday()
     {
         return date;
+    }
+
+    public GameObject GetCurrentDesk()
+    {
+        return currentDesk;
     }
 }

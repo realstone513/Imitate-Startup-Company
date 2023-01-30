@@ -1,21 +1,28 @@
 using UnityEngine;
 
+public enum Windows
+{
+    None = -1,
+    EmptyWorkspace,
+}
+
 public class WindowManager : MonoBehaviour
 {
-    public static WindowManager m_instance;
+    public static WindowManager instance;
 
     public GenericWindow[] windows;
     public int currentWndId;
-    public int defaultWndId;
 
     private void Awake()
     {
-        m_instance = this;
+        instance = this;
     }
 
     private void Start()
     {
-        Open(defaultWndId);
+        AllClose();
+        currentWndId = -1;
+        //Open(defaultWndId);
     }
 
     public GenericWindow GetWindow(int id)
@@ -47,5 +54,11 @@ public class WindowManager : MonoBehaviour
     public GenericWindow Open(Windows id)
     {
         return Open((int)id);
+    }
+
+    public void AllClose()
+    {
+        foreach (var window in windows)
+            window.Close();
     }
 }

@@ -27,8 +27,6 @@ public class EmployeeManager : MonoBehaviour
     private List<GameObject> assign = new();
     private int tableLength;
     private Vector3 employeeSpawnPosition;
-    public GameObject employeeInfo;
-    public Transform employeeInfoSpawnTransform;
 
     private void Awake()
     {
@@ -101,11 +99,11 @@ public class EmployeeManager : MonoBehaviour
         }
     }
 
-    private void MoveList(GameObject select, List<GameObject> start, List<GameObject> dest)
-    {
-        start.Remove(select);
-        dest.Add(select);
-    }
+    //private void MoveList(GameObject select, List<GameObject> start, List<GameObject> dest)
+    //{
+    //    start.Remove(select);
+    //    dest.Add(select);
+    //}
 
     private void CreateNewEmployee(EmployeeRating rating, EmployeeType eType)
     {
@@ -204,5 +202,10 @@ public class EmployeeManager : MonoBehaviour
                 sum = 0;
             }
         }
+    }
+
+    public List<GameObject> GetUnassgin()
+    {
+        return unassign;
     }
 }
