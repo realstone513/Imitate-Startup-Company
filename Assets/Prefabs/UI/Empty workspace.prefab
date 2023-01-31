@@ -1379,12 +1379,12 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!1 &2083755262
 GameObject:
@@ -1693,6 +1693,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstSelected: {fileID: 155794890819439276}
+  infoPrefab: {fileID: 3029459361861730992, guid: 5999302829460d84981de25ea2abc077, type: 3}
+  infoSpawnTransform: {fileID: 1864588056}
+  infos: []
 --- !u!1 &5147992782473695609
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,10 +6,10 @@ public struct EmployeeBaseAblity
     public (int current, int limit) creativity;
     public (int current, int limit) conscientiousness;
     public (int current, int limit) scrupulosity;
-    public (int current, int limit) hp;
+    public (float current, float limit) hp;
 
     public EmployeeBaseAblity(
-        (int min, int max) range, int cre, int con, int scr, int hp)
+        (int min, int max) range, int cre, int con, int scr, float hp)
     {
         creativity = (Random.Range(range.min, cre + 1), cre);
         conscientiousness = (Random.Range(range.min, con + 1), con);
@@ -43,17 +43,123 @@ public class Employee : MonoBehaviour
     private EmployeeBaseAblity ability;
     private (float current, float amount) workload;
     private (float current, float duration) timer;
-    private States state;
+    public States state;
     public EmployeeType eType;
     public EmployeeRating rating;
     public Date hiredDate;
+    public States State
+    {
+        get { return state; }
+        private set
+        {
+            var prevState = state;
+            state = value;
+
+            if (prevState == state)
+                return;
+
+            switch (state)
+            {
+                case States.GoToWork:
+                    if (Utils.GetTupleRatio(ability.hp) < 0.5f)
+                        State = States.Vacation;
+                    else
+                    {
+                        State = States.Working;
+                        transform.position += Vector3.up * 10;
+                    }
+                    break;
+                case States.Working:
+                    timer = (0f, 100f);
+                    break;
+                case States.OffWork:
+                    transform.position += Vector3.down * 10;
+                    break;
+                case States.Vacation:
+                    break;
+                case States.Education:
+                    break;
+
+                case States.None:
+                default:
+                    break;
+            }
+        }
+    }
 
     private void Update()
     {
-        if (state == States.None)
+        if (State == States.None)
             return;
 
+        switch (state)
+        {
+            case States.Working:
+                UpdateWorking();
+                break;
+            case States.OffWork:
+                UpdateOffWork();
+                break;
+            case States.Vacation:
+                UpdateVacation();
+                break;
+            case States.Education:
+                UpdateEducation();
+                break;
 
+            case States.None:
+            case States.GoToWork:
+            default:
+                break;
+        }
+    }
+
+    private void UpdateWorking()
+    {
+        float deltaTime = GameManager.instance.deltaTime;
+        ability.hp.current -= deltaTime * 3;
+        timer.current += deltaTime;
+        if (timer.current > timer.duration)
+        {
+            timer.current = 0f;
+            Debug.Log($"{empName} 작업 끝");
+        }
+
+        if (!GameManager.instance.workTime)
+            State = States.OffWork;
+    }
+
+    private void UpdateOffWork()
+    {
+        ability.hp.current += GameManager.instance.deltaTime;
+        if (ability.hp.current > ability.hp.limit)
+            ability.hp.current = ability.hp.limit;
+        if (GameManager.instance.workTime)
+            State = States.GoToWork;
+    }
+
+    private void UpdateVacation()
+    {
+        ability.hp.current += GameManager.instance.deltaTime;
+        if (ability.hp.current > ability.hp.limit)
+            ability.hp.current = ability.hp.limit;
+        if (GameManager.instance.workTime)
+            State = States.GoToWork;
+    }
+
+    private void UpdateEducation()
+    {
+        float deltaTime = GameManager.instance.deltaTime;
+        ability.hp.current -= deltaTime * 3;
+        timer.current += deltaTime;
+        if (timer.current > timer.duration)
+        {
+            timer.current = 0f;
+            Debug.Log($"{empName} 교육 끝");
+        }
+
+        if (!GameManager.instance.workTime)
+            State = States.OffWork;
     }
 
     public void SetInit(EmployeeType _eType, EmployeeRating _rating, string _name, EmployeeBaseAblity _ability)
@@ -62,16 +168,23 @@ public class Employee : MonoBehaviour
         rating = _rating;
         empName = _name;
         ability = _ability;
-        state = States.None;
+        State = States.None;
         hiredDate = GameManager.instance.GetToday();
-
+        gameObject.name = _name;
         TestPrint();
     }
 
-    public void PlaceOnDesk(Vector3 pos)
+    public void AssignOnDesk(Vector3 pos)
     {
-        state = States.Working;
         gameObject.transform.position = pos;
+        State = (GameManager.instance.workTime) ? States.Working : States.OffWork;
+        Debug.Log($"{empName} {State}");
+    }
+
+    public void UnassignOnDesk()
+    {
+        State = States.None;
+        gameObject.transform.position += Vector3.down * 10;
     }
 
     public void TestPrint()

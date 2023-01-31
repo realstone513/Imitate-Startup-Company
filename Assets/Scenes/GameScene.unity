@@ -165,11 +165,13 @@ MonoBehaviour:
   - {fileID: 1491749420}
   - {fileID: 219563852}
   playModeText: {fileID: 342057651}
-  constantSpeed: 5
-  constantSkipSpeed: 50
+  constantSpeed: 10
+  constantSkipSpeed: 100
+  workTime: 0
+  deltaTime: 0
   clickableLayer:
     serializedVersion: 2
-    m_Bits: 328
+    m_Bits: 360
 --- !u!4 &24633140
 Transform:
   m_ObjectHideFlags: 0
@@ -240,10 +242,6 @@ MonoBehaviour:
   - {fileID: 100048, guid: ea7acaa9d68288b43875e70cd4ecaff3, type: 3}
   - {fileID: 100048, guid: 927da1e6939849042b9054ad6727b248, type: 3}
   - {fileID: 100046, guid: c21a5b0abf4dbe748aa594c4ee9fa3f4, type: 3}
-  tryCount: 1000000
-  rangeMin: 1
-  rangeMax: 400
-  innerSumPoint: 127
 --- !u!114 &24633143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,9 +254,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec6045a0fdc1fc4baf2d918ef15bbca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  props:
+  propPrefabs:
   - {fileID: 4475701920716339577, guid: e0824cca03808fb41ba31f814c7bfd95, type: 3}
   - {fileID: 2913529587684880690, guid: 98da35e890007ac4185b0dbccb9fb188, type: 3}
+  props: []
 --- !u!1 &117408184
 GameObject:
   m_ObjectHideFlags: 0
@@ -3706,11 +3705,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640549330}
   m_CullTransparentMesh: 1
---- !u!224 &1864588056 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1864588056, guid: 92568dc197721d1458acb159ec89c1fd, type: 3}
-  m_PrefabInstance: {fileID: 6370424984583930601}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1875350066
 GameObject:
   m_ObjectHideFlags: 0
@@ -4104,14 +4098,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 133143494374415670, guid: 92568dc197721d1458acb159ec89c1fd, type: 3}
-      propertyPath: infoPrefab
-      value: 
-      objectReference: {fileID: 3029459361861730992, guid: 5999302829460d84981de25ea2abc077, type: 3}
-    - target: {fileID: 133143494374415670, guid: 92568dc197721d1458acb159ec89c1fd, type: 3}
-      propertyPath: infoSpawnTransform
-      value: 
-      objectReference: {fileID: 1864588056}
     - target: {fileID: 155794890819439276, guid: 92568dc197721d1458acb159ec89c1fd, type: 3}
       propertyPath: m_Name
       value: Empty Workspace

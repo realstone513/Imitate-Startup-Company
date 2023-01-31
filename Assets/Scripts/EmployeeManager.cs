@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public enum Gender
@@ -87,47 +86,44 @@ public class EmployeeManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
+            Debug.Log("미배치 직원");
             foreach (GameObject emp in unassign)
             {
                 emp.GetComponent<Employee>().TestPrint();
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            TestND();
+            Debug.Log("배치 된 직원");
+            foreach (GameObject emp in assign)
+            {
+                emp.GetComponent<Employee>().TestPrint();
+            }
         }
     }
 
-    //private void MoveList(GameObject select, List<GameObject> start, List<GameObject> dest)
-    //{
-    //    start.Remove(select);
-    //    dest.Add(select);
-    //}
+    public void MoveToAssign(GameObject select)
+    {
+        unassign.Remove(select);
+        assign.Add(select);
+    }
+
+    public void MoveToUnassign(GameObject select)
+    {
+        assign.Remove(select);
+        unassign.Add(select);
+    }
 
     private void CreateNewEmployee(EmployeeRating rating, EmployeeType eType)
     {
-        List<GameObject> tempList;
-        switch (rating)
+        List<GameObject> tempList = rating switch
         {
-            case EmployeeRating.Beginner:
-                tempList = employeeBeginners;
-                break;
-            case EmployeeRating.Intermediate:
-                tempList = employeeIntermediates;
-                break;
-            case EmployeeRating.Expert:
-            default:
-                tempList = employeeExperts;
-                break;
-        }
-
+            EmployeeRating.Intermediate => employeeIntermediates,
+            EmployeeRating.Expert => employeeExperts,
+            _ => employeeBeginners,
+        };
         int random = Random.Range(0, tempList.Count);
         GameObject employee =
             Instantiate(tempList[random], employeeSpawnPosition, Quaternion.identity, gameObject.transform);
         unassign.Add(employee);
-        Employee emp = employee.AddComponent<Employee>();
-        emp.SetInit(eType, rating, CreateName(), CreateEmployeeBaseAbility(rating));
+        employee.AddComponent<Employee>().SetInit(eType, rating, CreateName(), CreateEmployeeBaseAbility(rating));
     }
 
     private string CreateName()
@@ -163,10 +159,13 @@ public class EmployeeManager : MonoBehaviour
     {
         return Mathf.RoundToInt(NormalDistribution.GetData(range.min, range.max));
     }
-
+    public List<GameObject> GetUnassgin()
+    {
+        return unassign;
+    }
 
     // Test Code
-    public int tryCount = 100000;
+    /*public int tryCount = 100000;
     public int rangeMin = 1;
     public int rangeMax = 10;
 
@@ -183,10 +182,10 @@ public class EmployeeManager : MonoBehaviour
         int[] points = { innerSumPoint, rangeMax - innerSumPoint, sort.Last().Key };
         int before = rangeMin;
 
-        /*foreach (var i in sort)
+        foreach (var i in sort)
         {
             Debug.Log(i);
-        }*/
+        }
 
         foreach (var i in sort)
         {
@@ -202,10 +201,5 @@ public class EmployeeManager : MonoBehaviour
                 sum = 0;
             }
         }
-    }
-
-    public List<GameObject> GetUnassgin()
-    {
-        return unassign;
-    }
+    }*/
 }

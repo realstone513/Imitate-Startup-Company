@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     private readonly (float hour, float minute) goToWorkTime = (10, 00);
     private readonly (float hour, float minute) offWorkTime = (19, 00);
     private bool onSkip = false;
+    public bool workTime = false;
+    public float deltaTime = 0f;
 
     public LayerMask clickableLayer;
     RaycastHit hit;
@@ -67,21 +69,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                currentDesk = hit.collider.gameObject;
-                WindowManager.instance.Open(Windows.EmptyWorkspace);
-            }
-        }
-
         if (timeScale != 0)
         {
             int additionalSpeed = onSkip ? constantSkipSpeed : constantSpeed * timeScale;
-            float adder = (additionalSpeed * Time.deltaTime);
-            timer.minute += adder;
-            timerSlider.value += adder;
+            deltaTime = (additionalSpeed * Time.deltaTime);
+            timer.minute += deltaTime;
+            timerSlider.value += deltaTime;
             if (timer.minute >= 60f)
             {
                 timer.minute = 0f;
@@ -107,10 +100,10 @@ public class GameManager : MonoBehaviour
                 SetYmdText();
             }
 
-            if (!onSkip && timeScale == 3 && (AfterOffWorkTime() || BeforeGoToWorkTime()))
-                SetSkipMode(true);
-            else if (onSkip && !(AfterOffWorkTime() || BeforeGoToWorkTime()))
-                SetSkipMode(false);
+            workTime = !(AfterOffWorkTime() || BeforeGoToWorkTime());
+
+            if (timeScale == 3)
+                SetSkipMode(!workTime);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -121,6 +114,19 @@ public class GameManager : MonoBehaviour
             SetTimeScale(2);
         else if (Input.GetKeyDown(KeyCode.Alpha4))
             SetTimeScale(3);
+
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
+        {
+            if (WindowManager.instance.currentWndId != -1)
+                return;
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                currentDesk = hit.collider.gameObject;
+                Debug.Log(hit.collider.name);
+                WindowManager.instance.Open(Windows.EmptyWorkspace);
+            }
+        }
     }
 
     private void SetYmdText()
@@ -137,6 +143,10 @@ public class GameManager : MonoBehaviour
             playModeText.text = value == 3 && onSkip ? "Skip" : $"x{value}";
         else
             playModeText.text = $"Stop";
+
+        if (!onSkip && timeScale == 3 && !workTime)
+            SetSkipMode(true);
+        else onSkip = false;
     }
 
     public void SetSkipMode(bool value)

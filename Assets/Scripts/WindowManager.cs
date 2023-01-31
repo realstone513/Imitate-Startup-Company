@@ -60,5 +60,7 @@ public class WindowManager : MonoBehaviour
     {
         foreach (var window in windows)
             window.Close();
+
+        currentWndId = -1;
     }
 }

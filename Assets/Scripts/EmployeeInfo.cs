@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,11 +20,13 @@ public class EmployeeInfo : MonoBehaviour
         rating.text = employee.rating.ToString();
         hired.text = employee.hiredDate.GetString();
         select.onClick.AddListener(WindowManager.instance.AllClose);
-        select.onClick.AddListener(SetPosition);
+        select.onClick.AddListener(AssignOnDesk);
     }
 
-    private void SetPosition()
+    private void AssignOnDesk()
     {
-        employeePrefab.transform.position = GameManager.instance.GetCurrentDesk().transform.position;
+        employeePrefab.GetComponent<Employee>().AssignOnDesk(
+            GameManager.instance.GetCurrentDesk().transform.position);
+        EmployeeManager.instance.MoveToAssign(employeePrefab);
     }
 }

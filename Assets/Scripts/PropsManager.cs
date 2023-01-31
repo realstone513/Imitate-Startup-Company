@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class PropsManager : MonoBehaviour
 {
+    public List<GameObject> propPrefabs;
     public List<GameObject> props;
+    private int propIdx = 0;
     Vector3 testPos;
 
     private void Start()
@@ -15,22 +17,26 @@ public class PropsManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.V))
         {
-            Instantiate(props[0], testPos, Quaternion.identity, gameObject.transform);
-            testPos.x += 3;
+            props.Add(Instantiate(propPrefabs[0], testPos, Quaternion.identity, gameObject.transform));
+            props[propIdx].name = propPrefabs[0].name + propIdx;
+            propIdx++;
+            testPos.x += 5;
             if (testPos.x > 8)
             {
                 testPos.x = -8;
-                testPos.z += 3;
+                testPos.z += 5;
             }
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            Instantiate(props[1], testPos, Quaternion.identity, gameObject.transform);
-            testPos.x += 3;
+            props.Add(Instantiate(propPrefabs[1], testPos, Quaternion.identity, gameObject.transform));
+            props[propIdx].name = propPrefabs[1].name + propIdx;
+            propIdx++;
+            testPos.x += 5;
             if (testPos.x > 8)
             {
                 testPos.x = -8;
-                testPos.z += 3;
+                testPos.z += 5;
             }
         }
     }

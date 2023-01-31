@@ -10,6 +10,12 @@ public class EmptyWorkspace : GenericWindow
     private void OnEnable()
     {
         List<GameObject> unassignEmployeeList = EmployeeManager.instance.GetUnassgin();
+        if (unassignEmployeeList.Count == 0)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         foreach (GameObject emp in unassignEmployeeList)
         {
             GameObject info = Instantiate(infoPrefab, infoSpawnTransform);
