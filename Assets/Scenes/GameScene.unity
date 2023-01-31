@@ -165,13 +165,12 @@ MonoBehaviour:
   - {fileID: 1491749420}
   - {fileID: 219563852}
   playModeText: {fileID: 342057651}
-  constantSpeed: 10
-  constantSkipSpeed: 100
   workTime: 0
   deltaTime: 0
   clickableLayer:
     serializedVersion: 2
     m_Bits: 360
+  gameRule: {fileID: 11400000, guid: 94bb28727a09fe34faa4e339945d881c, type: 2}
 --- !u!4 &24633140
 Transform:
   m_ObjectHideFlags: 0

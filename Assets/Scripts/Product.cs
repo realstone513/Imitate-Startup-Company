@@ -2,17 +2,17 @@ using UnityEngine;
 
 public struct Plan
 {
-    (int current, int max) plan;
-    (int current, int max) develop;
-    (int current, int max) art;
+    public (int current, int max) plan;
+    public (int current, int max) develop;
+    public (int current, int max) art;
 
-    (float current, float max) originality;
-    (float current, float max) graphic;
-    (float current, float max) completeness;
+    public (float current, float max) originality;
+    public (float current, float max) graphic;
+    public (float current, float max) completeness;
 
-    float originalityResult;
-    float graphicResult;
-    float completenessResult;
+    public float originalityResult;
+    public float graphicResult;
+    public float completenessResult;
 
     public void Init(int _plan, int _dev, int _art)
     {
@@ -49,25 +49,10 @@ public struct Plan
 
 public class Product
 {
-    private Plan prodPlan;
+    public Plan prodPlan;
 
     public void SetPlan(int plan, int dev, int art)
     {
         prodPlan.Init(plan, dev, art);
-    }
-    
-    public void PrintPlan()
-    {
-        prodPlan.PrintPlan();
-    }
-
-    public float GetProgress()
-    {
-        return prodPlan.CheckProgress();
-    }
-
-    public float GetEvaluate()
-    {
-        return prodPlan.Evaluate();
     }
 }

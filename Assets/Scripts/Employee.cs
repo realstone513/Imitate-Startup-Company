@@ -25,7 +25,7 @@ public enum States
     Working,
     OffWork,
     Vacation,
-    Education
+    //Education
 }
 
 public enum EmployeeType
@@ -42,11 +42,13 @@ public class Employee : MonoBehaviour
     public string empName;
     private EmployeeBaseAblity ability;
     private (float current, float amount) workload;
-    private (float current, float duration) timer;
     public States state;
     public EmployeeType eType;
     public EmployeeRating rating;
     public Date hiredDate;
+    private int constantChange;
+    private int experiment;
+
     public States State
     {
         get { return state; }
@@ -70,21 +72,30 @@ public class Employee : MonoBehaviour
                     }
                     break;
                 case States.Working:
-                    timer = (0f, 100f);
+                    constantChange = 5;
                     break;
                 case States.OffWork:
                     transform.position += Vector3.down * 10;
+                    constantChange = 2;
                     break;
                 case States.Vacation:
+                    constantChange = 3;
                     break;
-                case States.Education:
-                    break;
+                /*case States.Education:
+                    break;*/
 
                 case States.None:
                 default:
                     break;
             }
         }
+    }
+
+    private void Start()
+    {
+        SetWorkload();
+        constantChange = 1;
+        experiment = 0;
     }
 
     private void Update()
@@ -103,9 +114,9 @@ public class Employee : MonoBehaviour
             case States.Vacation:
                 UpdateVacation();
                 break;
-            case States.Education:
+            /*case States.Education:
                 UpdateEducation();
-                break;
+                break;*/
 
             case States.None:
             case States.GoToWork:
@@ -117,11 +128,27 @@ public class Employee : MonoBehaviour
     private void UpdateWorking()
     {
         float deltaTime = GameManager.instance.deltaTime;
-        ability.hp.current -= deltaTime * 3;
-        timer.current += deltaTime;
-        if (timer.current > timer.duration)
+        ability.hp.current -= deltaTime * constantChange;
+        workload.current += deltaTime;
+        if (workload.current > workload.amount)
         {
-            timer.current = 0f;
+            workload.current = 0f;
+            switch (eType)
+            {
+                case EmployeeType.Planner:
+                    if (!ProductManager.instance.IncreasePlan())
+                        experiment++;
+                    break;
+                case EmployeeType.Developer:
+                    if (!ProductManager.instance.IncreaseDev())
+                        experiment++;
+                    break;
+                case EmployeeType.Artist:
+                    if (!ProductManager.instance.IncreaseArt())
+                        experiment++;
+                    break;
+            }
+
             Debug.Log($"{empName} 작업 끝");
         }
 
@@ -131,7 +158,7 @@ public class Employee : MonoBehaviour
 
     private void UpdateOffWork()
     {
-        ability.hp.current += GameManager.instance.deltaTime;
+        ability.hp.current += GameManager.instance.deltaTime * constantChange;
         if (ability.hp.current > ability.hp.limit)
             ability.hp.current = ability.hp.limit;
         if (GameManager.instance.workTime)
@@ -140,27 +167,27 @@ public class Employee : MonoBehaviour
 
     private void UpdateVacation()
     {
-        ability.hp.current += GameManager.instance.deltaTime;
+        ability.hp.current += GameManager.instance.deltaTime * constantChange;
         if (ability.hp.current > ability.hp.limit)
             ability.hp.current = ability.hp.limit;
         if (GameManager.instance.workTime)
             State = States.GoToWork;
     }
 
-    private void UpdateEducation()
+    /*private void UpdateEducation()
     {
         float deltaTime = GameManager.instance.deltaTime;
         ability.hp.current -= deltaTime * 3;
-        timer.current += deltaTime;
-        if (timer.current > timer.duration)
+        workload.current += deltaTime;
+        if (workload.current > workload.amount)
         {
-            timer.current = 0f;
+            workload.current = 0f;
             Debug.Log($"{empName} 교육 끝");
         }
 
         if (!GameManager.instance.workTime)
             State = States.OffWork;
-    }
+    }*/
 
     public void SetInit(EmployeeType _eType, EmployeeRating _rating, string _name, EmployeeBaseAblity _ability)
     {
@@ -172,6 +199,12 @@ public class Employee : MonoBehaviour
         hiredDate = GameManager.instance.GetToday();
         gameObject.name = _name;
         TestPrint();
+    }
+
+    private void SetWorkload()
+    {
+        GameRule rule = GameManager.instance.gameRule;
+        workload = (0, rule.baseWorkloadAmount + rule.ratioWorkloadAmount * (rule.abilityMax - ability.conscientiousness.current));
     }
 
     public void AssignOnDesk(Vector3 pos)
@@ -195,5 +228,6 @@ public class Employee : MonoBehaviour
             $"성실성: {ability.conscientiousness} " +
             $"주도성: {ability.scrupulosity} " +
             $"체력: {ability.hp}");
+        // Debug.Log($"");
     }
 }

@@ -36,9 +36,6 @@ public class GameManager : MonoBehaviour
     private (float hour, float minute) timer = (0f, 0f);
 
     private int timeScale = 0;
-    public int constantSpeed = 5;
-    public int constantSkipSpeed = 100;
-    private int endYear = 10;
 
     private readonly (float hour, float minute) goToWorkTime = (10, 00);
     private readonly (float hour, float minute) offWorkTime = (19, 00);
@@ -49,6 +46,7 @@ public class GameManager : MonoBehaviour
     public LayerMask clickableLayer;
     RaycastHit hit;
     private GameObject currentDesk;
+    public GameRule gameRule;
 
     private void Awake()
     {
@@ -71,7 +69,7 @@ public class GameManager : MonoBehaviour
     {
         if (timeScale != 0)
         {
-            int additionalSpeed = onSkip ? constantSkipSpeed : constantSpeed * timeScale;
+            int additionalSpeed = onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale;
             deltaTime = (additionalSpeed * Time.deltaTime);
             timer.minute += deltaTime;
             timerSlider.value += deltaTime;
@@ -132,7 +130,7 @@ public class GameManager : MonoBehaviour
     private void SetYmdText()
     {
         ymwText.text = date.GetString();
-        retirementText.text = $"{endYear - date.year}년 뒤에 종료";
+        retirementText.text = $"{gameRule.endYear - date.year}년 뒤에 종료";
     }
 
     public void SetTimeScale(int value)

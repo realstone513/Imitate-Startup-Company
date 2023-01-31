@@ -140,19 +140,24 @@ public class EmployeeManager : MonoBehaviour
 
     private EmployeeBaseAblity CreateEmployeeBaseAbility(EmployeeRating rating)
     {
+        int min = GameManager.instance.gameRule.abilityMin;
+        int max = GameManager.instance.gameRule.abilityMax;
+        int mid = (int)Utils.GetAverage(min, max);
+        int minmid = (int)Utils.GetAverage(min, mid);
+        // min 1, max 10 - 1~6, 3~8, 5~10
         var range = rating switch
         {
-            EmployeeRating.Intermediate => (3, 8),
-            EmployeeRating.Expert => (5, 10),
-            _ => (1, 6),
+            EmployeeRating.Intermediate => (minmid, minmid + mid),
+            EmployeeRating.Expert => (max - mid, max),
+            _ => (min, min + mid),
         };
-        EmployeeBaseAblity ablity =
+        EmployeeBaseAblity ability =
             new(range,
             GetNormalNumber(range),
             GetNormalNumber(range),
             GetNormalNumber(range),
             GetNormalNumber((5000, 10000)));
-        return ablity;
+        return ability;
     }
 
     private int GetNormalNumber((int min, int max) range)
