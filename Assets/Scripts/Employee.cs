@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public struct EmployeeBaseAblity
@@ -148,6 +149,12 @@ public class Employee : MonoBehaviour
                         experiment++;
                     break;
             }
+            GameObject dmgUI = GameManager.instance.DequeueDmgUI();
+            dmgUI.SetActive(true);
+
+            FloatingUI text = dmgUI.GetComponent<FloatingUI>();
+            text.SetText("+1");
+            text.SetStartPosition(Camera.main.WorldToScreenPoint(gameObject.transform.position));
 
             Debug.Log($"{empName} ÀÛ¾÷ ³¡");
         }

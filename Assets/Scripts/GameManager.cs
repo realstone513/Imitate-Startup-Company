@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +33,11 @@ public class GameManager : MonoBehaviour
     public Button[] buttons;
     public TextMeshProUGUI playModeText;
 
+    public GameObject floatingTextPrefab;
+    public Transform floatingUITransform;
+    private int queueSize = 20;
+    private Queue<GameObject> floatingUIQueue;
+
     private Date date;
     private (float hour, float minute) timer = (0f, 0f);
 
@@ -63,6 +69,13 @@ public class GameManager : MonoBehaviour
         date.SetInit(1, 1, 1);
         SetYmdText();
         timerText.text = "00:00";
+    }
+
+    public void Start()
+    {
+        floatingUIQueue = new Queue<GameObject>(queueSize);
+        for (int i = 0; i < queueSize; i++)
+            floatingUIQueue.Enqueue(Instantiate(floatingTextPrefab, floatingUITransform));
     }
 
     private void Update()
@@ -196,5 +209,15 @@ public class GameManager : MonoBehaviour
     public GameObject GetCurrentDesk()
     {
         return currentDesk;
+    }
+
+    public GameObject DequeueDmgUI()
+    {
+        return floatingUIQueue.Dequeue();
+    }
+
+    public void EnqueueDmgUI(GameObject ui)
+    {
+        floatingUIQueue.Enqueue(ui);
     }
 }
