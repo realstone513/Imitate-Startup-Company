@@ -12,6 +12,7 @@ public class FloatingUI : MonoBehaviour
     void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
+        gameObject.SetActive(false);
     }
 
     public void SetStartPosition(Vector3 pos)

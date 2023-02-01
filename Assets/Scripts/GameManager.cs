@@ -69,13 +69,14 @@ public class GameManager : MonoBehaviour
         date.SetInit(1, 1, 1);
         SetYmdText();
         timerText.text = "00:00";
+
+        floatingUIQueue = new Queue<GameObject>(queueSize);
+        for (int i = 0; i < queueSize; i++)
+            floatingUIQueue.Enqueue(Instantiate(floatingTextPrefab, floatingUITransform));
     }
 
     public void Start()
     {
-        floatingUIQueue = new Queue<GameObject>(queueSize);
-        for (int i = 0; i < queueSize; i++)
-            floatingUIQueue.Enqueue(Instantiate(floatingTextPrefab, floatingUITransform));
     }
 
     private void Update()

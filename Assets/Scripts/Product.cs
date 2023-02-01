@@ -47,7 +47,7 @@ public struct Plan
     }
 }
 
-public class Product
+public class Product : MonoBehaviour
 {
     public Plan prodPlan;
 

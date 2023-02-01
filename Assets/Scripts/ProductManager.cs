@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProductManager : MonoBehaviour
 {
     public static ProductManager instance;
     public Transform content;
-    Product prod;
+    public GameObject productPrefab;
+    public List<Product> products;
 
     private void Awake()
     {
@@ -18,58 +20,45 @@ public class ProductManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        prod = null;
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            //Instantiate(product, content.transform);
-            if (prod == null)
-                NewProduct();
+            NewProduct();
         }
         if (Input.GetKeyDown(KeyCode.M))
         {
-            prod?.prodPlan.PrintPlan();
+            foreach (Product product in products)
+                product.prodPlan.PrintPlan();
         }
     }
 
     public void NewProduct()
     {
-        prod = new();
-        prod.SetPlan(20, 20, 20);
+        GameObject tempProd = Instantiate(productPrefab, content);
+        Product prd = tempProd.GetComponent<Product>();
+        products.Add(prd);
+        prd.SetPlan(20, 20, 20);
     }
     
     public bool IncreasePlan()
     {
-        if (prod == null)
-            return false;
-
-        prod.prodPlan.plan.current++;
-        Debug.Log($"Plan: {prod.prodPlan.plan}");
+        products[0].prodPlan.plan.current++;
+        Debug.Log($"Plan: {products[0].prodPlan.plan}");
         return true;
     }
 
     public bool IncreaseDev()
     {
-        if (prod == null)
-            return false;
-
-        prod.prodPlan.develop.current++;
-        Debug.Log($"Dev: {prod.prodPlan.develop}");
+        products[0].prodPlan.develop.current++;
+        Debug.Log($"Dev: {products[0].prodPlan.develop}");
         return true;
     }
 
     public bool IncreaseArt()
     {
-        if (prod == null)
-            return false;
-
-        prod.prodPlan.art.current++;
-        Debug.Log($"Art: {prod.prodPlan.art}");
+        products[0].prodPlan.art.current++;
+        Debug.Log($"Art: {products[0].prodPlan.art}");
         return true;
     }
 }
