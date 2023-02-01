@@ -9,7 +9,7 @@ public class EmptyWorkspace : GenericWindow
 
     private void OnEnable()
     {
-        List<GameObject> unassignEmployeeList = EmployeeManager.instance.GetUnassgin();
+        List<GameObject> unassignEmployeeList = EmployeeManager.instance.GetUnassign();
         if (unassignEmployeeList.Count == 0)
         {
             gameObject.SetActive(false);
@@ -19,7 +19,7 @@ public class EmptyWorkspace : GenericWindow
         foreach (GameObject emp in unassignEmployeeList)
         {
             GameObject info = Instantiate(infoPrefab, infoSpawnTransform);
-            info.GetComponent<EmployeeInfo>().SetInit(emp);
+            info.GetComponent<EmployeeAssignRow>().SetInit(emp);
             infos.Add(info);
         }
     }

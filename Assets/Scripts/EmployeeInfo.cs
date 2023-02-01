@@ -1,32 +1,54 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EmployeeInfo : MonoBehaviour
 {
-    public TextMeshProUGUI eType;
-    public TextMeshProUGUI eName;
-    public TextMeshProUGUI rating;
-    public TextMeshProUGUI hired;
-    public Button select;
-    private GameObject employeePrefab;
+    public TextMeshProUGUI type;
+    public TextMeshProUGUI employeeName;
+    public TextMeshProUGUI grade;
+    public TextMeshProUGUI str;
+    public TextMeshProUGUI dex;
+    public TextMeshProUGUI intelligent;
+    public TextMeshProUGUI career;
 
-    public void SetInit(GameObject gameObject)
+    public void SetInfo(Employee employee)
     {
-        Employee employee = gameObject.GetComponent<Employee>();
-        employeePrefab = gameObject;
-        eType.text = employee.eType.ToString();
-        eName.text = employee.empName;
-        rating.text = employee.rating.ToString();
-        hired.text = employee.hiredDate.GetString();
-        select.onClick.AddListener(WindowManager.instance.AllClose);
-        select.onClick.AddListener(AssignOnDesk);
-    }
+        GameRule rule = GameManager.instance.gameRule;
 
-    private void AssignOnDesk()
-    {
-        employeePrefab.GetComponent<Employee>().AssignOnDesk(
-            GameManager.instance.GetCurrentDesk().transform.position);
-        EmployeeManager.instance.MoveToAssign(employeePrefab);
+        switch (employee.eType)
+        {
+            case WorkType.Planner:
+                type.text = "기획";
+                type.color = rule.planColor;
+                break;
+            case WorkType.Developer:
+                type.text = "개발";
+                type.color = rule.devColor;
+                break;
+            case WorkType.Artist:
+                type.text = "아트";
+                type.color = rule.artColor;
+                break;
+        }
+        employeeName.text = employee.empName;
+
+        switch (employee.rating)
+        {
+            case EmployeeRating.Beginner:
+                grade.text = "입문";
+                break;
+            case EmployeeRating.Intermediate:
+                grade.text = "중급";
+                break;
+            case EmployeeRating.Expert:
+                grade.text = "전문";
+                break;
+        }
+        grade.color = rule.gradeColors[(int)employee.rating];
+
+        str.text = $"{employee.ability.strong}";
+        dex.text = $"{employee.ability.dexterity}";
+        intelligent.text = $"{employee.ability.intelligence}";
+        career.text = $"{Utils.GetNumberFromDate(employee.hiredDate)}주";
     }
 }

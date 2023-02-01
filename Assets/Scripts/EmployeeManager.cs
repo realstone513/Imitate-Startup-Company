@@ -173,9 +173,14 @@ public class EmployeeManager : MonoBehaviour
         return Mathf.RoundToInt(NormalDistribution.GetData(range.min, range.max));
     }
 
-    public List<GameObject> GetUnassgin()
+    public List<GameObject> GetUnassign()
     {
         return unassign;
+    }
+
+    public List<GameObject> GetAssign()
+    {
+        return assign;
     }
 
     // Test Code

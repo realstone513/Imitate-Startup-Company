@@ -46,7 +46,7 @@ public enum WorkDoneType
 public class Employee : MonoBehaviour
 {
     public string empName;
-    private EmployeeBaseAblity ability;
+    public EmployeeBaseAblity ability;
     private (float current, float amount) workload;
     public States state;
     public WorkType eType;

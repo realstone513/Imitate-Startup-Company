@@ -21,4 +21,9 @@ public static class Utils
         }
         return sum / prs.Length;
     }
+
+    public static int GetNumberFromDate(Date date)
+    {
+        return (date.week - 1) + (date.month - 1) * 4 + (date.year - 1) * 48;
+    }
 }
