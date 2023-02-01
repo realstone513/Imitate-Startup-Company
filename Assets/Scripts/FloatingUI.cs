@@ -20,8 +20,9 @@ public class FloatingUI : MonoBehaviour
         text.rectTransform.position = pos;
     }
 
-    public void SetText(string str)
+    public void SetText(string str, Color color)
     {
+        text.color = color;
         text.text = str;
     }
 
@@ -36,7 +37,7 @@ public class FloatingUI : MonoBehaviour
         text.rectTransform.position += delta;
         if (timer > duration)
         {
-            GameManager.instance.EnqueueDmgUI(this.gameObject);
+            GameManager.instance.EnqueueFloatingUI(this.gameObject);
             gameObject.SetActive(false);
         }
     }

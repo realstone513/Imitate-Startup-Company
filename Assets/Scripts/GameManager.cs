@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public struct Date
 {
@@ -76,10 +78,6 @@ public class GameManager : MonoBehaviour
             floatingUIQueue.Enqueue(Instantiate(floatingTextPrefab, floatingUITransform));
     }
 
-    public void Start()
-    {
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -91,13 +89,16 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha4))
             SetTimeScale(3);
 
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
             {
-                currentDesk = hit.collider.gameObject;
-                Debug.Log(hit.collider.name);
-                WindowManager.instance.Open(Windows.EmptyWorkspace);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    currentDesk = hit.collider.gameObject;
+                    // Debug.Log(hit.collider.name);
+                    WindowManager.instance.Open(Windows.EmptyWorkspace);
+                }
             }
         }
 
@@ -215,12 +216,12 @@ public class GameManager : MonoBehaviour
         return currentDesk;
     }
 
-    public GameObject DequeueDmgUI()
+    public GameObject DequeueFloatingUI()
     {
         return floatingUIQueue.Dequeue();
     }
 
-    public void EnqueueDmgUI(GameObject ui)
+    public void EnqueueFloatingUI(GameObject ui)
     {
         floatingUIQueue.Enqueue(ui);
     }

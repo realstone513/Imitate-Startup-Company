@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ProductManager : MonoBehaviour
 {
@@ -38,27 +39,56 @@ public class ProductManager : MonoBehaviour
         GameObject tempProd = Instantiate(productPrefab, content);
         Product prd = tempProd.GetComponent<Product>();
         products.Add(prd);
-        prd.SetPlan(20, 20, 20);
+        prd.SetPlan(2000, 2000, 2000);
     }
     
-    public bool IncreasePlan()
+    private int FindNeedWork(WorkType type)
     {
-        products[0].prodPlan.plan.current++;
-        Debug.Log($"Plan: {products[0].prodPlan.plan}");
+        int count = products.Count;
+        if (count == 0)
+            return -1;
+        for (int i = 0; i < count; i++)
+        {
+            float progress = products[i].prodPlan.GetProgressByType(type);
+            if (progress < 1f)
+                return i;
+        }
+        return -1;
+    }
+
+    public bool IncreasePlan(int amount)
+    {
+        int idx = FindNeedWork(WorkType.Planner);
+        if (idx < 0)
+            return false;
+        products[idx].prodPlan.plan.current += amount;
+        if (products[idx].prodPlan.plan.current > products[idx].prodPlan.plan.max)
+            products[idx].prodPlan.plan.current = products[idx].prodPlan.plan.max;
+        // Debug.Log($"Plan{idx}: {products[idx].prodPlan.plan}");
         return true;
     }
 
-    public bool IncreaseDev()
+    public bool IncreaseDev(int amount)
     {
-        products[0].prodPlan.develop.current++;
-        Debug.Log($"Dev: {products[0].prodPlan.develop}");
+        int idx = FindNeedWork(WorkType.Developer);
+        if (idx < 0)
+            return false;
+        products[idx].prodPlan.develop.current += amount;
+        if (products[idx].prodPlan.develop.current > products[idx].prodPlan.develop.max)
+            products[idx].prodPlan.develop.current = products[idx].prodPlan.develop.max;
+        // Debug.Log($"Dev{idx}: {products[idx].prodPlan.develop}");
         return true;
     }
 
-    public bool IncreaseArt()
+    public bool IncreaseArt(int amount)
     {
-        products[0].prodPlan.art.current++;
-        Debug.Log($"Art: {products[0].prodPlan.art}");
+        int idx = FindNeedWork(WorkType.Artist);
+        if (idx < 0)
+            return false;
+        products[idx].prodPlan.art.current += amount;
+        if (products[idx].prodPlan.art.current > products[idx].prodPlan.art.max)
+            products[idx].prodPlan.art.current = products[idx].prodPlan.art.max;
+        // Debug.Log($"Art{idx}: {products[idx].prodPlan.art}");
         return true;
     }
 }

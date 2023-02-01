@@ -25,6 +25,26 @@ public struct Plan
         completeness = (0f, 0f);
     }
 
+    public float GetProgressByType(WorkType type)
+    {
+        float result = 0f;
+        switch (type)
+        {
+            case WorkType.Planner:
+                result = Utils.GetTupleRatio(plan);
+                break;
+            case WorkType.Artist:
+                result = Utils.GetTupleRatio(art);
+                break;
+            case WorkType.Developer:
+                result = Utils.GetTupleRatio(develop);
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+
     public float CheckProgress()
     {
         float p = Utils.GetTupleRatio(plan);

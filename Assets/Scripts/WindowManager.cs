@@ -4,6 +4,7 @@ public enum Windows
 {
     None = -1,
     EmptyWorkspace,
+    EmployeeList,
 }
 
 public class WindowManager : MonoBehaviour
@@ -30,7 +31,7 @@ public class WindowManager : MonoBehaviour
         return windows[id];
     }
 
-    private void ToggleWindow(int id)
+    public void ToggleWindow(int id)
     {
         for (int i = 0; i < windows.Length; i++)
         {

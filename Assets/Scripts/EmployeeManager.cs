@@ -47,41 +47,41 @@ public class EmployeeManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            CreateNewEmployee(EmployeeRating.Beginner, EmployeeType.Planner);
+            CreateNewEmployee(EmployeeRating.Beginner, WorkType.Planner);
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            CreateNewEmployee(EmployeeRating.Intermediate, EmployeeType.Planner);
+            CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Planner);
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CreateNewEmployee(EmployeeRating.Expert, EmployeeType.Planner);
+            CreateNewEmployee(EmployeeRating.Expert, WorkType.Planner);
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            CreateNewEmployee(EmployeeRating.Beginner, EmployeeType.Developer);
+            CreateNewEmployee(EmployeeRating.Beginner, WorkType.Developer);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            CreateNewEmployee(EmployeeRating.Intermediate, EmployeeType.Developer);
+            CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Developer);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            CreateNewEmployee(EmployeeRating.Expert, EmployeeType.Developer);
+            CreateNewEmployee(EmployeeRating.Expert, WorkType.Developer);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            CreateNewEmployee(EmployeeRating.Beginner, EmployeeType.Artist);
+            CreateNewEmployee(EmployeeRating.Beginner, WorkType.Artist);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            CreateNewEmployee(EmployeeRating.Intermediate, EmployeeType.Artist);
+            CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Artist);
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            CreateNewEmployee(EmployeeRating.Expert, EmployeeType.Artist);
+            CreateNewEmployee(EmployeeRating.Expert, WorkType.Artist);
         }
 
         if (Input.GetKeyDown(KeyCode.F))
@@ -111,7 +111,7 @@ public class EmployeeManager : MonoBehaviour
         unassign.Add(select);
     }
 
-    private void CreateNewEmployee(EmployeeRating rating, EmployeeType eType)
+    private void CreateNewEmployee(EmployeeRating rating, WorkType eType)
     {
         List<GameObject> tempList = rating switch
         {

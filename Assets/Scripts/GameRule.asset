@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c414915217be5654fba4878f17078b35, type: 3}
   m_Name: GameRule
   m_EditorClassIdentifier: 
-  baseWorkloadAmount: 10
+  workloadDmgMid: 10
+  workloadDmgAmplitude: 5
+  baseWorkloadAmount: 30
   ratioWorkloadAmount: 10
+  successRateMin: 0.25
+  successRateMax: 0.75
   abilityMin: 1
   abilityMax: 10
-  constantSpeed: 5
-  constantSkipSpeed: 100
+  constantSpeed: 25
+  constantSkipSpeed: 250
   endYear: 10
