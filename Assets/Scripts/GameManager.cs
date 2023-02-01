@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     private readonly (float hour, float minute) offWorkTime = (19, 00);
     private bool onSkip = false;
     public bool workTime = false;
+    private bool beforeWorkTime = false;
     public float deltaTime = 0f;
 
     public LayerMask clickableLayer;
@@ -81,10 +82,31 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (timeScale != 0)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            SetTimeScale(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+            SetTimeScale(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+            SetTimeScale(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+            SetTimeScale(3);
+
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
         {
-            int additionalSpeed = onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale;
-            deltaTime = (additionalSpeed * Time.deltaTime);
+            if (Input.GetMouseButtonDown(0))
+            {
+                currentDesk = hit.collider.gameObject;
+                Debug.Log(hit.collider.name);
+                WindowManager.instance.Open(Windows.EmptyWorkspace);
+            }
+        }
+
+        {
+            deltaTime = (onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale) * Time.deltaTime;
+
+            if (timeScale == 0)
+                return;
+
             timer.minute += deltaTime;
             timerSlider.value += deltaTime;
             if (timer.minute >= 60f)
@@ -112,32 +134,13 @@ public class GameManager : MonoBehaviour
                 SetYmdText();
             }
 
+            beforeWorkTime = workTime;
             workTime = !(AfterOffWorkTime() || BeforeGoToWorkTime());
+            if (!beforeWorkTime && workTime)
+                EmployeeManager.instance.GotoWorkTrigger();
 
             if (timeScale == 3)
                 SetSkipMode(!workTime);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            SetTimeScale(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            SetTimeScale(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            SetTimeScale(2);
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-            SetTimeScale(3);
-
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
-        {
-            if (WindowManager.instance.currentWndId != -1)
-                return;
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                currentDesk = hit.collider.gameObject;
-                Debug.Log(hit.collider.name);
-                WindowManager.instance.Open(Windows.EmptyWorkspace);
-            }
         }
     }
 

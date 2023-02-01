@@ -160,10 +160,19 @@ public class EmployeeManager : MonoBehaviour
         return ability;
     }
 
+    public void GotoWorkTrigger()
+    {
+        foreach (GameObject employee in assign)
+        {
+            employee.GetComponent<Employee>().GoToWorkTrigger();
+        }
+    }
+
     private int GetNormalNumber((int min, int max) range)
     {
         return Mathf.RoundToInt(NormalDistribution.GetData(range.min, range.max));
     }
+
     public List<GameObject> GetUnassgin()
     {
         return unassign;

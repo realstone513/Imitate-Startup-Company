@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public struct EmployeeBaseAblity
@@ -168,8 +167,6 @@ public class Employee : MonoBehaviour
         ability.hp.current += GameManager.instance.deltaTime * constantChange;
         if (ability.hp.current > ability.hp.limit)
             ability.hp.current = ability.hp.limit;
-        if (GameManager.instance.workTime)
-            State = States.GoToWork;
     }
 
     private void UpdateVacation()
@@ -177,8 +174,6 @@ public class Employee : MonoBehaviour
         ability.hp.current += GameManager.instance.deltaTime * constantChange;
         if (ability.hp.current > ability.hp.limit)
             ability.hp.current = ability.hp.limit;
-        if (GameManager.instance.workTime)
-            State = States.GoToWork;
     }
 
     /*private void UpdateEducation()
@@ -206,6 +201,11 @@ public class Employee : MonoBehaviour
         hiredDate = GameManager.instance.GetToday();
         gameObject.name = _name;
         TestPrint();
+    }
+
+    public void GoToWorkTrigger()
+    {
+        State = States.GoToWork;
     }
 
     private void SetWorkload()
