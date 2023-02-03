@@ -44,6 +44,13 @@ public class EmployeeManager : MonoBehaviour
         employeeSpawnPosition = new Vector3(0, -10, 0);
     }
 
+    private void Start()
+    {
+        GameObject player = CreateNewEmployee(EmployeeRating.Expert, WorkType.Player);
+        player.GetComponent<Employee>().AssignOnDesk(GameManager.instance.GetCurrentDesk());
+        MoveToAssign(player);
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -112,7 +119,7 @@ public class EmployeeManager : MonoBehaviour
         unassign.Add(select);
     }
 
-    private void CreateNewEmployee(EmployeeRating rating, WorkType eType)
+    private GameObject CreateNewEmployee(EmployeeRating rating, WorkType eType)
     {
         List<GameObject> tempList = rating switch
         {
@@ -125,6 +132,7 @@ public class EmployeeManager : MonoBehaviour
             Instantiate(tempList[random], employeeSpawnPosition, Quaternion.identity, gameObject.transform);
         unassign.Add(employee);
         employee.AddComponent<Employee>().SetInit(eType, rating, CreateName(), CreateEmployeeBaseAbility(rating));
+        return employee;
     }
 
     private string CreateName()

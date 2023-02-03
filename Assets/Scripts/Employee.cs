@@ -32,7 +32,7 @@ public enum WorkType
     Planner,
     Developer,
     Artist,
-    // Player,
+    Player,
 }
 
 public enum WorkDoneType
@@ -133,6 +133,12 @@ public class Employee : MonoBehaviour
 
     private void UpdateWorking()
     {
+        if (!gm.workTime)
+            State = States.OffWork;
+
+        if (eType == WorkType.Player)
+            return;
+
         float deltaTime = gm.deltaTime;
         ability.hp.current -= deltaTime * constantChange;
         workload.current += deltaTime;
@@ -187,9 +193,6 @@ public class Employee : MonoBehaviour
                 text.SetText("½ÇÆÐ", color);
             text.SetStartPosition(Camera.main.WorldToScreenPoint(gameObject.transform.position));
         }
-
-        if (!gm.workTime)
-            State = States.OffWork;
     }
 
     private void UpdateOffWork()

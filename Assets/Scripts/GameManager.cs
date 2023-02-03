@@ -79,6 +79,11 @@ public class GameManager : MonoBehaviour
             floatingUIQueue.Enqueue(Instantiate(floatingTextPrefab, floatingUITransform));
     }
 
+    private void Start()
+    {
+        currentDesk = desks[0];
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
