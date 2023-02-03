@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     RaycastHit hit;
     private Desk currentDesk;
     public GameRule gameRule;
+    public List<Desk> desks;
+    public List<GameObject> chairs;
 
     private void Awake()
     {
@@ -87,6 +89,15 @@ public class GameManager : MonoBehaviour
             SetTimeScale(2);
         else if (Input.GetKeyDown(KeyCode.Alpha4))
             SetTimeScale(3);
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            MoveToOffice();
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            MoveToMeeting();
+        }
 
         if (!EventSystem.current.IsPointerOverGameObject())
         {
@@ -174,6 +185,30 @@ public class GameManager : MonoBehaviour
             playModeText.text = "Skip";
         else
             playModeText.text = $"x{timeScale}";
+    }
+
+    public void MoveToMeeting()
+    {
+        int size = desks.Count;
+        for (int i = 0; i < size; i++)
+        {
+            Employee employee = desks[i].GetOwner();
+            if (employee == null)
+            {
+                continue;
+            }
+            Utils.CopyTransform(employee.gameObject, chairs[i].transform);
+        }
+    }
+
+    public void MoveToOffice()
+    {
+        int size = desks.Count;
+        for (int i = 0; i < size; i++)
+        {
+            if (desks[i].GetOwner() != null)
+                desks[i].SetOrigin();
+        }
     }
 
     private bool BeforeGoToWorkTime()

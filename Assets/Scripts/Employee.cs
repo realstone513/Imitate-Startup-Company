@@ -24,7 +24,6 @@ public enum States
     Working,
     OffWork,
     Vacation,
-    //Education
 }
 
 public enum WorkType
@@ -59,6 +58,7 @@ public class Employee : MonoBehaviour
     private float greatRate;
     private int baseWorkloadAmount;
     private GameManager gm;
+    private Desk myDesk;
 
     public States State
     {
@@ -79,21 +79,19 @@ public class Employee : MonoBehaviour
                     else
                     {
                         State = States.Working;
-                        transform.position += Vector3.up * 10;
+                        myDesk.SetOrigin();
                     }
                     break;
                 case States.Working:
                     constantChange = 5;
                     break;
                 case States.OffWork:
-                    transform.position += Vector3.down * 10;
+                    myDesk.SetOffWork();
                     constantChange = 2;
                     break;
                 case States.Vacation:
                     constantChange = 3;
                     break;
-                /*case States.Education:
-                    break;*/
 
                 case States.Unassign:
                 default:
@@ -125,9 +123,6 @@ public class Employee : MonoBehaviour
             case States.Vacation:
                 UpdateVacation();
                 break;
-            /*case States.Education:
-                UpdateEducation();
-                break;*/
 
             case States.Unassign:
             case States.GoToWork:
@@ -211,21 +206,6 @@ public class Employee : MonoBehaviour
             ability.hp.current = ability.hp.limit;
     }
 
-    /*private void UpdateEducation()
-    {
-        float deltaTime = GameManager.instance.deltaTime;
-        ability.hp.current -= deltaTime * 3;
-        workload.current += deltaTime;
-        if (workload.current > workload.amount)
-        {
-            workload.current = 0f;
-            Debug.Log($"{empName} ±³À° ³¡");
-        }
-
-        if (!GameManager.instance.workTime)
-            State = States.OffWork;
-    }*/
-
     public void SetInit(WorkType _eType, EmployeeRating _rating, string _name, EmployeeBaseAblity _ability)
     {
         eType = _eType;
@@ -273,9 +253,10 @@ public class Employee : MonoBehaviour
 
     public void AssignOnDesk(Desk desk)
     {
-        gameObject.transform.position = desk.transform.position;
-        State = (gm.workTime) ? States.Working : States.OffWork;
+        myDesk = desk;
         desk.SetOwner(gameObject.GetComponent<Employee>());
+        Utils.CopyTransform(gameObject, desk.transform);
+        State = (gm.workTime) ? States.Working : States.OffWork;
     }
 
     public void UnassignOnDesk()
