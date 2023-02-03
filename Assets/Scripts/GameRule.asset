@@ -12,21 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c414915217be5654fba4878f17078b35, type: 3}
   m_Name: GameRule
   m_EditorClassIdentifier: 
-  workloadDmgMid: 10
-  workloadDmgAmplitude: 5
-  baseWorkloadAmount: 30
-  ratioWorkloadAmount: 10
-  successRateMin: 0.25
-  successRateMax: 0.75
   abilityMin: 1
   abilityMax: 10
+  workloadDmgMid: 12
+  workloadDmgAmplitude: 0.4
+  constantStrongValue: 2
+  baseWorkloadAmount: 60
+  extraWorkloadAmount: 10
+  successRateMin: 0.25
+  successRateMax: 0.75
+  greatRatio: 0.25
   constantSpeed: 25
   constantSkipSpeed: 250
   endYear: 10
-  planColor: {r: 0, g: 0.4, b: 1, a: 1}
-  devColor: {r: 0.78, g: 0, b: 0, a: 1}
-  artColor: {r: 0, g: 0.34, b: 0, a: 1}
+  averageSalary: 3000
+  typeColors:
+  - {r: 0, g: 0.4, b: 1, a: 1}
+  - {r: 0.78, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0.34, b: 0, a: 1}
+  - {r: 0.24, g: 0.95, b: 0.9, a: 1}
   gradeColors:
   - {r: 0.52, g: 0, b: 0.69, a: 1}
   - {r: 98, g: 0.36, b: 0, a: 1}
-  - {r: 0.23529413, g: 0.9490197, b: 0.90196085, a: 1}
+  - {r: 0.24, g: 0.95, b: 0.9, a: 1}

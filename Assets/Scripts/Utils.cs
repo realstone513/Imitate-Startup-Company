@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public static class Utils
@@ -25,7 +24,7 @@ public static class Utils
 
     public static int GetNumberFromDate(Date date)
     {
-        return (date.week - 1) + (date.month - 1) * 4 + (date.year - 1) * 48;
+        return (date.day - 1) + (date.month - 1) * 4 + (date.year - 1) * 48;
     }
 
     public static void CopyTransform(GameObject gameObject, Transform dest)
@@ -33,5 +32,20 @@ public static class Utils
         gameObject.transform.position = dest.position;
         gameObject.transform.rotation = dest.rotation;
         gameObject.transform.localScale = dest.localScale;
+    }
+
+    public static float GetMinuteFromTime((float hour, float minute) time)
+    {
+        return time.hour * 60 + time.minute;
+    }
+
+    public static float CalculateTimeGap((float hour, float minute) greater, (float hour, float minute) smaller)
+    {
+        return GetMinuteFromTime(greater) - GetMinuteFromTime(smaller);
+    }
+
+    public static (float hour, float minute) GetTimeFromMinute(float minute)
+    {
+        return (minute % 60, minute / 60);
     }
 }

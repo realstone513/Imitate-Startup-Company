@@ -8,18 +8,18 @@ public struct Date
 {
     public int year;
     public int month;
-    public int week;
+    public int day;
 
-    public void SetInit(int year, int month, int week)
+    public void SetInit(int year, int month, int day)
     {
         this.year = year;
         this.month = month;
-        this.week = week;
+        this.day = day;
     }
 
     public string GetString()
     {
-        return $"{year}년 {month}월 {week}주";
+        return $"{year}년 {month}월 {day}일";
     }
 }
 
@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     public List<Desk> desks;
     public List<GameObject> chairs;
     public bool isMeeting;
+    private MainCameraManager mcm;
 
     private void Awake()
     {
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour
         floatingUIQueue = new Queue<GameObject>(queueSize);
         for (int i = 0; i < queueSize; i++)
             floatingUIQueue.Enqueue(Instantiate(floatingTextPrefab, floatingUITransform));
+        mcm = Camera.main.GetComponent<MainCameraManager>();
     }
 
     private void Start()
@@ -97,14 +99,14 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha4))
             SetTimeScale(3);
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            MoveToOffice();
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            MoveToMeeting();
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    MoveToOffice();
+        //}
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    MoveToMeeting();
+        //}
 
         if (!EventSystem.current.IsPointerOverGameObject())
         {
@@ -140,11 +142,11 @@ public class GameManager : MonoBehaviour
             {
                 timer = (0f, 0f);
                 timerSlider.value = 0f;
-                date.week++;
-                if (date.week > 4)
+                date.day++;
+                if (date.day > 4)
                 {
                     date.month++;
-                    date.week = 1;
+                    date.day = 1;
                 }
                 if (date.month > 12)
                 {
@@ -234,6 +236,16 @@ public class GameManager : MonoBehaviour
         return timer.hour > offWorkTime.hour ||
             (timer.hour == offWorkTime.hour &&
             timer.minute >= offWorkTime.minute);
+    }
+
+    public (float hour, float minute) GetGoToWorkTime()
+    {
+        return goToWorkTime;
+    }
+
+    public (float hour, float minute) GetOffWorkTime()
+    {
+        return offWorkTime;
     }
 
     public Date GetToday()

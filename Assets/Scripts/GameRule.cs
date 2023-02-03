@@ -3,28 +3,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameRule.asset", menuName = "GameRule")]
 public class GameRule : ScriptableObject
 {
+    public int abilityMin = 1;
+    public int abilityMax = 10;
+
     // Strong
-    [Range(10, 25)]
-    public int workloadDmgMid = 10;
-    [Range(1, 10)]
-    public int workloadDmgAmplitude = 5;
+    public int workloadDmgMid = 12;
+    public float workloadDmgAmplitude = 0.4f;
+    public int constantStrongValue = 2;
 
     // Dexterity 
-    [Range(20, 100)]
-    public int baseWorkloadAmount = 30;
-    [Range(1, 50)]
-    public int ratioWorkloadAmount = 10;
+    public int baseWorkloadAmount = 60;
+    public int extraWorkloadAmount = 10;
 
     // Intelligence 
-    [Range(0.1f, 0.4f)]
     public float successRateMin = 0.25f;
-    [Range(0.6f, 0.9f)]
     public float successRateMax = 0.75f;
-
-    [Range(1, 5)]
-    public int abilityMin = 1;
-    [Range(10, 20)]
-    public int abilityMax = 10;
+    public float greatRatio = 0.25f;
 
     [Range(5, 50)]
     public int constantSpeed = 25;
@@ -32,6 +26,9 @@ public class GameRule : ScriptableObject
     public int constantSkipSpeed = 250;
     [Range(5, 20)]
     public int endYear = 10;
+
+    [Range(2400, 3600)]
+    public int averageSalary = 3000;
 
     public Color[] typeColors =
     {

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 
 public enum CameraMode
@@ -22,25 +21,23 @@ public class MainCameraManager : MonoBehaviour
         cameraMode = CameraMode.office;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            CameraMove(CameraMode.office);
-        }
-        else if (Input.GetKeyDown(KeyCode.O))
-        {
-            CameraMove(CameraMode.officeZoom);
-        }
-        else if (Input.GetKeyDown(KeyCode.I))
-        {
-            CameraMove(CameraMode.meeting);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        CameraMove(CameraMode.office);
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.O))
+    //    {
+    //        CameraMove(CameraMode.officeZoom);
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.I))
+    //    {
+    //        CameraMove(CameraMode.meeting);
+    //    }
+    //}
 
-
-
-    public IEnumerator MeetingIntro()
+    private IEnumerator MeetingIntro()
     {
         yield return new WaitForSeconds(2.0f);
 
@@ -62,7 +59,7 @@ public class MainCameraManager : MonoBehaviour
         }
     }
 
-    private void CameraMove(CameraMode mode)
+    public void CameraMove(CameraMode mode)
     {
         cameraMode = mode;
         if (cameraMode == CameraMode.office)

@@ -231,11 +231,11 @@ public class Employee : MonoBehaviour
     private void SetWorkInit()
     {
         GameRule rule = gm.gameRule;
-        workload = (0, rule.baseWorkloadAmount + rule.ratioWorkloadAmount * (rule.abilityMax - ability.dexterity.current));
-        successRate = rule.successRateMin + (rule.successRateMax - rule.successRateMin) * ((float)ability.intelligence.current / rule.abilityMax);
-        successRate *= 0.8f;
-        greatRate = successRate * 0.25f;
-        baseWorkloadAmount = ability.strong.current + rule.workloadDmgMid;
+        workload = (0, rule.baseWorkloadAmount + rule.extraWorkloadAmount * (rule.abilityMax - ability.dexterity.current));
+        float sum = rule.successRateMin + (rule.successRateMax - rule.successRateMin) * ((float)ability.intelligence.current / rule.abilityMax);
+        greatRate = sum * rule.greatRatio;
+        successRate = 1 - sum;
+        baseWorkloadAmount = ability.strong.current * rule.constantStrongValue + rule.workloadDmgMid;
     }
 
     private WorkDoneType GetSuccessRate()
@@ -250,8 +250,9 @@ public class Employee : MonoBehaviour
 
     private int GetWorkloadAmount()
     {
-        GameRule rule = gm.gameRule;
-        return baseWorkloadAmount + (int)(NormalDistribution.GetData(-rule.workloadDmgAmplitude, rule.workloadDmgAmplitude) + 0.5f);
+        float min = baseWorkloadAmount * (1 - gm.gameRule.workloadDmgAmplitude);
+        float max = baseWorkloadAmount * (1 + gm.gameRule.workloadDmgAmplitude);
+        return (int)(NormalDistribution.GetData(min, max) + 0.5f);
     }
 
     public void AssignOnDesk(Desk desk)
@@ -279,6 +280,17 @@ public class Employee : MonoBehaviour
         GameRule rule = GameManager.instance.gameRule;
         Debug.Log($"누적 작업량: {cumulateWorkload} 작업 성공률: {successRate * 100:.00} 대성공률: {greatRate * 100:.00}\n" +
             $"경험치: {experience} " +
-            $"작업량 범위: {baseWorkloadAmount - rule.workloadDmgAmplitude} ~ {baseWorkloadAmount + rule.workloadDmgAmplitude} ");
+            $"작업량 범위: {baseWorkloadAmount - rule.workloadDmgAmplitude} ~ {baseWorkloadAmount + rule.workloadDmgAmplitude} " +
+            $"직원평가: {GetExpectedValue()}");
+    }
+
+    public float GetExpectedSuccessRate()
+    {
+        return successRate + greatRate * 2;
+    }
+
+    public float GetExpectedValue()
+    {
+        return GetExpectedSuccessRate() * baseWorkloadAmount / workload.amount * 100f;
     }
 }
