@@ -6954,35 +6954,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   employeeBeginners:
-  - {fileID: 100048, guid: 0c073f46c2041994f9a653c5c79a3362, type: 3}
-  - {fileID: 100048, guid: a8ebe8a0dc90c4c4fa9b9b30c186335f, type: 3}
-  - {fileID: 100048, guid: db861c27d87b03840bbdff3e0e50cc91, type: 3}
-  - {fileID: 100048, guid: efd1e2ae05ce0c24eab3ec4838e51ab8, type: 3}
-  - {fileID: 100048, guid: 9b03d54d344fcb4459ce8c63063734f1, type: 3}
-  - {fileID: 100048, guid: 745ecf5c865034649a361fc39aa630ab, type: 3}
-  - {fileID: 100048, guid: ad68f9e4183e77e4ba41ed959837b78e, type: 3}
-  - {fileID: 100048, guid: ba53f44d06270a34b82893af52c1c43e, type: 3}
-  - {fileID: 100048, guid: 8e636257d4c723f4f88afdfa70cfaea6, type: 3}
-  - {fileID: 100048, guid: 04c7f4fabf56f6541b573f80545b6382, type: 3}
-  - {fileID: 100048, guid: a6d380ced89d1af458b3cff23e5eab28, type: 3}
+  - {fileID: 100048, guid: 21a77591a0daf724ab231dca92a3fd89, type: 3}
+  - {fileID: 100048, guid: de452870b33d3a647b54b8b1fb10ff41, type: 3}
+  - {fileID: 100048, guid: 1d549942b3bfb7f43a1977dd6aa83a3d, type: 3}
+  - {fileID: 100048, guid: d18df5b376f9b1c41ac18ad439491ff3, type: 3}
+  - {fileID: 100048, guid: b76b28eac0febc743801947f6ead1ded, type: 3}
+  - {fileID: 100048, guid: ec65e91f0d37ac74a89bcd7fa3354177, type: 3}
+  - {fileID: 100048, guid: 4a57d19eb4452ff498c17131cefb7882, type: 3}
+  - {fileID: 100048, guid: 019e63eb398053c4ab097c7d982339d2, type: 3}
+  - {fileID: 100048, guid: 2c6fcb3004ba0e344908982afcefad9c, type: 3}
+  - {fileID: 100048, guid: 4e6fd9393b923094db14dc563f557f38, type: 3}
+  - {fileID: 100048, guid: 79af54673e3c5ef4b81a74e37f691256, type: 3}
   employeeIntermediates:
-  - {fileID: 100048, guid: d3504e916449a644eac2edc66f2ef03f, type: 3}
-  - {fileID: 100048, guid: 27a0559b21486134095cf4ab2d2318db, type: 3}
-  - {fileID: 100048, guid: c283b3e58f6fa5848b717bb6ef5d3f28, type: 3}
-  - {fileID: 100048, guid: b3aeae39ae3049843a7531760667ed67, type: 3}
-  - {fileID: 100048, guid: da56848b792ffd14da5a9d504e18adbf, type: 3}
-  - {fileID: 100048, guid: 9587b1e1e8987dd4ab9f0cb849d203c9, type: 3}
-  - {fileID: 100048, guid: 45ef323263c9c6e4e802dd3ffab03558, type: 3}
-  - {fileID: 100048, guid: 4979ab0634e9a2643a6f06f2bb43adaa, type: 3}
-  - {fileID: 100048, guid: 94507eb831a851f45b2654e4036a66e1, type: 3}
-  - {fileID: 100048, guid: b16bfc0e09e689742a33cf75c419610a, type: 3}
+  - {fileID: 100048, guid: 7743b022045d0174d84e071efb0fae67, type: 3}
+  - {fileID: 100048, guid: e6cfeff43f9f8d34b88b0b612909ac29, type: 3}
+  - {fileID: 100048, guid: 0f623bf014001584995ab5372e19323d, type: 3}
+  - {fileID: 100048, guid: 333b69473df608940805a04317c56c6c, type: 3}
+  - {fileID: 100048, guid: 4d8055b6d6938c34c8737df771fae55c, type: 3}
+  - {fileID: 100048, guid: b538e4dd12efa8a40ab7dd3a66d39dc7, type: 3}
+  - {fileID: 100048, guid: 99ce9a003a52a734eb94c75c86ed4e3d, type: 3}
+  - {fileID: 100046, guid: 5773791c2747fd34aa8dfbe1cf71e51a, type: 3}
+  - {fileID: 100048, guid: 03271f9a6853cca4ead5bd485cbc88d6, type: 3}
+  - {fileID: 100048, guid: dc523cb225f130945948050f34f17565, type: 3}
   employeeExperts:
-  - {fileID: 100048, guid: 810921ee064a0544e9108342ea4ea515, type: 3}
-  - {fileID: 100048, guid: 2228950add1c54e4690535d8c2e5cea1, type: 3}
-  - {fileID: 100048, guid: 04542abf2e6c0904eb4132f6ced9d96e, type: 3}
-  - {fileID: 100048, guid: ea7acaa9d68288b43875e70cd4ecaff3, type: 3}
-  - {fileID: 100048, guid: 927da1e6939849042b9054ad6727b248, type: 3}
-  - {fileID: 100046, guid: c21a5b0abf4dbe748aa594c4ee9fa3f4, type: 3}
+  - {fileID: 100048, guid: 438ef91a5f9e61c45941464eebc462dd, type: 3}
+  - {fileID: 100048, guid: 527746c3de683a746b700572020ce4c1, type: 3}
+  - {fileID: 100048, guid: 0a9d829b6431f35448b98cdf4aa9fda9, type: 3}
+  - {fileID: 100048, guid: cdaba05c004e27b4d8f2f4478674afec, type: 3}
+  - {fileID: 100048, guid: 185bfac8d64a19645a089256063d89ca, type: 3}
+  - {fileID: 100048, guid: 08a461955fe2451479862746f7aaf670, type: 3}
 --- !u!1001 &1724681535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7780,7 +7780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -20.00003}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 500, y: -670}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1925606060
