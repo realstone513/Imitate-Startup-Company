@@ -19,7 +19,7 @@ public struct EmployeeBaseAblity
 
 public enum States
 {
-    None = -1,
+    Unassign,
     GoToWork,
     Working,
     OffWork,
@@ -95,7 +95,7 @@ public class Employee : MonoBehaviour
                 /*case States.Education:
                     break;*/
 
-                case States.None:
+                case States.Unassign:
                 default:
                     break;
             }
@@ -111,7 +111,7 @@ public class Employee : MonoBehaviour
 
     private void Update()
     {
-        if (State == States.None)
+        if (State == States.Unassign)
             return;
 
         switch (state)
@@ -129,7 +129,7 @@ public class Employee : MonoBehaviour
                 UpdateEducation();
                 break;*/
 
-            case States.None:
+            case States.Unassign:
             case States.GoToWork:
             default:
                 break;
@@ -232,7 +232,7 @@ public class Employee : MonoBehaviour
         rating = _rating;
         empName = _name;
         ability = _ability;
-        State = States.None;
+        State = States.Unassign;
         gm = GameManager.instance;
         hiredDate = gm.GetToday();
         gameObject.name = _name;
@@ -271,16 +271,16 @@ public class Employee : MonoBehaviour
         return baseWorkloadAmount + (int)(NormalDistribution.GetData(-rule.workloadDmgAmplitude, rule.workloadDmgAmplitude) + 0.5f);
     }
 
-    public void AssignOnDesk(Vector3 pos)
+    public void AssignOnDesk(Desk desk)
     {
-        gameObject.transform.position = pos;
+        gameObject.transform.position = desk.transform.position;
         State = (gm.workTime) ? States.Working : States.OffWork;
-        // Debug.Log($"{empName} {State}");
+        desk.SetOwner(gameObject.GetComponent<Employee>());
     }
 
     public void UnassignOnDesk()
     {
-        State = States.None;
+        State = States.Unassign;
         gameObject.transform.position += Vector3.down * 10;
     }
 

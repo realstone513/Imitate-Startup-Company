@@ -5,6 +5,7 @@ public enum Windows
     None = -1,
     EmptyWorkspace,
     EmployeeList,
+    Purchase,
 }
 
 public class WindowManager : MonoBehaviour

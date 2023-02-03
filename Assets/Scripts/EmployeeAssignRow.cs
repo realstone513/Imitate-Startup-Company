@@ -26,7 +26,7 @@ public class EmployeeAssignRow : MonoBehaviour
     private void AssignOnDesk()
     {
         employeePrefab.GetComponent<Employee>().AssignOnDesk(
-            GameManager.instance.GetCurrentDesk().transform.position);
+            GameManager.instance.GetCurrentDesk());
         EmployeeManager.instance.MoveToAssign(employeePrefab);
     }
 }

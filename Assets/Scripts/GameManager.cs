@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -54,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     public LayerMask clickableLayer;
     RaycastHit hit;
-    private GameObject currentDesk;
+    private Desk currentDesk;
     public GameRule gameRule;
 
     private void Awake()
@@ -95,7 +94,7 @@ public class GameManager : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    currentDesk = hit.collider.gameObject;
+                    currentDesk = hit.collider.gameObject.GetComponent<Desk>();
                     // Debug.Log(hit.collider.name);
                     WindowManager.instance.Open(Windows.EmptyWorkspace);
                 }
@@ -191,27 +190,12 @@ public class GameManager : MonoBehaviour
             timer.minute >= offWorkTime.minute);
     }
 
-    public (float hour, float minute) GetTimer()
-    {
-        return timer;
-    }
-
-    public (float hour, float minute) GetGoToWorkTime()
-    {
-        return goToWorkTime;
-    }
-
-    public (float hour, float minute) GetOffWorkTime()
-    {
-        return offWorkTime;
-    }
-
     public Date GetToday()
     {
         return date;
     }
 
-    public GameObject GetCurrentDesk()
+    public Desk GetCurrentDesk()
     {
         return currentDesk;
     }

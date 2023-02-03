@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public static class Utils
 {
@@ -25,5 +26,12 @@ public static class Utils
     public static int GetNumberFromDate(Date date)
     {
         return (date.week - 1) + (date.month - 1) * 4 + (date.year - 1) * 48;
+    }
+
+    public static void CopyTransform(GameObject gameObject, Transform dest)
+    {
+        gameObject.transform.position = dest.position;
+        gameObject.transform.rotation = dest.rotation;
+        gameObject.transform.localScale = dest.localScale;
     }
 }

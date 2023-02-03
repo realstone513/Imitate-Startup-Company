@@ -14,6 +14,8 @@ public class OfficeGenerator : MonoBehaviour
     public GameObject wallCross;
     public GameObject wallCorner;
     public GameObject wallDoor;
+    public GameObject basicTable;
+    public GameObject expertTable;
 
     private List<GameObject> walls = new();
     private List<int> data = new();
@@ -88,6 +90,7 @@ public class OfficeGenerator : MonoBehaviour
             interval.x = 0;
             interval.z -= 1;
         }
+        data.Clear();
     }
 
     private bool CheckEdge(int r, int c)
@@ -100,26 +103,27 @@ public class OfficeGenerator : MonoBehaviour
         return true;
     }
 
-    private void ReadData()
+    private void ReadOfficeData()
     {
-        StreamReader sr = new("Assets/Resources/Map.txt");
+        StreamReader office = new("Assets/Resources/Office.txt");
 
-        string line = sr.ReadLine();
+        string line = office.ReadLine();
         col = int.Parse(line);
 
-        while ((line = sr.ReadLine()) != null)
+        while ((line = office.ReadLine()) != null)
         {
             foreach (char c in line)
             {
                 data.Add(c - '0');
             }
         }
-        sr.Close();
+        office.Close();
+        office.Dispose();
     }
 
     private void Start()
     {
-        ReadData();
+        ReadOfficeData();
         GenerateWall(Vector3.zero);
     }
 }
