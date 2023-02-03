@@ -33,13 +33,17 @@ public class GameRule : ScriptableObject
     [Range(5, 20)]
     public int endYear = 10;
 
-    public Color planColor = new(0f, 0.4f, 1f, 1f);
-    public Color devColor = new(0.78f, 0f, 0f, 1f);
-    public Color artColor = new(0f, 0.34f, 0f, 1f);
+    public Color[] typeColors =
+    {
+        new (0f, 0.4f, 1f, 1f),
+        new (0.78f, 0f, 0f, 1f),
+        new (0f, 0.34f, 0f, 1f),
+        new (0.24f, 0.95f, 0.90f, 1f),
+    };
 
     public Color[] gradeColors = {
-        new Color(0.52f, 0f, 0.69f, 1f),
-        new Color(098f, 0.36f, 0f, 1f),
-        new Color(0.24f, 0.95f, 0.90f, 1f),
+        new (0.52f, 0f, 0.69f, 1f),
+        new (098f, 0.36f, 0f, 1f),
+        new (0.24f, 0.95f, 0.90f, 1f),
     };
 }

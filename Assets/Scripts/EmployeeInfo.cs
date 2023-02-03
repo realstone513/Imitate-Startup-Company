@@ -19,17 +19,19 @@ public class EmployeeInfo : MonoBehaviour
         {
             case WorkType.Planner:
                 type.text = "기획";
-                type.color = rule.planColor;
                 break;
             case WorkType.Developer:
                 type.text = "개발";
-                type.color = rule.devColor;
                 break;
             case WorkType.Artist:
                 type.text = "아트";
-                type.color = rule.artColor;
+                break;
+            case WorkType.Player:
+                type.text = "대표";
                 break;
         }
+        type.color = rule.typeColors[(int)employee.eType];
+
         employeeName.text = employee.empName;
 
         switch (employee.rating)

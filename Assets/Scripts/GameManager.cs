@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     public GameRule gameRule;
     public List<Desk> desks;
     public List<GameObject> chairs;
+    public bool isMeeting;
 
     private void Awake()
     {
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
         date.SetInit(1, 1, 1);
         SetYmdText();
         timerText.text = "00:00";
+        isMeeting = false;
 
         floatingUIQueue = new Queue<GameObject>(queueSize);
         for (int i = 0; i < queueSize; i++)
@@ -118,7 +120,9 @@ public class GameManager : MonoBehaviour
         }
 
         {
-            deltaTime = (onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale) * Time.deltaTime;
+            deltaTime = Time.deltaTime;
+            if (!isMeeting)
+                deltaTime *= (onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale);
 
             if (timeScale == 0)
                 return;
@@ -194,6 +198,7 @@ public class GameManager : MonoBehaviour
 
     public void MoveToMeeting()
     {
+        isMeeting = true;
         int size = desks.Count;
         for (int i = 0; i < size; i++)
         {
@@ -208,6 +213,7 @@ public class GameManager : MonoBehaviour
 
     public void MoveToOffice()
     {
+        isMeeting = false;
         int size = desks.Count;
         for (int i = 0; i < size; i++)
         {

@@ -45,9 +45,18 @@ public class MainCameraManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
 
         float timer = 0f;
-        while (timer < 5f)
+        while (timer < 2.5f)
         {
-            gameObject.transform.Translate(0, 0, Time.deltaTime);
+            gameObject.transform.Translate(0, 0, Time.deltaTime * 2);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(2.0f);
+        timer = 0f;
+        while (timer < 1.75f)
+        {
+            gameObject.transform.Translate(0, 0, -2 * Time.deltaTime);
             timer += Time.deltaTime;
             yield return null;
         }
