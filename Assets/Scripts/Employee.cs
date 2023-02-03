@@ -83,14 +83,14 @@ public class Employee : MonoBehaviour
                     }
                     break;
                 case States.Working:
-                    constantChange = 5;
+                    constantChange = gm.gameRule.workConsumtionConstant;
                     break;
                 case States.OffWork:
                     myDesk.SetOffWork();
-                    constantChange = 2;
+                    constantChange = gm.gameRule.offworkRecoveryConstant;
                     break;
                 case States.Vacation:
-                    constantChange = 3;
+                    constantChange = gm.gameRule.vacationRecoveryConstant;
                     break;
 
                 case States.Unassign:
@@ -234,7 +234,7 @@ public class Employee : MonoBehaviour
         workload = (0, rule.baseWorkloadAmount + rule.extraWorkloadAmount * (rule.abilityMax - ability.dexterity.current));
         float sum = rule.successRateMin + (rule.successRateMax - rule.successRateMin) * ((float)ability.intelligence.current / rule.abilityMax);
         greatRate = sum * rule.greatRatio;
-        successRate = 1 - sum;
+        successRate = sum - greatRate;
         baseWorkloadAmount = ability.strong.current * rule.constantStrongValue + rule.workloadDmgMid;
     }
 
@@ -291,6 +291,6 @@ public class Employee : MonoBehaviour
 
     public float GetExpectedValue()
     {
-        return GetExpectedSuccessRate() * baseWorkloadAmount / workload.amount * 100f;
+        return GetExpectedSuccessRate() * baseWorkloadAmount / workload.amount * 60f;
     }
 }

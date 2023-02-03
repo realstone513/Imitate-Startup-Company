@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameRule
   m_EditorClassIdentifier: 
   abilityMin: 1
-  abilityMax: 10
+  abilityMax: 20
   workloadDmgMid: 12
   workloadDmgAmplitude: 0.4
   constantStrongValue: 2
@@ -22,6 +22,11 @@ MonoBehaviour:
   successRateMin: 0.25
   successRateMax: 0.75
   greatRatio: 0.25
+  hpMin: 10000
+  hpMax: 20000
+  workConsumtionConstant: 5
+  offworkRecoveryConstant: 3
+  vacationRecoveryConstant: 3
   constantSpeed: 25
   constantSkipSpeed: 250
   endYear: 10

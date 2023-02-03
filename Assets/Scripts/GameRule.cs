@@ -20,6 +20,13 @@ public class GameRule : ScriptableObject
     public float successRateMax = 0.75f;
     public float greatRatio = 0.25f;
 
+    // Health Point
+    public int hpMin = 5000;
+    public int hpMax = 10000;
+    public int workConsumtionConstant = 5;
+    public int offworkRecoveryConstant = 2;
+    public int vacationRecoveryConstant = 3;
+
     [Range(5, 50)]
     public int constantSpeed = 25;
     [Range(50, 400)]

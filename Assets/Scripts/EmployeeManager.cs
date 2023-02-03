@@ -153,7 +153,6 @@ public class EmployeeManager : MonoBehaviour
         int max = GameManager.instance.gameRule.abilityMax;
         int mid = (int)Utils.GetAverage(min, max);
         int minmid = (int)Utils.GetAverage(min, mid);
-        Debug.Log($"{min} {max} {mid} {minmid}");
 
         // min 1, max 10 - 1~6, 3~8, 5~10
         var range = rating switch
