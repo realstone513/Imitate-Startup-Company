@@ -58,12 +58,12 @@ public class GameManager : MonoBehaviour
     public GameRule gameRule;
     public List<Desk> desks;
     public List<GameObject> chairs;
-    public bool isMeeting;
-    private MainCameraManager mcm;
     public int money;
 
     //public List<int> financeList;
 
+    //public bool isMeeting;
+    //private MainCameraManager mcm;
     private void Awake()
     {
         if (instance == null)
@@ -79,12 +79,12 @@ public class GameManager : MonoBehaviour
         date.SetInit(1, 1, 1);
         SetYmdText();
         timerText.text = "00:00";
-        isMeeting = false;
+        //isMeeting = false;
 
         floatingUIQueue = new Queue<GameObject>(queueSize);
         for (int i = 0; i < queueSize; i++)
             floatingUIQueue.Enqueue(Instantiate(floatingTextPrefab, floatingUITransform));
-        mcm = Camera.main.GetComponent<MainCameraManager>();
+        //mcm = Camera.main.GetComponent<MainCameraManager>();
     }
 
     private void Start()
@@ -127,9 +127,10 @@ public class GameManager : MonoBehaviour
         }
 
         {
-            deltaTime = Time.deltaTime;
-            if (!isMeeting)
-                deltaTime *= (onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale);
+            //deltaTime = Time.deltaTime;
+            //if (!isMeeting)
+            
+            deltaTime = Time.deltaTime * (onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale);
 
             if (timeScale == 0)
                 return;
@@ -203,7 +204,7 @@ public class GameManager : MonoBehaviour
             playModeText.text = $"x{timeScale}";
     }
 
-    public void MoveToMeeting()
+    /*public void MoveToMeeting()
     {
         isMeeting = true;
         int size = desks.Count;
@@ -227,7 +228,7 @@ public class GameManager : MonoBehaviour
             if (desks[i].GetOwner() != null)
                 desks[i].SetOrigin();
         }
-    }
+    }*/
 
     private bool BeforeGoToWorkTime()
     {

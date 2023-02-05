@@ -6,6 +6,8 @@ public enum Windows
     EmptyWorkspace,
     EmployeeList,
     Purchase,
+    Setting,
+    NewProduct,
 }
 
 public class WindowManager : MonoBehaviour
@@ -13,17 +15,11 @@ public class WindowManager : MonoBehaviour
     public static WindowManager instance;
 
     public GenericWindow[] windows;
-    public int currentWndId;
+    public int currentWndId = -1;
 
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Start()
-    {
-        AllClose();
-        currentWndId = -1;
     }
 
     public GenericWindow GetWindow(int id)

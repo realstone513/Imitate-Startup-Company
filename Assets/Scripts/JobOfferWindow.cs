@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class JobOffer : GenericWindow
+public class JobOfferWindow : GenericWindow
 {
     public TextMeshProUGUI recruitCostText;
     public List<GameObject> employeeInfoList = new();
