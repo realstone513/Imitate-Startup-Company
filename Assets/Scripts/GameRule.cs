@@ -33,6 +33,15 @@ public class GameRule : ScriptableObject
     public int constantSkipSpeed = 250;
     [Range(5, 20)]
     public int endYear = 10;
+    [Range(5000, 50000)]
+    public int seedMoney = 10000;
+
+    [Range(10, 100)]
+    public int jobOfferCostBeginner = 10;
+    [Range(100, 1000)]
+    public int jobOfferCostIntermediate = 500;
+    [Range(1000, 10000)]
+    public int jobOfferCostExpert = 3000;
 
     [Range(2400, 3600)]
     public int averageSalary = 3000;

@@ -280,7 +280,7 @@ public class Employee : MonoBehaviour
         GameRule rule = GameManager.instance.gameRule;
         Debug.Log($"누적 작업량: {cumulateWorkload} 작업 성공률: {successRate * 100:.00} 대성공률: {greatRate * 100:.00}\n" +
             $"경험치: {experience} " +
-            $"작업량 범위: {baseWorkloadAmount - rule.workloadDmgAmplitude} ~ {baseWorkloadAmount + rule.workloadDmgAmplitude} " +
+            $"작업량 범위: {baseWorkloadAmount * (1 - gm.gameRule.workloadDmgAmplitude)} ~ {baseWorkloadAmount * (1 + gm.gameRule.workloadDmgAmplitude)} " +
             $"직원평가: {GetExpectedValue()}");
     }
 

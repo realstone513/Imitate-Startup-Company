@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public Slider timerSlider;
     public Button[] buttons;
     public TextMeshProUGUI playModeText;
+    public TextMeshProUGUI moneyText;
 
     public GameObject floatingTextPrefab;
     public Transform floatingUITransform;
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> chairs;
     public bool isMeeting;
     private MainCameraManager mcm;
+    public int money;
 
     private void Awake()
     {
@@ -86,6 +88,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         currentDesk = desks[0];
+        money = gameRule.seedMoney;
     }
 
     private void Update()
@@ -177,9 +180,9 @@ public class GameManager : MonoBehaviour
         timeScale = value;
         buttons[value].Select();
         if (value != 0)
-            playModeText.text = value == 3 && onSkip ? "Skip" : $"x{value}";
+            playModeText.text = value == 3 && onSkip ? "½ºÅµ" : $"x{value}";
         else
-            playModeText.text = $"Stop";
+            playModeText.text = $"Á¤Áö";
 
         if (!onSkip && timeScale == 3 && !workTime)
             SetSkipMode(true);
@@ -193,7 +196,7 @@ public class GameManager : MonoBehaviour
 
         onSkip = value;
         if (onSkip)
-            playModeText.text = "Skip";
+            playModeText.text = "½ºÅµ";
         else
             playModeText.text = $"x{timeScale}";
     }
@@ -266,5 +269,11 @@ public class GameManager : MonoBehaviour
     public void EnqueueFloatingUI(GameObject ui)
     {
         floatingUIQueue.Enqueue(ui);
+    }
+
+    public void TranslateGameMoney(int amount)
+    {
+        money += amount;
+        moneyText.text = $"{money}";
     }
 }

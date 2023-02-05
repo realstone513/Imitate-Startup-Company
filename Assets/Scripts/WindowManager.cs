@@ -24,7 +24,6 @@ public class WindowManager : MonoBehaviour
     {
         AllClose();
         currentWndId = -1;
-        //Open(defaultWndId);
     }
 
     public GenericWindow GetWindow(int id)

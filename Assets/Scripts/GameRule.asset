@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameRule
   m_EditorClassIdentifier: 
   abilityMin: 1
-  abilityMax: 20
+  abilityMax: 10
   workloadDmgMid: 12
   workloadDmgAmplitude: 0.4
   constantStrongValue: 2

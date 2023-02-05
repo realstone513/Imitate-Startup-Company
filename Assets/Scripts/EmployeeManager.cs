@@ -119,7 +119,7 @@ public class EmployeeManager : MonoBehaviour
         unassign.Add(select);
     }
 
-    private GameObject CreateNewEmployee(EmployeeRating rating, WorkType eType)
+    public GameObject CreateNewEmployee(EmployeeRating rating, WorkType eType)
     {
         List<GameObject> tempList = rating switch
         {
