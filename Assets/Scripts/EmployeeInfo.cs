@@ -9,7 +9,7 @@ public class EmployeeInfo : MonoBehaviour
     public TextMeshProUGUI str;
     public TextMeshProUGUI dex;
     public TextMeshProUGUI intelligent;
-    public TextMeshProUGUI career;
+    public TextMeshProUGUI salary;
 
     public void SetInfo(Employee employee)
     {
@@ -51,6 +51,7 @@ public class EmployeeInfo : MonoBehaviour
         str.text = $"{employee.ability.strong}";
         dex.text = $"{employee.ability.dexterity}";
         intelligent.text = $"{employee.ability.intelligence}";
-        career.text = $"{Utils.GetNumberFromDate(employee.hiredDate)}аж";
+        salary.text = $"{employee.salary}";
+        //hired.text = $"{Utils.GetNumberFromDate(employee.hiredDate)}аж";
     }
 }

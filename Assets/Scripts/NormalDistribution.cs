@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class NormalDistribution
 {
+    public static float GetData((float min, float max) tuple)
+    {
+        return GetData(tuple.min, tuple.max);
+    }
+
     public static float GetData(float min, float max)
     {
         float sum = 0;

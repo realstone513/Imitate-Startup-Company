@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameRule.asset", menuName = "GameRule")]
@@ -43,8 +44,8 @@ public class GameRule : ScriptableObject
     [Range(1000, 10000)]
     public int jobOfferCostExpert = 3000;
 
-    [Range(2400, 3600)]
-    public int averageSalary = 3000;
+    public List<int> averageSalary = new() { 3000, 5500, 8000 };
+    public float salaryRangeRatio = 0.2f;
 
     public Color[] typeColors =
     {

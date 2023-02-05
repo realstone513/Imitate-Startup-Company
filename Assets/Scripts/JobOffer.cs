@@ -7,17 +7,27 @@ using UnityEngine.UI;
 public class JobOffer : GenericWindow
 {
     public TextMeshProUGUI recruitCostText;
-    public List<EmployeeInfo> employeeInfoList = new();
+    public List<GameObject> employeeInfoList = new();
     private List<GameObject> employeeList = new();
     private EmployeeRating rating = EmployeeRating.Beginner;
     private WorkType workType = WorkType.Planner;
     private int cost = 10;
     private int offerIndex = -1;
+    public GameObject offerWindow;
+    public TextMeshProUGUI firstLog;
+    public GameObject logPrefab;
+    public Transform logTransform;
+    private bool offerSuccess;
+    public TextMeshProUGUI salaryText;
+    public Slider salarySlider;
+    public TextMeshProUGUI bonusText;
+    public Slider bonusSlider;
 
     private void OnEnable()
     {
-        foreach (var info in employeeInfoList)
-            info.gameObject.SetActive(false);
+        InfoActive(false);
+        offerWindow.SetActive(false);
+        offerSuccess = false;
     }
 
     public void ChangeCostText(Int32 num)
@@ -63,16 +73,18 @@ public class JobOffer : GenericWindow
             return;
 
         CreateNewEmployees();
-        foreach (var info in employeeInfoList)
-        {
-            if (info.enabled)
-                info.gameObject.SetActive(true);
-        }
+        InfoActive(true);
+        offerWindow.SetActive(false);
     }
 
     public void SelectInfo(int idx)
     {
-        Debug.Log(idx);
+        offerIndex = idx;
+        offerWindow.SetActive(true);
+        Debug.Log(offerIndex);
+        Employee thisEmployee = employeeList[idx].GetComponent<Employee>();
+        firstLog.text = $"{thisEmployee.empName}은(는)\n{thisEmployee.salary}만원을 원합니다.";
+        InfoActive(false);
     }
 
     private void CreateNewEmployees()
@@ -83,7 +95,7 @@ public class JobOffer : GenericWindow
         for (int i = 0; i < 3; i++)
         {
             employeeList.Add(EmployeeManager.instance.CreateNewEmployee(rating, workType));
-            employeeInfoList[i].SetInfo(employeeList[i].GetComponent<Employee>());
+            employeeInfoList[i].GetComponent<EmployeeInfo>().SetInfo(employeeList[i].GetComponent<Employee>());
         }
 
     }
@@ -95,6 +107,12 @@ public class JobOffer : GenericWindow
             Destroy(employeeList[i]);
 
         employeeList.Clear();
+    }
+
+    private void InfoActive(bool value)
+    {
+        foreach (var info in employeeInfoList)
+            info.SetActive(value);
     }
 
     private void OnDisable()

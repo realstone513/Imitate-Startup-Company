@@ -30,7 +30,11 @@ MonoBehaviour:
   constantSpeed: 25
   constantSkipSpeed: 250
   endYear: 10
-  averageSalary: 3000
+  seedMoney: 10000
+  jobOfferCostBeginner: 10
+  jobOfferCostIntermediate: 500
+  jobOfferCostExpert: 3000
+  averageSalary: b80b00007c150000401f0000
   typeColors:
   - {r: 0, g: 0.4, b: 1, a: 1}
   - {r: 0.78, g: 0, b: 0, a: 1}

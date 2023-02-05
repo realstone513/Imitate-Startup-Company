@@ -59,6 +59,7 @@ public class Employee : MonoBehaviour
     private int baseWorkloadAmount;
     private GameManager gm;
     private Desk myDesk;
+    public int salary;
 
     public States State
     {
@@ -236,6 +237,9 @@ public class Employee : MonoBehaviour
         greatRate = sum * rule.greatRatio;
         successRate = sum - greatRate;
         baseWorkloadAmount = ability.strong.current * rule.constantStrongValue + rule.workloadDmgMid;
+        (float min, float max) salaryRange = Utils.GetIntRange(rule.averageSalary[(int)rating], rule.salaryRangeRatio);
+        Debug.Log(salaryRange);
+        salary = (int)NormalDistribution.GetData(salaryRange);
     }
 
     private WorkDoneType GetSuccessRate()
@@ -250,9 +254,8 @@ public class Employee : MonoBehaviour
 
     private int GetWorkloadAmount()
     {
-        float min = baseWorkloadAmount * (1 - gm.gameRule.workloadDmgAmplitude);
-        float max = baseWorkloadAmount * (1 + gm.gameRule.workloadDmgAmplitude);
-        return (int)(NormalDistribution.GetData(min, max) + 0.5f);
+        (float min, float max) range = Utils.GetFloatRange(baseWorkloadAmount, gm.gameRule.workloadDmgAmplitude);
+        return (int)(NormalDistribution.GetData(range) + 0.5f);
     }
 
     public void AssignOnDesk(Desk desk)
@@ -277,11 +280,10 @@ public class Employee : MonoBehaviour
             $"민: {ability.dexterity} " +
             $"지: {ability.intelligence} " +
             $"체력: {ability.hp}");
-        GameRule rule = GameManager.instance.gameRule;
         Debug.Log($"누적 작업량: {cumulateWorkload} 작업 성공률: {successRate * 100:.00} 대성공률: {greatRate * 100:.00}\n" +
             $"경험치: {experience} " +
             $"작업량 범위: {baseWorkloadAmount * (1 - gm.gameRule.workloadDmgAmplitude)} ~ {baseWorkloadAmount * (1 + gm.gameRule.workloadDmgAmplitude)} " +
-            $"직원평가: {GetExpectedValue()}");
+            $"직원평가: {GetExpectedValue()} 연봉(희망): {salary}");
     }
 
     public float GetExpectedSuccessRate()

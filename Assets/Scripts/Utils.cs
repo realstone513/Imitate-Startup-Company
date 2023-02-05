@@ -48,4 +48,20 @@ public static class Utils
     {
         return (minute % 60, minute / 60);
     }
+
+    public static (float min, float max) GetFloatRange(float mid, float ratio)
+    {
+        float minVal = mid * (1 - ratio);
+        float maxVal = mid * (1 + ratio);
+        (float min, float max) range = (minVal, maxVal);
+        return range;
+    }
+
+    public static (int min, int max) GetIntRange(float mid, float ratio)
+    {
+        float minVal = mid * (1 - ratio);
+        float maxVal = mid * (1 + ratio);
+        (int min, int max) range = ((int)minVal, (int)maxVal);
+        return range;
+    }
 }
