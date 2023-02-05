@@ -265,6 +265,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 360
   gameRule: {fileID: 11400000, guid: e20ab52b5ee6da946b99187ffa7cc950, type: 2}
+  money: 0
   desks:
   - {fileID: 1557434487}
   - {fileID: 1476044406}
@@ -273,16 +274,6 @@ MonoBehaviour:
   - {fileID: 486781682}
   - {fileID: 1762383189}
   - {fileID: 1520789356}
-  chairs:
-  - {fileID: 303192149}
-  - {fileID: 774281514856860913}
-  - {fileID: 1793461612463632429}
-  - {fileID: 3154998807026485317}
-  - {fileID: 3472860641807057152}
-  - {fileID: 4108972205908745162}
-  - {fileID: 2866631984361956989}
-  isMeeting: 0
-  money: 0
 --- !u!4 &24633140
 Transform:
   m_ObjectHideFlags: 0
@@ -3702,14 +3693,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1167158982}
-        m_TargetAssemblyTypeName: ProductManager, Assembly-CSharp
-        m_MethodName: NewProduct
-        m_Mode: 1
+      - m_Target: {fileID: 120475604}
+        m_TargetAssemblyTypeName: WindowManager, Assembly-CSharp
+        m_MethodName: ToggleWindow
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -14875,6 +14866,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: New Product Window
       objectReference: {fileID: 0}
+    - target: {fileID: 3702059659407543322, guid: a8365bf1f5ac6404ba94990af9fa44f6, type: 3}
+      propertyPath: m_text
+      value: "\uCD5C\uC18C\uD654"
+      objectReference: {fileID: 0}
     - target: {fileID: 7871687795511648729, guid: a8365bf1f5ac6404ba94990af9fa44f6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -14958,22 +14953,6 @@ PrefabInstance:
     - target: {fileID: 7871687795511648729, guid: a8365bf1f5ac6404ba94990af9fa44f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8395482087260673795, guid: a8365bf1f5ac6404ba94990af9fa44f6, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2023396454747295721}
-    - target: {fileID: 8395482087260673795, guid: a8365bf1f5ac6404ba94990af9fa44f6, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Close
-      objectReference: {fileID: 0}
-    - target: {fileID: 8395482087260673795, guid: a8365bf1f5ac6404ba94990af9fa44f6, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GenericWindow, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8395482087260673795, guid: a8365bf1f5ac6404ba94990af9fa44f6, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8365bf1f5ac6404ba94990af9fa44f6, type: 3}

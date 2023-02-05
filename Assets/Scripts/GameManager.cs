@@ -56,14 +56,15 @@ public class GameManager : MonoBehaviour
     RaycastHit hit;
     private Desk currentDesk;
     public GameRule gameRule;
-    public List<Desk> desks;
-    public List<GameObject> chairs;
     public int money;
+    public List<Desk> desks;
 
     //public List<int> financeList;
 
+    //public List<GameObject> chairs;
     //public bool isMeeting;
     //private MainCameraManager mcm;
+
     private void Awake()
     {
         if (instance == null)

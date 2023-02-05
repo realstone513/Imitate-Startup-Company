@@ -222,7 +222,7 @@ public class Employee : MonoBehaviour
         hiredDate = gm.GetToday();
         gameObject.name = _name;
         SetWorkInit();
-        TestPrint();
+        //TestPrint();
     }
 
     public void GoToWorkTrigger()
