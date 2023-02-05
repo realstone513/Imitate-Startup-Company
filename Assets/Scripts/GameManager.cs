@@ -62,6 +62,8 @@ public class GameManager : MonoBehaviour
     private MainCameraManager mcm;
     public int money;
 
+    //public List<int> financeList;
+
     private void Awake()
     {
         if (instance == null)

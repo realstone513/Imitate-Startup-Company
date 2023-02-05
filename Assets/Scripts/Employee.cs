@@ -60,6 +60,7 @@ public class Employee : MonoBehaviour
     private GameManager gm;
     private Desk myDesk;
     public int salary;
+    public int fakeSalary;
 
     public States State
     {
@@ -238,8 +239,8 @@ public class Employee : MonoBehaviour
         successRate = sum - greatRate;
         baseWorkloadAmount = ability.strong.current * rule.constantStrongValue + rule.workloadDmgMid;
         (float min, float max) salaryRange = Utils.GetIntRange(rule.averageSalary[(int)rating], rule.salaryRangeRatio);
-        Debug.Log(salaryRange);
         salary = (int)NormalDistribution.GetData(salaryRange);
+        fakeSalary = (int)(salary * NormalDistribution.GetData(1f, 1.2f));
     }
 
     private WorkDoneType GetSuccessRate()

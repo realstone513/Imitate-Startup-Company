@@ -11,7 +11,7 @@ public class EmployeeInfo : MonoBehaviour
     public TextMeshProUGUI intelligent;
     public TextMeshProUGUI salary;
 
-    public void SetInfo(Employee employee)
+    public void SetInfo(Employee employee, bool offerMode = false)
     {
         GameRule rule = GameManager.instance.gameRule;
 
@@ -51,7 +51,10 @@ public class EmployeeInfo : MonoBehaviour
         str.text = $"{employee.ability.strong}";
         dex.text = $"{employee.ability.dexterity}";
         intelligent.text = $"{employee.ability.intelligence}";
-        salary.text = $"{employee.salary}";
+        if (offerMode)
+            salary.text = $"{employee.fakeSalary}";
+        else 
+            salary.text = $"{employee.salary}";
         //hired.text = $"{Utils.GetNumberFromDate(employee.hiredDate)}аж";
     }
 }
