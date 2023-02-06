@@ -20,27 +20,6 @@ public class ProductManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            NewProduct();
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            foreach (Product product in products)
-                product.PrintPlan();
-        }
-    }
-
-    public void NewProduct() // Test
-    {
-        GameObject tempProd = Instantiate(productPrefab, content);
-        Product prd = tempProd.GetComponent<Product>();
-        products.Add(prd);
-        prd.SetPlan("test", 2000, 2000, 2000);
-    }
-
     public void NewProduct(string name, int plan, int dev, int art)
     {
         GameObject tempProd = Instantiate(productPrefab, content);
@@ -71,7 +50,7 @@ public class ProductManager : MonoBehaviour
         products[idx].prodPlan.plan.current += amount;
         if (products[idx].prodPlan.plan.current > products[idx].prodPlan.plan.max)
             products[idx].prodPlan.plan.current = products[idx].prodPlan.plan.max;
-        // Debug.Log($"Plan{idx}: {products[idx].prodPlan.plan}");
+        products[idx].UpdatePlan();
         return true;
     }
 
@@ -80,10 +59,10 @@ public class ProductManager : MonoBehaviour
         int idx = FindNeedWork(WorkType.Developer);
         if (idx < 0)
             return false;
-        products[idx].prodPlan.develop.current += amount;
-        if (products[idx].prodPlan.develop.current > products[idx].prodPlan.develop.max)
-            products[idx].prodPlan.develop.current = products[idx].prodPlan.develop.max;
-        // Debug.Log($"Dev{idx}: {products[idx].prodPlan.develop}");
+        products[idx].prodPlan.dev.current += amount;
+        if (products[idx].prodPlan.dev.current > products[idx].prodPlan.dev.max)
+            products[idx].prodPlan.dev.current = products[idx].prodPlan.dev.max;
+        products[idx].UpdatePlan();
         return true;
     }
 
@@ -95,7 +74,7 @@ public class ProductManager : MonoBehaviour
         products[idx].prodPlan.art.current += amount;
         if (products[idx].prodPlan.art.current > products[idx].prodPlan.art.max)
             products[idx].prodPlan.art.current = products[idx].prodPlan.art.max;
-        // Debug.Log($"Art{idx}: {products[idx].prodPlan.art}");
+        products[idx].UpdatePlan();
         return true;
     }
 }

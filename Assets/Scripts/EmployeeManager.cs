@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public enum Gender
@@ -51,61 +50,62 @@ public class EmployeeManager : MonoBehaviour
         MoveToAssign(player);
     }
 
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Beginner, WorkType.Planner);
-        //}
-        //if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Planner);
-        //}
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Expert, WorkType.Planner);
-        //}
+    //private void Update()
+    //{
+    //    // Update Cheat Key
+    //    if (Input.GetKeyDown(KeyCode.Q))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Beginner, WorkType.Planner);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.W))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Planner);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.E))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Expert, WorkType.Planner);
+    //    }
 
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Beginner, WorkType.Developer);
-        //}
-        //if (Input.GetKeyDown(KeyCode.S))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Developer);
-        //}
-        //if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Expert, WorkType.Developer);
-        //}
+    //    if (Input.GetKeyDown(KeyCode.A))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Beginner, WorkType.Developer);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.S))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Developer);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.D))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Expert, WorkType.Developer);
+    //    }
 
-        //if (Input.GetKeyDown(KeyCode.Z))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Beginner, WorkType.Artist);
-        //}
-        //if (Input.GetKeyDown(KeyCode.X))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Artist);
-        //}
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    CreateNewEmployee(EmployeeRating.Expert, WorkType.Artist);
-        //}
+    //    if (Input.GetKeyDown(KeyCode.Z))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Beginner, WorkType.Artist);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.X))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Artist);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.C))
+    //    {
+    //        CreateNewEmployee(EmployeeRating.Expert, WorkType.Artist);
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Debug.Log("미배치 직원");
-            foreach (GameObject emp in unassign)
-            {
-                emp.GetComponent<Employee>().TestPrint();
-            }
-            Debug.Log("배치 된 직원");
-            foreach (GameObject emp in assign)
-            {
-                emp.GetComponent<Employee>().TestPrint();
-            }
-        }
-    }
+    //    if (Input.GetKeyDown(KeyCode.F))
+    //    {
+    //        Debug.Log("미배치 직원");
+    //        foreach (GameObject emp in unassign)
+    //        {
+    //            emp.GetComponent<Employee>().TestPrint();
+    //        }
+    //        Debug.Log("배치 된 직원");
+    //        foreach (GameObject emp in assign)
+    //        {
+    //            emp.GetComponent<Employee>().TestPrint();
+    //        }
+    //    }
+    //}
 
     public void MoveToAssign(GameObject select)
     {

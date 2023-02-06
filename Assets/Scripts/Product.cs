@@ -1,9 +1,11 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public struct Plan
 {
     public (int current, int max) plan;
-    public (int current, int max) develop;
+    public (int current, int max) dev;
     public (int current, int max) art;
 
     public (float current, float max) originality;
@@ -17,7 +19,7 @@ public struct Plan
     public void Init(int _plan, int _dev, int _art)
     {
         plan = (0, _plan);
-        develop = (0, _dev);
+        dev = (0, _dev);
         art = (0, _art);
 
         originality = (0f, 0f);
@@ -37,7 +39,7 @@ public struct Plan
                 result = Utils.GetTupleRatio(art);
                 break;
             case WorkType.Developer:
-                result = Utils.GetTupleRatio(develop);
+                result = Utils.GetTupleRatio(dev);
                 break;
             default:
                 break;
@@ -63,19 +65,43 @@ public struct Plan
 
     public string GetPlanString()
     {
-        return ($"기획: {plan} 개발: {develop} 아트: {art}");
+        return ($"기획: {plan} 개발: {dev} 아트: {art}");
     }
 }
 
 public class Product : MonoBehaviour
 {
     public Plan prodPlan;
-    string productName;
+    private string productName;
+
+    public TextMeshProUGUI title;
+    public Scrollbar planBar;
+    public Scrollbar devBar;
+    public Scrollbar artBar;
+
 
     public void SetPlan(string name, int plan, int dev, int art)
     {
         productName = name;
         prodPlan.Init(plan, dev, art);
+        title.text = productName;
+        UpdatePlan();
+    }
+
+    public void UpdatePlan()
+    {
+        planBar.size = Utils.GetTupleRatio(prodPlan.plan);
+        devBar.size = Utils.GetTupleRatio(prodPlan.dev);
+        artBar.size = Utils.GetTupleRatio(prodPlan.art);
+        //Debug.Log($"기획:{prodPlan.plan}\n개발:{prodPlan.dev}\n아트:{prodPlan.art}");
+        //description.text = $"기획:\n{prodPlan.plan}\n개발:\n{prodPlan.dev}\n아트:\n{prodPlan.art}";
+        if (planBar.size == 1f && devBar.size == 1f && artBar.size == 1f)
+            CompletePlan();
+    }
+
+    private void CompletePlan()
+    {
+        Debug.Log("Complete");
     }
 
     public void PrintPlan()

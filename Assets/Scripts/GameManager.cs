@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     public GameRule gameRule;
     public int money;
     public List<Desk> desks;
+    public bool inputFieldMode;
 
     //public List<int> financeList;
 
@@ -92,18 +93,22 @@ public class GameManager : MonoBehaviour
     {
         currentDesk = desks[0];
         money = gameRule.seedMoney;
+        inputFieldMode = false;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            SetTimeScale(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            SetTimeScale(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            SetTimeScale(2);
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-            SetTimeScale(3);
+        if (!inputFieldMode)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                SetTimeScale(0);
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                SetTimeScale(1);
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                SetTimeScale(2);
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+                SetTimeScale(3);
+        }
 
         //if (Input.GetKeyDown(KeyCode.P))
         //{

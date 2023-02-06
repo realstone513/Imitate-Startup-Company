@@ -102,7 +102,7 @@ public class JobOfferWindow : GenericWindow
         offerWindow.SetActive(true);
         Employee thisEmployee = employeeList[offerIndex].GetComponent<Employee>();
         GameRule rule = GameManager.instance.gameRule;
-        (int min, int max) = Utils.GetIntRange(rule.averageSalary[(int)thisEmployee.rating], rule.salaryRangeRatio * 2); 
+        (int min, int max) = Utils.GetIntRange(rule.averageSalary[(int)thisEmployee.rating] * 1.1f, rule.salaryRangeRatio); 
         salarySlider.minValue = min;
         salarySlider.maxValue = max;
         bonusSlider.value = 0;
@@ -146,14 +146,17 @@ public class JobOfferWindow : GenericWindow
             CanConfirm(true);
             logText.color = Color.green;
             logText.text = $"{submitCount}/5 {thisEmployee.empName}은(는) 만족합니다.";
+            thisEmployee.fakeSalary -= (int)(Math.Abs(thisEmployee.fakeSalary - proposalBalance) * 0.25f);
+            if (thisEmployee.fakeSalary <= thisEmployee.salary)
+                thisEmployee.fakeSalary = thisEmployee.salary;
         }
         else if (proposalBalance > thisEmployee.salary)
         {
             CanConfirm(false);
             logText.color = Color.yellow;
             logText.text = $"{submitCount}/5 {thisEmployee.empName}은(는) 아쉬워합니다.";
-            thisEmployee.fakeSalary -= (int)(thisEmployee.fakeSalary - proposalBalance);
-            if (thisEmployee.fakeSalary == thisEmployee.salary)
+            thisEmployee.fakeSalary -= (int)(Math.Abs(thisEmployee.fakeSalary - proposalBalance) * 0.5f);
+            if (thisEmployee.fakeSalary <= thisEmployee.salary)
                 thisEmployee.fakeSalary = thisEmployee.salary;
         }
         else
@@ -172,7 +175,7 @@ public class JobOfferWindow : GenericWindow
         Debug.Log($"fake: {employee.fakeSalary} real: {employee.salary}");
         Close();
         ClearList();
-        GameManager.instance.TranslateGameMoney((int)bonusSlider.value);
+        GameManager.instance.TranslateGameMoney(-(int)bonusSlider.value);
         foreach (var log in logs)
             Destroy(log);
     }

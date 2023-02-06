@@ -22,11 +22,28 @@ public class NewProductWindow : GenericWindow
     private void OnEnable()
     {
         submitButton.interactable = false;
+        projectNameInput.text = "";
+        projectNameInput.text = string.Empty;
+        GameManager.instance.inputFieldMode = false;
     }
 
     public void EditName()
     {
+        GameManager.instance.inputFieldMode = true;
         submitButton.interactable = projectNameInput.text != string.Empty;
+        LimitTextSize(10);
+    }
+
+    public void EndEdit()
+    {
+        GameManager.instance.inputFieldMode = false;
+        LimitTextSize(10);
+    }
+
+    private void LimitTextSize(int size)
+    {
+        if (projectNameInput.text.Length > size)
+            projectNameInput.text = projectNameInput.text[..size];
     }
 
     public void GetPlanLevel(Int32 value)
