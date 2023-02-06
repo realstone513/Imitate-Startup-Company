@@ -78,7 +78,16 @@ public class Product : MonoBehaviour
     public Scrollbar planBar;
     public Scrollbar devBar;
     public Scrollbar artBar;
+    public GameObject planObject;
+    public GameObject serviceObject;
 
+    private void Start()
+    {
+        var colors = GameManager.instance.gameRule.productColors;
+        gameObject.GetComponent<Image>().color = colors[Random.Range(0, colors.Length)];
+        planObject.SetActive(true);
+        serviceObject.SetActive(false);
+    }
 
     public void SetPlan(string name, int plan, int dev, int art)
     {
@@ -102,6 +111,8 @@ public class Product : MonoBehaviour
     private void CompletePlan()
     {
         Debug.Log("Complete");
+        planObject.SetActive(false);
+        serviceObject.SetActive(true);
     }
 
     public void PrintPlan()

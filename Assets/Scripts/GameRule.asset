@@ -17,8 +17,8 @@ MonoBehaviour:
   workloadDmgMid: 12
   workloadDmgAmplitude: 0.4
   constantStrongValue: 2
-  baseWorkloadAmount: 60
-  extraWorkloadAmount: 10
+  baseWorkloadAmount: 30
+  extraWorkloadAmount: 5
   successRateMin: 0.25
   successRateMax: 0.75
   greatRatio: 0.25
@@ -29,12 +29,14 @@ MonoBehaviour:
   vacationRecoveryConstant: 3
   constantSpeed: 25
   constantSkipSpeed: 250
-  endYear: 10
+  endYear: 5
   seedMoney: 10000
   jobOfferCostBeginner: 10
   jobOfferCostIntermediate: 500
   jobOfferCostExpert: 3000
   averageSalary: b80b00007c150000401f0000
+  planAmountChart: c8000000e8030000b80b000010270000
+  salaryRangeRatio: 0.2
   typeColors:
   - {r: 0, g: 0.4, b: 1, a: 1}
   - {r: 0.78, g: 0, b: 0, a: 1}

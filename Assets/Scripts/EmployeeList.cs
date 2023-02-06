@@ -9,7 +9,7 @@ public class EmployeeList : GenericWindow
 
     private void OnEnable()
     {
-        EmployeeManager em = EmployeeManager.instance;
+        EmployeeManager em = GameManager.instance.employeeManager;
 
         List<GameObject> unassign = em.GetUnassign();
         foreach (GameObject emp in unassign)

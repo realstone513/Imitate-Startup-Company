@@ -13,7 +13,7 @@ public class Desk : MonoBehaviour
     {
         if (owner != null)
         {
-            EmployeeManager.instance.MoveToUnassign(owner.gameObject);
+            GameManager.instance.employeeManager.MoveToUnassign(owner.gameObject);
             owner.UnassignOnDesk();
         }
         owner = employee;

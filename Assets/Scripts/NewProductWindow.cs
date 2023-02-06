@@ -67,9 +67,9 @@ public class NewProductWindow : GenericWindow
         int dev = (int)devLevel;
         int art = (int)artLevel;
 
-        GameRule rule = GameManager.instance.gameRule;
-        ProductManager.instance.NewProduct(
-            projectNameInput.text, rule.planAmountChart[plan], rule.planAmountChart[dev], rule.planAmountChart[art]);
+        GameManager gm = GameManager.instance;
+        gm.productManager.NewProduct(
+            projectNameInput.text, gm.gameRule.planAmountChart[plan], gm.gameRule.planAmountChart[dev], gm.gameRule.planAmountChart[art]);
         Close();
     }
 }

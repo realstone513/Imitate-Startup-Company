@@ -170,13 +170,13 @@ public class Employee : MonoBehaviour
                 switch (eType)
                 {
                     case WorkType.Planner:
-                        workOrExp = ProductManager.instance.IncreasePlan(workAmount);
+                        workOrExp = gm.productManager.IncreasePlan(workAmount);
                         break;
                     case WorkType.Developer:
-                        workOrExp = ProductManager.instance.IncreaseDev(workAmount);
+                        workOrExp = gm.productManager.IncreaseDev(workAmount);
                         break;
                     case WorkType.Artist:
-                        workOrExp = ProductManager.instance.IncreaseArt(workAmount);
+                        workOrExp = gm.productManager.IncreaseArt(workAmount);
                         break;
                 }
                 if (workOrExp)

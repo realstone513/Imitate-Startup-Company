@@ -8,6 +8,7 @@ public enum Windows
     Purchase,
     Setting,
     NewProduct,
+    Finance,
 }
 
 public class WindowManager : MonoBehaviour

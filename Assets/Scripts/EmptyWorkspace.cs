@@ -9,7 +9,7 @@ public class EmptyWorkspace : GenericWindow
 
     private void OnEnable()
     {
-        List<GameObject> unassignEmployeeList = EmployeeManager.instance.GetUnassign();
+        List<GameObject> unassignEmployeeList = GameManager.instance.employeeManager.GetUnassign();
         if (unassignEmployeeList.Count == 0)
         {
             gameObject.SetActive(false);

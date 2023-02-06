@@ -13,8 +13,8 @@ public class GameRule : ScriptableObject
     public int constantStrongValue = 2;
 
     // Dexterity 
-    public int baseWorkloadAmount = 60;
-    public int extraWorkloadAmount = 10;
+    public int baseWorkloadAmount = 30;
+    public int extraWorkloadAmount = 5;
 
     // Intelligence 
     public float successRateMin = 0.25f;
@@ -61,4 +61,6 @@ public class GameRule : ScriptableObject
         new (098f, 0.36f, 0f, 1f),
         new (0.24f, 0.95f, 0.90f, 1f),
     };
+
+    public Color[] productColors = { Color.white };
 }

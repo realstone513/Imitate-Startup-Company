@@ -26,6 +26,8 @@ public struct Date
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public EmployeeManager employeeManager;
+    public ProductManager productManager;
 
     public TextMeshProUGUI ymwText;
     public TextMeshProUGUI timerText;
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject floatingTextPrefab;
     public Transform floatingUITransform;
-    private int queueSize = 20;
+    private readonly int queueSize = 20;
     private Queue<GameObject> floatingUIQueue;
 
     private Date date;
@@ -48,19 +50,20 @@ public class GameManager : MonoBehaviour
     private readonly (float hour, float minute) goToWorkTime = (10, 00);
     private readonly (float hour, float minute) offWorkTime = (19, 00);
     private bool onSkip = false;
-    public bool workTime = false;
     private bool beforeWorkTime = false;
+    public bool workTime = false;
     public float deltaTime = 0f;
 
     public LayerMask clickableLayer;
-    RaycastHit hit;
+    private RaycastHit hit;
     private Desk currentDesk;
+    public List<Desk> desks;
     public GameRule gameRule;
     public int money;
-    public List<Desk> desks;
     public bool inputFieldMode;
 
-    //public List<int> financeList;
+    public Dictionary<string, int> financeLossDictionary = new();
+    public Dictionary<string, int> financeProfitDictionary = new();
 
     //public List<GameObject> chairs;
     //public bool isMeeting;
@@ -159,6 +162,8 @@ public class GameManager : MonoBehaviour
                 {
                     date.month++;
                     date.day = 1;
+                    CalculateMonthIncome();
+                    SetSalarys();
                 }
                 if (date.month > 12)
                 {
@@ -171,7 +176,7 @@ public class GameManager : MonoBehaviour
             beforeWorkTime = workTime;
             workTime = !(AfterOffWorkTime() || BeforeGoToWorkTime());
             if (!beforeWorkTime && workTime)
-                EmployeeManager.instance.GotoWorkTrigger();
+                employeeManager.GotoWorkTrigger();
 
             if (timeScale == 3)
                 SetSkipMode(!workTime);
@@ -250,15 +255,15 @@ public class GameManager : MonoBehaviour
             timer.minute >= offWorkTime.minute);
     }
 
-    public (float hour, float minute) GetGoToWorkTime()
-    {
-        return goToWorkTime;
-    }
+    //public (float hour, float minute) GetGoToWorkTime()
+    //{
+    //    return goToWorkTime;
+    //}
 
-    public (float hour, float minute) GetOffWorkTime()
-    {
-        return offWorkTime;
-    }
+    //public (float hour, float minute) GetOffWorkTime()
+    //{
+    //    return offWorkTime;
+    //}
 
     public Date GetToday()
     {
@@ -284,5 +289,47 @@ public class GameManager : MonoBehaviour
     {
         money += amount;
         moneyText.text = $"{money}";
+    }
+
+    public int CalculateMonthSalary(int yearSalary)
+    {
+        // 1 month = 4 day
+        int numberOfDaysLeft = 4 - date.day + 1;
+        int monthSalary = yearSalary / 12;
+        return (monthSalary * numberOfDaysLeft / 4);
+    }
+
+    private void SetSalarys()
+    {
+        var unassign = employeeManager.GetUnassign();
+        var assign = employeeManager.GetAssign();
+        foreach (var emp in unassign)
+        {
+            Employee employee = emp.GetComponent<Employee>();
+            financeLossDictionary[$"{employee.empName} 월급"] = CalculateMonthSalary(employee.salary);
+        }
+        foreach (var emp in assign)
+        {
+            Employee employee = emp.GetComponent<Employee>();
+            if (employee.eType == WorkType.Player)
+                continue;
+            financeLossDictionary[$"{employee.empName} 월급"] = CalculateMonthSalary(employee.salary);
+        }
+    }
+
+    private void CalculateMonthIncome()
+    {
+        int lossSum = 0;
+        foreach (var elem in financeLossDictionary)
+        {
+            lossSum += elem.Value;
+        }
+        int profitSum = 0;
+        foreach (var elem in financeProfitDictionary)
+        {
+            profitSum += elem.Value;
+        }
+        int total = profitSum - lossSum;
+        TranslateGameMoney(total);
     }
 }

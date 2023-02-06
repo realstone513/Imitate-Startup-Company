@@ -3,22 +3,9 @@ using UnityEngine;
 
 public class ProductManager : MonoBehaviour
 {
-    public static ProductManager instance;
     public Transform content;
     public GameObject productPrefab;
     public List<Product> products;
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     public void NewProduct(string name, int plan, int dev, int art)
     {

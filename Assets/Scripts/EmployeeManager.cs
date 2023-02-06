@@ -16,8 +16,6 @@ public enum EmployeeRating
 
 public class EmployeeManager : MonoBehaviour
 {
-    public static EmployeeManager instance;
-
     public List<GameObject> employeeBeginners;
     public List<GameObject> employeeIntermediates;
     public List<GameObject> employeeExperts;
@@ -27,24 +25,11 @@ public class EmployeeManager : MonoBehaviour
     private int tableLength;
     private Vector3 employeeSpawnPosition;
 
-    private void Awake()
+    private void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         nameTable = CSVReader.Read("NameTable");
         tableLength = nameTable.Count;
         employeeSpawnPosition = new Vector3(0, -10, 0);
-    }
-
-    private void Start()
-    {
         GameObject player = CreateNewEmployee(EmployeeRating.Expert, WorkType.Player);
         player.GetComponent<Employee>().AssignOnDesk(GameManager.instance.GetCurrentDesk());
         MoveToAssign(player);

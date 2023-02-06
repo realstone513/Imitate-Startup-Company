@@ -120,11 +120,15 @@ public class JobOfferWindow : GenericWindow
     public void ChangeSalaryValue()
     {
         salaryText.text = $"연봉: {salarySlider.value:0.}만원";
+
+        confirmButton.interactable = false;
     }
 
     public void ChangeBonusValue()
     {
         bonusText.text = $"사이닝 보너스: {bonusSlider.value:0.}만원";
+
+        confirmButton.interactable = false;
     }
 
     public void Submit()
@@ -139,7 +143,7 @@ public class JobOfferWindow : GenericWindow
         Employee thisEmployee = employeeList[offerIndex].GetComponent<Employee>();
 
         int proposalBalance = (int)salarySlider.value + (int)bonusSlider.value / 2;
-        Debug.Log(proposalBalance);
+        // Debug.Log(proposalBalance);
         TextMeshProUGUI logText = newLog.GetComponent<TextMeshProUGUI>();
         if (proposalBalance > thisEmployee.fakeSalary)
         {
@@ -170,14 +174,18 @@ public class JobOfferWindow : GenericWindow
 
     public void Confirm()
     {
-        EmployeeManager.instance.AddToUnassign(employeeList[offerIndex]);
+        GameManager gm = GameManager.instance;
+        gm.employeeManager.AddToUnassign(employeeList[offerIndex]);
         Employee employee = employeeList[offerIndex].GetComponent<Employee>();
-        Debug.Log($"fake: {employee.fakeSalary} real: {employee.salary}");
-        Close();
-        ClearList();
-        GameManager.instance.TranslateGameMoney(-(int)bonusSlider.value);
+        // Debug.Log($"fake: {employee.fakeSalary} real: {employee.salary}");
+        employee.salary = (int)salarySlider.value;
+        gm.TranslateGameMoney(-(int)bonusSlider.value);
+        gm.financeLossDictionary.Add($"{employee.empName} 월급",
+            gm.CalculateMonthSalary(employee.salary));
         foreach (var log in logs)
             Destroy(log);
+        Close();
+        ClearList();
     }
 
     private void CanConfirm(bool value)
@@ -192,7 +200,7 @@ public class JobOfferWindow : GenericWindow
         GameManager.instance.TranslateGameMoney(-cost);
         for (int i = 0; i < 3; i++)
         {
-            employeeList.Add(EmployeeManager.instance.CreateNewEmployee(rating, workType));
+            employeeList.Add(GameManager.instance.employeeManager.CreateNewEmployee(rating, workType));
             employeeInfoList[i].GetComponent<EmployeeInfo>().SetInfo(employeeList[i].GetComponent<Employee>(), true);
         }
     }
