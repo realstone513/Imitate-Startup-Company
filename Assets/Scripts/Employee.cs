@@ -294,6 +294,9 @@ public class Employee : MonoBehaviour
 
     public float GetExpectedValue()
     {
+        // success rate -> accurate, critical rate
+        // base workload amount -> damage
+        // 60 / workload.amount -> 1 hour / time required to complete the task -> attack speed
         return GetExpectedSuccessRate() * baseWorkloadAmount / workload.amount * 60f;
     }
 }

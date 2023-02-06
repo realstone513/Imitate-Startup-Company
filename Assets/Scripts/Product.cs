@@ -45,7 +45,7 @@ public struct Plan
         return result;
     }
 
-    public float CheckProgress()
+    /*public float CheckProgress()
     {
         float p = Utils.GetTupleRatio(plan);
         float d = Utils.GetTupleRatio(develop);
@@ -59,20 +59,27 @@ public struct Plan
         graphicResult = Utils.GetTupleRatio(graphic);
         completenessResult = Utils.GetTupleRatio(completeness);
         return (originalityResult + graphicResult + completenessResult) / 3;
-    }
+    }*/
 
-    public void PrintPlan()
+    public string GetPlanString()
     {
-        Debug.Log($"기획: {plan} 개발: {develop} 아트: {art}");
+        return ($"기획: {plan} 개발: {develop} 아트: {art}");
     }
 }
 
 public class Product : MonoBehaviour
 {
     public Plan prodPlan;
+    string productName;
 
-    public void SetPlan(int plan, int dev, int art)
+    public void SetPlan(string name, int plan, int dev, int art)
     {
+        productName = name;
         prodPlan.Init(plan, dev, art);
+    }
+
+    public void PrintPlan()
+    {
+        Debug.Log($"게임 이름: {productName} {prodPlan.GetPlanString()}");
     }
 }

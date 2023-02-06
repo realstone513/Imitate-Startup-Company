@@ -45,6 +45,7 @@ public class GameRule : ScriptableObject
     public int jobOfferCostExpert = 3000;
 
     public List<int> averageSalary = new() { 3000, 5500, 8000 };
+    public List<int> planAmountChart = new() { 200, 1000, 3000, 10000 };
     public float salaryRangeRatio = 0.2f;
 
     public Color[] typeColors =

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class ProductManager : MonoBehaviour
 {
@@ -30,16 +29,24 @@ public class ProductManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             foreach (Product product in products)
-                product.prodPlan.PrintPlan();
+                product.PrintPlan();
         }
     }
 
-    public void NewProduct()
+    public void NewProduct() // Test
     {
         GameObject tempProd = Instantiate(productPrefab, content);
         Product prd = tempProd.GetComponent<Product>();
         products.Add(prd);
-        prd.SetPlan(2000, 2000, 2000);
+        prd.SetPlan("test", 2000, 2000, 2000);
+    }
+
+    public void NewProduct(string name, int plan, int dev, int art)
+    {
+        GameObject tempProd = Instantiate(productPrefab, content);
+        Product prd = tempProd.GetComponent<Product>();
+        products.Add(prd);
+        prd.SetPlan(name, plan, dev, art);
     }
     
     private int FindNeedWork(WorkType type)
