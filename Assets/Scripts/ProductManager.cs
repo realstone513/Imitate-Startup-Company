@@ -29,7 +29,7 @@ public class ProductManager : MonoBehaviour
         return -1;
     }
 
-    public bool IncreasePlan(int amount)
+    public bool IncreasePlan(int amount, float successVar)
     {
         int idx = FindNeedWork(WorkType.Planner);
         if (idx < 0)
@@ -37,11 +37,16 @@ public class ProductManager : MonoBehaviour
         products[idx].prodPlan.plan.current += amount;
         if (products[idx].prodPlan.plan.current > products[idx].prodPlan.plan.max)
             products[idx].prodPlan.plan.current = products[idx].prodPlan.plan.max;
+
+        products[idx].prodPlan.originality.count++;
+        if (amount == 0)
+            products[idx].prodPlan.originality.current += 0.2f;
+        products[idx].prodPlan.originality.current += NormalDistribution.GetData(successVar * 0.5f, 1f);
         products[idx].UpdatePlan();
         return true;
     }
 
-    public bool IncreaseDev(int amount)
+    public bool IncreaseDev(int amount, float successVar)
     {
         int idx = FindNeedWork(WorkType.Developer);
         if (idx < 0)
@@ -49,11 +54,16 @@ public class ProductManager : MonoBehaviour
         products[idx].prodPlan.dev.current += amount;
         if (products[idx].prodPlan.dev.current > products[idx].prodPlan.dev.max)
             products[idx].prodPlan.dev.current = products[idx].prodPlan.dev.max;
+
+        products[idx].prodPlan.completeness.count++;
+        if (amount == 0)
+            products[idx].prodPlan.completeness.current += 0.2f;
+        products[idx].prodPlan.completeness.current += NormalDistribution.GetData(successVar * 0.5f, 1f);
         products[idx].UpdatePlan();
         return true;
     }
 
-    public bool IncreaseArt(int amount)
+    public bool IncreaseArt(int amount, float successVar)
     {
         int idx = FindNeedWork(WorkType.Artist);
         if (idx < 0)
@@ -61,6 +71,11 @@ public class ProductManager : MonoBehaviour
         products[idx].prodPlan.art.current += amount;
         if (products[idx].prodPlan.art.current > products[idx].prodPlan.art.max)
             products[idx].prodPlan.art.current = products[idx].prodPlan.art.max;
+
+        products[idx].prodPlan.graphic.count++;
+        if (amount == 0)
+            products[idx].prodPlan.graphic.current += 0.2f;
+        products[idx].prodPlan.graphic.current += NormalDistribution.GetData(successVar * 0.5f, 1f);
         products[idx].UpdatePlan();
         return true;
     }

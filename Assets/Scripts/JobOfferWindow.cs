@@ -150,11 +150,10 @@ public class JobOfferWindow : GenericWindow
             CanConfirm(true);
             logText.color = Color.green;
             logText.text = $"{submitCount}/5 {thisEmployee.empName}은(는) 만족합니다.";
-            thisEmployee.fakeSalary -= (int)(Math.Abs(thisEmployee.fakeSalary - proposalBalance) * 0.25f);
             if (thisEmployee.fakeSalary <= thisEmployee.salary)
                 thisEmployee.fakeSalary = thisEmployee.salary;
         }
-        else if (proposalBalance > thisEmployee.salary)
+        else if (proposalBalance > thisEmployee.salary * 0.8f)
         {
             CanConfirm(false);
             logText.color = Color.yellow;

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public struct EmployeeBaseAblity
@@ -14,6 +16,52 @@ public struct EmployeeBaseAblity
         dexterity = (Random.Range(range.min, con + 1), con);
         intelligence = (Random.Range(range.min, scr + 1), scr);
         this.hp = (hp, hp);
+    }
+
+    public bool CanUpgrade()
+    {
+        return CanUpgradeStrong() || CanUpgradeDexterity() || CanUpgradeIntelligence();
+    }
+
+    private bool CanUpgradeStrong()
+    {
+        return Utils.GetTupleRatio(strong) != 1;
+    }
+
+    private bool CanUpgradeDexterity()
+    {
+        return Utils.GetTupleRatio(dexterity) != 1;
+    }
+
+    private bool CanUpgradeIntelligence()
+    {
+        return Utils.GetTupleRatio(intelligence) != 1;
+    }
+
+    public void Upgrade()
+    {
+        List<int> canUpgradeIdx = new();
+
+        if (CanUpgradeStrong())
+            canUpgradeIdx.Add(0);
+        if (CanUpgradeDexterity())
+            canUpgradeIdx.Add(1);
+        if (CanUpgradeIntelligence())
+            canUpgradeIdx.Add(2);
+
+        int idx = canUpgradeIdx[Random.Range(0, canUpgradeIdx.Count)];
+        switch (idx)
+        {
+            case 0:
+                strong.current++;
+                break;
+            case 1:
+                dexterity.current++;
+                break;
+            case 2:
+                intelligence.current++;
+                break;
+        }
     }
 }
 
@@ -51,9 +99,9 @@ public class Employee : MonoBehaviour
     public WorkType eType;
     public EmployeeRating rating;
     public Date hiredDate;
-    private int constantChange;
+    private int hpConstant;
     private int cumulateWorkload;
-    private int experience;
+    public int experience;
     private float successRate;
     private float greatRate;
     private int baseWorkloadAmount;
@@ -85,14 +133,14 @@ public class Employee : MonoBehaviour
                     }
                     break;
                 case States.Working:
-                    constantChange = gm.gameRule.workConsumtionConstant;
+                    hpConstant = gm.gameRule.workConsumtionConstant;
                     break;
                 case States.OffWork:
                     myDesk.SetOffWork();
-                    constantChange = gm.gameRule.offworkRecoveryConstant;
+                    hpConstant = gm.gameRule.offworkRecoveryConstant;
                     break;
                 case States.Vacation:
-                    constantChange = gm.gameRule.vacationRecoveryConstant;
+                    hpConstant = gm.gameRule.vacationRecoveryConstant;
                     break;
 
                 case States.Unassign:
@@ -104,7 +152,7 @@ public class Employee : MonoBehaviour
 
     private void Start()
     {
-        constantChange = 1;
+        hpConstant = 1;
         cumulateWorkload = 0;
         experience = 0;
     }
@@ -142,19 +190,21 @@ public class Employee : MonoBehaviour
             return;
 
         float deltaTime = gm.deltaTime;
-        ability.hp.current -= deltaTime * constantChange;
+        ability.hp.current -= deltaTime * hpConstant;
         workload.current += deltaTime;
         if (workload.current > workload.amount)
         {
             workload.current = 0f;
             Color color = Color.white;
 
-            WorkDoneType successType = GetSuccessRate();
+            float successVar = Random.Range(0f, 1f);
+            WorkDoneType successType = GetDoneType(successVar);
             int workAmount = GetWorkloadAmount();
             switch (successType)
             {
                 case WorkDoneType.Fail:
                     color = Color.red;
+                    workAmount = 0;
                     break;
                 case WorkDoneType.Great:
                     color = Color.yellow;
@@ -164,25 +214,34 @@ public class Employee : MonoBehaviour
                 default:
                     break;
             }
-            if (successType != WorkDoneType.Fail)
+
+            //if (successType != WorkDoneType.Fail)
             {
                 bool workOrExp = true;
                 switch (eType)
                 {
                     case WorkType.Planner:
-                        workOrExp = gm.productManager.IncreasePlan(workAmount);
+                        workOrExp = gm.productManager.IncreasePlan(workAmount, successVar);
                         break;
                     case WorkType.Developer:
-                        workOrExp = gm.productManager.IncreaseDev(workAmount);
+                        workOrExp = gm.productManager.IncreaseDev(workAmount, successVar);
                         break;
                     case WorkType.Artist:
-                        workOrExp = gm.productManager.IncreaseArt(workAmount);
+                        workOrExp = gm.productManager.IncreaseArt(workAmount, successVar);
                         break;
                 }
                 if (workOrExp)
                     cumulateWorkload += workAmount;
                 else
+                {
                     experience += workAmount;
+                    if (experience >= gm.gameRule.requireExp && ability.CanUpgrade())
+                    {
+                        experience = 0;
+                        ability.Upgrade();
+                        SetWorkInit();
+                    }    
+                }
             }
                 
             GameObject floatingUI = gm.DequeueFloatingUI();
@@ -199,14 +258,14 @@ public class Employee : MonoBehaviour
 
     private void UpdateOffWork()
     {
-        ability.hp.current += gm.deltaTime * constantChange;
+        ability.hp.current += gm.deltaTime * hpConstant;
         if (ability.hp.current > ability.hp.limit)
             ability.hp.current = ability.hp.limit;
     }
 
     private void UpdateVacation()
     {
-        ability.hp.current += gm.deltaTime * constantChange;
+        ability.hp.current += gm.deltaTime * hpConstant;
         if (ability.hp.current > ability.hp.limit)
             ability.hp.current = ability.hp.limit;
     }
@@ -221,6 +280,11 @@ public class Employee : MonoBehaviour
         gm = GameManager.instance;
         hiredDate = gm.GetToday();
         gameObject.name = _name;
+
+        (float min, float max) salaryRange = Utils.GetIntRange(gm.gameRule.averageSalary[(int)rating], gm.gameRule.salaryRangeRatio);
+        salary = (int)NormalDistribution.GetData(salaryRange);
+        fakeSalary = (int)(salary * NormalDistribution.GetData(1f, 1.2f));
+
         SetWorkInit();
         //TestPrint();
     }
@@ -233,22 +297,23 @@ public class Employee : MonoBehaviour
     private void SetWorkInit()
     {
         GameRule rule = gm.gameRule;
+        // dex
         workload = (0, rule.baseWorkloadAmount + rule.extraWorkloadAmount * (rule.abilityMax - ability.dexterity.current));
+
+        // int
         float sum = rule.successRateMin + (rule.successRateMax - rule.successRateMin) * ((float)ability.intelligence.current / rule.abilityMax);
         greatRate = sum * rule.greatRatio;
         successRate = sum - greatRate;
+
+        // str
         baseWorkloadAmount = ability.strong.current * rule.constantStrongValue + rule.workloadDmgMid;
-        (float min, float max) salaryRange = Utils.GetIntRange(rule.averageSalary[(int)rating], rule.salaryRangeRatio);
-        salary = (int)NormalDistribution.GetData(salaryRange);
-        fakeSalary = (int)(salary * NormalDistribution.GetData(1f, 1.2f));
     }
 
-    private WorkDoneType GetSuccessRate()
+    private WorkDoneType GetDoneType(float rate)
     {
-        float ran = Random.Range(0f, 1f);
-        if (ran < greatRate)
+        if (rate < greatRate)
             return WorkDoneType.Great;
-        else if (ran < successRate)
+        else if (rate < successRate)
             return WorkDoneType.Success;
         return WorkDoneType.Fail;
     }

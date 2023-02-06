@@ -163,6 +163,7 @@ public class GameManager : MonoBehaviour
                     date.month++;
                     date.day = 1;
                     CalculateMonthIncome();
+                    ClearFinance();
                     SetSalarys();
                 }
                 if (date.month > 12)
@@ -331,5 +332,11 @@ public class GameManager : MonoBehaviour
         }
         int total = profitSum - lossSum;
         TranslateGameMoney(total);
+    }
+
+    private void ClearFinance()
+    {
+        financeLossDictionary.Clear();
+        financeProfitDictionary.Clear();
     }
 }

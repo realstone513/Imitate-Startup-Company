@@ -28,6 +28,8 @@ public class GameRule : ScriptableObject
     public int offworkRecoveryConstant = 2;
     public int vacationRecoveryConstant = 3;
 
+    public int requireExp = 500;
+
     [Range(5, 50)]
     public int constantSpeed = 25;
     [Range(50, 400)]

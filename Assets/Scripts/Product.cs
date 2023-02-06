@@ -8,13 +8,13 @@ public struct Plan
     public (int current, int max) dev;
     public (int current, int max) art;
 
-    public (float current, float max) originality;
-    public (float current, float max) graphic;
-    public (float current, float max) completeness;
+    public (float current, float count) originality;
+    public (float current, float count) completeness;
+    public (float current, float count) graphic;
 
     public float originalityResult;
-    public float graphicResult;
     public float completenessResult;
+    public float graphicResult;
 
     public void Init(int _plan, int _dev, int _art)
     {
@@ -47,25 +47,17 @@ public struct Plan
         return result;
     }
 
-    /*public float CheckProgress()
-    {
-        float p = Utils.GetTupleRatio(plan);
-        float d = Utils.GetTupleRatio(develop);
-        float a = Utils.GetTupleRatio(art);
-        return (p + d + a) / 3;
-    }
-
     public float Evaluate()
     {
         originalityResult = Utils.GetTupleRatio(originality);
         graphicResult = Utils.GetTupleRatio(graphic);
         completenessResult = Utils.GetTupleRatio(completeness);
-        return (originalityResult + graphicResult + completenessResult) / 3;
-    }*/
+        return (originalityResult + graphicResult + completenessResult) / 3 * 100;
+    }
 
     public string GetPlanString()
     {
-        return ($"기획: {plan} 개발: {dev} 아트: {art}");
+        return $"기획: {plan} 개발: {dev} 아트: {art}";
     }
 }
 
@@ -75,11 +67,14 @@ public class Product : MonoBehaviour
     private string productName;
 
     public TextMeshProUGUI title;
+    public GameObject planObject;
+    public GameObject serviceObject;
     public Scrollbar planBar;
     public Scrollbar devBar;
     public Scrollbar artBar;
-    public GameObject planObject;
-    public GameObject serviceObject;
+    public TextMeshProUGUI evaluationPoint;
+    public TextMeshProUGUI numberOfUsers;
+    public TextMeshProUGUI monthlyIncome;
 
     private void Start()
     {
@@ -113,10 +108,17 @@ public class Product : MonoBehaviour
         Debug.Log("Complete");
         planObject.SetActive(false);
         serviceObject.SetActive(true);
+        evaluationPoint.text = $"{prodPlan.Evaluate():.00}";
     }
 
     public void PrintPlan()
     {
         Debug.Log($"게임 이름: {productName} {prodPlan.GetPlanString()}");
+    }
+    
+    public void EndOfService()
+    {
+        GameManager.instance.productManager.products.Remove(this);
+        Destroy(gameObject);
     }
 }
