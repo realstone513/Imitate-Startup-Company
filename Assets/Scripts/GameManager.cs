@@ -130,7 +130,12 @@ public class GameManager : MonoBehaviour
                 {
                     currentDesk = hit.collider.gameObject.GetComponent<Desk>();
                     // Debug.Log(hit.collider.name);
-                    WindowManager.instance.Open(Windows.EmptyWorkspace);
+                    if (currentDesk.GetOwner() == null)
+                        WindowManager.instance.Open(Windows.EmptyWorkspace);
+                    else
+                    {
+                        WindowManager.instance.Open(Windows.SelectEmployee);
+                    }
                 }
             }
         }
@@ -291,6 +296,15 @@ public class GameManager : MonoBehaviour
     {
         money += amount;
         moneyText.text = $"{money}";
+
+        GameObject floatingUI = DequeueFloatingUI();
+        floatingUI.SetActive(true);
+
+        FloatingUI text = floatingUI.GetComponent<FloatingUI>();
+        Color color = amount < 0 ? Color.red : Color.green;
+        text.SetText($"{amount}", color);
+        Vector3 mod = new(-15f, 0f, 0f);
+        text.SetStartPosition(moneyText.transform.position + mod);
     }
 
     public int CalculateMonthSalary(int yearSalary)

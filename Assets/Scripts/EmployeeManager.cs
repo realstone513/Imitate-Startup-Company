@@ -35,8 +35,23 @@ public class EmployeeManager : MonoBehaviour
         MoveToAssign(player);
     }
 
-    //private void Update()
-    //{
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("미배치 직원");
+            foreach (GameObject emp in unassign)
+            {
+                emp.GetComponent<Employee>().TestPrint();
+            }
+            Debug.Log("배치 된 직원");
+            foreach (GameObject emp in assign)
+            {
+                emp.GetComponent<Employee>().TestPrint();
+            }
+        }
+    }
+
     //    // Update Cheat Key
     //    if (Input.GetKeyDown(KeyCode.Q))
     //    {
@@ -76,21 +91,6 @@ public class EmployeeManager : MonoBehaviour
     //    {
     //        CreateNewEmployee(EmployeeRating.Expert, WorkType.Artist);
     //    }
-
-    //    if (Input.GetKeyDown(KeyCode.F))
-    //    {
-    //        Debug.Log("미배치 직원");
-    //        foreach (GameObject emp in unassign)
-    //        {
-    //            emp.GetComponent<Employee>().TestPrint();
-    //        }
-    //        Debug.Log("배치 된 직원");
-    //        foreach (GameObject emp in assign)
-    //        {
-    //            emp.GetComponent<Employee>().TestPrint();
-    //        }
-    //    }
-    //}
 
     public void MoveToAssign(GameObject select)
     {
@@ -181,6 +181,16 @@ public class EmployeeManager : MonoBehaviour
     public List<GameObject> GetAssign()
     {
         return assign;
+    }
+
+    public void FireEmployee(GameObject gameObject)
+    {
+        assign.Remove(gameObject);
+        GameManager gm = GameManager.instance;
+        string key = $"{gameObject.GetComponent<Employee>().empName} 월급";
+        gm.TranslateGameMoney(-gm.financeLossDictionary[key]);
+        gm.financeLossDictionary.Remove(key);
+        Destroy(gameObject);
     }
 
     // Test Code

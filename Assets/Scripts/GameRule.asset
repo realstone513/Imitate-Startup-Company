@@ -22,11 +22,12 @@ MonoBehaviour:
   successRateMin: 0.25
   successRateMax: 0.75
   greatRatio: 0.25
-  hpMin: 10000
-  hpMax: 20000
+  hpMin: 7500
+  hpMax: 12500
   workConsumtionConstant: 5
-  offworkRecoveryConstant: 3
+  offworkRecoveryConstant: 2
   vacationRecoveryConstant: 3
+  requireExpConstant: 25
   constantSpeed: 25
   constantSkipSpeed: 250
   endYear: 5
@@ -46,3 +47,5 @@ MonoBehaviour:
   - {r: 0.52, g: 0, b: 0.69, a: 1}
   - {r: 98, g: 0.36, b: 0, a: 1}
   - {r: 0.24, g: 0.95, b: 0.9, a: 1}
+  productColors:
+  - {r: 1, g: 1, b: 1, a: 1}

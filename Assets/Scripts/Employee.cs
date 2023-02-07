@@ -63,6 +63,11 @@ public struct EmployeeBaseAblity
                 break;
         }
     }
+
+    public int GetCurrentAbilitySum()
+    {
+        return strong.current + dexterity.current + intelligence.current;
+    }
 }
 
 public enum States
@@ -234,7 +239,7 @@ public class Employee : MonoBehaviour
                 else
                 {
                     experience += workAmount;
-                    if (experience >= gm.gameRule.requireExp && ability.CanUpgrade())
+                    if (experience >= ability.GetCurrentAbilitySum() * gm.gameRule.requireExpConstant && ability.CanUpgrade())
                     {
                         experience = 0;
                         ability.Upgrade();
@@ -345,15 +350,36 @@ public class Employee : MonoBehaviour
             $"민: {ability.dexterity} " +
             $"지: {ability.intelligence} " +
             $"체력: {ability.hp}");
-        Debug.Log($"누적 작업량: {cumulateWorkload} 작업 성공률: {successRate * 100:.00} 대성공률: {greatRate * 100:.00}\n" +
-            $"경험치: {experience} " +
-            $"작업량 범위: {baseWorkloadAmount * (1 - gm.gameRule.workloadDmgAmplitude)} ~ {baseWorkloadAmount * (1 + gm.gameRule.workloadDmgAmplitude)} " +
+        Debug.Log($"누적 작업량: {cumulateWorkload} " +
+            $"작업 성공률: {successRate * 100:.00} 대성공률: {greatRate * 100:.00}\n" +
+            $"경험치: {experience} 작업량 범위: {GetWorkloadAmountRange()} " +
             $"직원평가: {GetExpectedValue()} 연봉(희망): {salary}");
+    }
+
+    public (float, float) GetWorkloadAmountRange()
+    {
+        return (baseWorkloadAmount * (1 - gm.gameRule.workloadDmgAmplitude),
+            baseWorkloadAmount * (1 + gm.gameRule.workloadDmgAmplitude));
     }
 
     public float GetExpectedSuccessRate()
     {
         return successRate + greatRate * 2;
+    }
+
+    public float GetSuccessRate()
+    {
+        return successRate;
+    }
+
+    public float GetGreatRate()
+    {
+        return greatRate;
+    }
+
+    public float GetCumulateWorkload()
+    {
+        return cumulateWorkload;
     }
 
     public float GetExpectedValue()
@@ -367,5 +393,15 @@ public class Employee : MonoBehaviour
     private float GetQuality()
     {
         return (ability.strong.current * 0.36f + ability.dexterity.current * 0.24f + ability.intelligence.current * 0.4f) * 0.1f;
+    }
+
+    public float RequireBonus()
+    {
+        return (ability.hp.limit - ability.hp.current) * 0.025f;
+    }
+
+    public void GetBonus()
+    {
+        ability.hp.current = ability.hp.limit;
     }
 }

@@ -9,6 +9,7 @@ public enum Windows
     Setting,
     NewProduct,
     Finance,
+    SelectEmployee,
 }
 
 public class WindowManager : MonoBehaviour
