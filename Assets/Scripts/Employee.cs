@@ -197,8 +197,7 @@ public class Employee : MonoBehaviour
             workload.current = 0f;
             Color color = Color.white;
 
-            float successVar = Random.Range(0f, 1f);
-            WorkDoneType successType = GetDoneType(successVar);
+            WorkDoneType successType = GetDoneType(Random.Range(0f, 1f));
             int workAmount = GetWorkloadAmount();
             switch (successType)
             {
@@ -221,13 +220,13 @@ public class Employee : MonoBehaviour
                 switch (eType)
                 {
                     case WorkType.Planner:
-                        workOrExp = gm.productManager.IncreasePlan(workAmount, successVar);
+                        workOrExp = gm.productManager.IncreasePlan(workAmount, GetQuality());
                         break;
                     case WorkType.Developer:
-                        workOrExp = gm.productManager.IncreaseDev(workAmount, successVar);
+                        workOrExp = gm.productManager.IncreaseDev(workAmount, GetQuality());
                         break;
                     case WorkType.Artist:
-                        workOrExp = gm.productManager.IncreaseArt(workAmount, successVar);
+                        workOrExp = gm.productManager.IncreaseArt(workAmount, GetQuality());
                         break;
                 }
                 if (workOrExp)
@@ -362,6 +361,11 @@ public class Employee : MonoBehaviour
         // success rate -> accurate, critical rate
         // base workload amount -> damage
         // 60 / workload.amount -> 1 hour / time required to complete the task -> attack speed
-        return GetExpectedSuccessRate() * baseWorkloadAmount / workload.amount * 60f;
+        return GetExpectedSuccessRate() * baseWorkloadAmount * (60f / workload.amount);
+    }
+
+    private float GetQuality()
+    {
+        return (ability.strong.current * 0.36f + ability.dexterity.current * 0.24f + ability.intelligence.current * 0.4f) * 0.1f;
     }
 }

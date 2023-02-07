@@ -1,3 +1,4 @@
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,12 +48,12 @@ public struct Plan
         return result;
     }
 
-    public float Evaluate()
+    public float Evaluate() // 0.00 ~ 10.00
     {
         originalityResult = Utils.GetTupleRatio(originality);
         graphicResult = Utils.GetTupleRatio(graphic);
         completenessResult = Utils.GetTupleRatio(completeness);
-        return (originalityResult + graphicResult + completenessResult) / 3 * 100;
+        return (originalityResult + graphicResult + completenessResult) / 3 * 10;
     }
 
     public string GetPlanString()
@@ -72,16 +73,77 @@ public class Product : MonoBehaviour
     public Scrollbar planBar;
     public Scrollbar devBar;
     public Scrollbar artBar;
-    public TextMeshProUGUI evaluationPoint;
-    public TextMeshProUGUI numberOfUsers;
-    public TextMeshProUGUI monthlyIncome;
+    public TextMeshProUGUI evaluationPointText;
+    public TextMeshProUGUI numberOfUsersText;
+    public TextMeshProUGUI monthlyIncomeText;
+    private bool onService = false;
+    private Date serviceStartDate;
+    private (float current, float duration) timer = (0f, 25f);
+    private GameManager gm;
+    private float evaluationPoint;
+    private int numberOfUsers;
+    private int monthlyIncome;
 
     private void Start()
     {
-        var colors = GameManager.instance.gameRule.productColors;
+        gm = GameManager.instance;
+        var colors = gm.gameRule.productColors;
         gameObject.GetComponent<Image>().color = colors[Random.Range(0, colors.Length)];
         planObject.SetActive(true);
         serviceObject.SetActive(false);
+        numberOfUsers = 0;
+        monthlyIncome = 0;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            CompletePlan();
+        }
+        
+        if (!onService)
+            return;
+
+        timer.current += gm.deltaTime;
+        if (timer.current >= timer.duration)
+        {
+            timer.current = 0f;
+            int serviceDate = Utils.GetNumberFromDate(gm.GetToday()) - Utils.GetNumberFromDate(serviceStartDate);
+            if (serviceDate < evaluationPoint)
+            {
+                UpdateUserAndIncome(evaluationPoint);
+            }
+            if (serviceDate < evaluationPoint * 2)
+            {
+                UpdateUserAndIncome(evaluationPoint * 0.5f);
+            }
+            else
+            {
+                UpdateUserAndIncome(-0.25f);
+            }
+            numberOfUsersText.text = $"{numberOfUsers}";
+            monthlyIncomeText.text = $"{monthlyIncome}";
+        }
+        
+    }
+
+    private void UpdateUserAndIncome(float growthRate)
+    {
+        int adder = (int)NormalDistribution.GetData(0, evaluationPoint * growthRate);
+        numberOfUsers += adder;
+        if (numberOfUsers <= 0)
+            numberOfUsers = 0;
+        int beforeIncome = monthlyIncome;
+        monthlyIncome = (int)(numberOfUsers * 0.01f);
+
+        if (beforeIncome > monthlyIncome)
+            ClearDictionaryElem();
+
+        if (monthlyIncome >= 0)
+            gm.financeProfitDictionary[productName] = monthlyIncome;
+        else
+            gm.financeLossDictionary[productName] = monthlyIncome;
     }
 
     public void SetPlan(string name, int plan, int dev, int art)
@@ -97,18 +159,21 @@ public class Product : MonoBehaviour
         planBar.size = Utils.GetTupleRatio(prodPlan.plan);
         devBar.size = Utils.GetTupleRatio(prodPlan.dev);
         artBar.size = Utils.GetTupleRatio(prodPlan.art);
-        //Debug.Log($"기획:{prodPlan.plan}\n개발:{prodPlan.dev}\n아트:{prodPlan.art}");
-        //description.text = $"기획:\n{prodPlan.plan}\n개발:\n{prodPlan.dev}\n아트:\n{prodPlan.art}";
         if (planBar.size == 1f && devBar.size == 1f && artBar.size == 1f)
             CompletePlan();
     }
 
     private void CompletePlan()
     {
-        Debug.Log("Complete");
         planObject.SetActive(false);
         serviceObject.SetActive(true);
-        evaluationPoint.text = $"{prodPlan.Evaluate():.00}";
+        onService = true;
+        serviceStartDate = gm.GetToday();
+        evaluationPoint = prodPlan.Evaluate();
+        evaluationPointText.text = $"{evaluationPoint:0.00}";
+        numberOfUsersText.text = "0";
+        monthlyIncomeText.text = "0";
+        gm.financeProfitDictionary.Add(productName, monthlyIncome);
     }
 
     public void PrintPlan()
@@ -118,7 +183,22 @@ public class Product : MonoBehaviour
     
     public void EndOfService()
     {
-        GameManager.instance.productManager.products.Remove(this);
+        gm.productManager.products.Remove(this);
+        ClearDictionaryElem();
         Destroy(gameObject);
+    }
+
+    public void ClearMonthlyIncome()
+    {
+        monthlyIncome = 0;
+        ClearDictionaryElem();
+    }
+
+    private void ClearDictionaryElem()
+    {
+        if (gm.financeProfitDictionary.ContainsKey(productName))
+            gm.financeProfitDictionary.Remove(productName);
+        if (gm.financeLossDictionary.ContainsKey(productName))
+            gm.financeLossDictionary.Remove(productName);
     }
 }

@@ -29,8 +29,7 @@ public static class Utils
 
     public static void CopyTransform(GameObject gameObject, Transform dest)
     {
-        gameObject.transform.position = dest.position;
-        gameObject.transform.rotation = dest.rotation;
+        gameObject.transform.SetPositionAndRotation(dest.position, dest.rotation);
         gameObject.transform.localScale = dest.localScale;
     }
 

@@ -163,7 +163,8 @@ public class GameManager : MonoBehaviour
                     date.month++;
                     date.day = 1;
                     CalculateMonthIncome();
-                    ClearFinance();
+                    ClearSalarys();
+                    ClearProductIncome();
                     SetSalarys();
                 }
                 if (date.month > 12)
@@ -332,6 +333,33 @@ public class GameManager : MonoBehaviour
         }
         int total = profitSum - lossSum;
         TranslateGameMoney(total);
+    }
+
+    private void ClearSalarys()
+    {
+        var unassign = employeeManager.GetUnassign();
+        var assign = employeeManager.GetAssign();
+        foreach (var emp in unassign)
+        {
+            Employee employee = emp.GetComponent<Employee>();
+            financeLossDictionary.Remove($"{employee.empName} 월급");
+        }
+        foreach (var emp in assign)
+        {
+            Employee employee = emp.GetComponent<Employee>();
+            if (employee.eType == WorkType.Player)
+                continue;
+            financeLossDictionary.Remove($"{employee.empName} 월급");
+        }
+    }
+
+    private void ClearProductIncome()
+    {
+        var products = productManager.products;
+        foreach (var product in products)
+        {
+            product.ClearMonthlyIncome();
+        }
     }
 
     private void ClearFinance()

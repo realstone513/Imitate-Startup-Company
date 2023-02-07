@@ -153,7 +153,7 @@ public class JobOfferWindow : GenericWindow
             if (thisEmployee.fakeSalary <= thisEmployee.salary)
                 thisEmployee.fakeSalary = thisEmployee.salary;
         }
-        else if (proposalBalance > thisEmployee.salary * 0.8f)
+        else if (proposalBalance > thisEmployee.salary * 0.95f)
         {
             CanConfirm(false);
             logText.color = Color.yellow;

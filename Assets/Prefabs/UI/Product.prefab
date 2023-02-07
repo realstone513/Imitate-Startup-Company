@@ -2404,9 +2404,9 @@ MonoBehaviour:
   planBar: {fileID: 7237664757811228575}
   devBar: {fileID: 5043542342124606734}
   artBar: {fileID: 4420294931876032805}
-  evaluationPoint: {fileID: 6681681998016691062}
-  numberOfUsers: {fileID: 2752351071842461123}
-  monthlyIncome: {fileID: 2902636945160104792}
+  evaluationPointText: {fileID: 6681681998016691062}
+  numberOfUsersText: {fileID: 2752351071842461123}
+  monthlyIncomeText: {fileID: 2902636945160104792}
 --- !u!1 &7540169772181958535
 GameObject:
   m_ObjectHideFlags: 0
