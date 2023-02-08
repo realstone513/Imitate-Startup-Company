@@ -15,9 +15,37 @@ public class EmployeeAssignRow : MonoBehaviour
     {
         Employee employee = gameObject.GetComponent<Employee>();
         employeePrefab = gameObject;
-        eType.text = employee.eType.ToString();
+
+        switch (employee.eType)
+        {
+            case WorkType.Planner:
+                eType.text = "기획";
+                break;
+
+            case WorkType.Developer:
+                eType.text = "개발";
+                break;
+
+            case WorkType.Artist:
+                eType.text = "아트";
+                break;
+        }
+
         eName.text = employee.empName;
-        rating.text = employee.rating.ToString();
+
+        switch (employee.rating)
+        {
+            case EmployeeRating.Beginner:
+                rating.text = "입문";
+                break;
+            case EmployeeRating.Intermediate:
+                rating.text = "중급";
+                break;
+            case EmployeeRating.Expert:
+                rating.text = "전문";
+                break;
+        }
+
         hired.text = employee.hiredDate.GetString();
         select.onClick.AddListener(WindowManager.instance.AllClose);
         select.onClick.AddListener(AssignOnDesk);

@@ -35,7 +35,7 @@ public class EmployeeManager : MonoBehaviour
         MoveToAssign(player);
     }
 
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -50,47 +50,47 @@ public class EmployeeManager : MonoBehaviour
                 emp.GetComponent<Employee>().TestPrint();
             }
         }
-    }
+        
+        // Update Cheat Key
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Beginner, WorkType.Planner));
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Planner));
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Expert, WorkType.Planner));
+        }
 
-    //    // Update Cheat Key
-    //    if (Input.GetKeyDown(KeyCode.Q))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Beginner, WorkType.Planner);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.W))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Planner);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.E))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Expert, WorkType.Planner);
-    //    }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Beginner, WorkType.Developer));
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Developer));
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Expert, WorkType.Developer));
+        }
 
-    //    if (Input.GetKeyDown(KeyCode.A))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Beginner, WorkType.Developer);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.S))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Developer);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.D))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Expert, WorkType.Developer);
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.Z))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Beginner, WorkType.Artist);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.X))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Artist);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.C))
-    //    {
-    //        CreateNewEmployee(EmployeeRating.Expert, WorkType.Artist);
-    //    }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Beginner, WorkType.Artist));
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Artist));
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            AddToUnassign(CreateNewEmployee(EmployeeRating.Expert, WorkType.Artist));
+        }
+    }*/
 
     public void MoveToAssign(GameObject select)
     {
