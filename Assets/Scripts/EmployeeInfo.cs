@@ -1,60 +1,63 @@
-using TMPro;
-using UnityEngine;
-
-public class EmployeeInfo : MonoBehaviour
+namespace Realstone
 {
-    public TextMeshProUGUI type;
-    public TextMeshProUGUI employeeName;
-    public TextMeshProUGUI grade;
-    public TextMeshProUGUI str;
-    public TextMeshProUGUI dex;
-    public TextMeshProUGUI intelligent;
-    public TextMeshProUGUI salary;
+    using TMPro;
+    using UnityEngine;
 
-    public void SetInfo(Employee employee, bool offerMode = false)
+    public class EmployeeInfo : MonoBehaviour
     {
-        GameRule rule = GameManager.instance.gameRule;
+        public TextMeshProUGUI type;
+        public TextMeshProUGUI employeeName;
+        public TextMeshProUGUI grade;
+        public TextMeshProUGUI str;
+        public TextMeshProUGUI dex;
+        public TextMeshProUGUI intelligent;
+        public TextMeshProUGUI salary;
 
-        switch (employee.eType)
+        public void SetInfo(Employee employee, bool offerMode = false)
         {
-            case WorkType.Planner:
-                type.text = "기획";
-                break;
-            case WorkType.Developer:
-                type.text = "개발";
-                break;
-            case WorkType.Artist:
-                type.text = "아트";
-                break;
-            case WorkType.Player:
-                type.text = "대표";
-                break;
+            GameRule rule = GameManager.instance.gameRule;
+
+            switch (employee.eType)
+            {
+                case WorkType.Planner:
+                    type.text = "기획";
+                    break;
+                case WorkType.Developer:
+                    type.text = "개발";
+                    break;
+                case WorkType.Artist:
+                    type.text = "아트";
+                    break;
+                case WorkType.Player:
+                    type.text = "대표";
+                    break;
+            }
+            type.color = rule.typeColors[(int)employee.eType];
+
+            employeeName.text = employee.empName;
+
+            switch (employee.rating)
+            {
+                case EmployeeRating.Beginner:
+                    grade.text = "입문";
+                    break;
+                case EmployeeRating.Intermediate:
+                    grade.text = "중급";
+                    break;
+                case EmployeeRating.Expert:
+                    grade.text = "전문";
+                    break;
+            }
+            grade.color = rule.gradeColors[(int)employee.rating];
+
+            str.text = $"{employee.ability.strong}";
+            dex.text = $"{employee.ability.dexterity}";
+            intelligent.text = $"{employee.ability.intelligence}";
+            if (offerMode)
+                salary.text = $"{employee.fakeSalary}";
+            else
+                salary.text = $"{employee.salary}";
+            //hired.text = $"{Utils.GetNumberFromDate(employee.hiredDate)}주";
         }
-        type.color = rule.typeColors[(int)employee.eType];
-
-        employeeName.text = employee.empName;
-
-        switch (employee.rating)
-        {
-            case EmployeeRating.Beginner:
-                grade.text = "입문";
-                break;
-            case EmployeeRating.Intermediate:
-                grade.text = "중급";
-                break;
-            case EmployeeRating.Expert:
-                grade.text = "전문";
-                break;
-        }
-        grade.color = rule.gradeColors[(int)employee.rating];
-
-        str.text = $"{employee.ability.strong}";
-        dex.text = $"{employee.ability.dexterity}";
-        intelligent.text = $"{employee.ability.intelligence}";
-        if (offerMode)
-            salary.text = $"{employee.fakeSalary}";
-        else 
-            salary.text = $"{employee.salary}";
-        //hired.text = $"{Utils.GetNumberFromDate(employee.hiredDate)}주";
     }
 }

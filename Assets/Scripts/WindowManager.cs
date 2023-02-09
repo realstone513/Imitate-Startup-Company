@@ -1,65 +1,68 @@
-using UnityEngine;
-
-public enum Windows
+namespace Realstone
 {
-    None = -1,
-    EmptyWorkspace,
-    EmployeeList,
-    Purchase,
-    Setting,
-    NewProduct,
-    Finance,
-    SelectEmployee,
-}
+    using UnityEngine;
 
-public class WindowManager : MonoBehaviour
-{
-    public static WindowManager instance;
-
-    public GenericWindow[] windows;
-    public int currentWndId = -1;
-
-    private void Awake()
+    public enum Windows
     {
-        instance = this;
+        None = -1,
+        EmptyWorkspace,
+        EmployeeList,
+        Purchase,
+        Setting,
+        NewProduct,
+        Finance,
+        SelectEmployee,
     }
 
-    public GenericWindow GetWindow(int id)
+    public class WindowManager : MonoBehaviour
     {
-        return windows[id];
-    }
+        public static WindowManager instance;
 
-    public void ToggleWindow(int id)
-    {
-        for (int i = 0; i < windows.Length; i++)
+        public GenericWindow[] windows;
+        public int currentWndId = -1;
+
+        private void Awake()
         {
-            if (i == id)
-                windows[i].Open();
-            else if (windows[i].gameObject.activeSelf)
-                windows[i].Close();
+            instance = this;
         }
-    }
 
-    public GenericWindow Open(int id)
-    {
-        if (id < 0 || windows.Length <= id)
-            return null;
+        public GenericWindow GetWindow(int id)
+        {
+            return windows[id];
+        }
 
-        currentWndId = id;
-        ToggleWindow(currentWndId);
-        return GetWindow(currentWndId);
-    }
+        public void ToggleWindow(int id)
+        {
+            for (int i = 0; i < windows.Length; i++)
+            {
+                if (i == id)
+                    windows[i].Open();
+                else if (windows[i].gameObject.activeSelf)
+                    windows[i].Close();
+            }
+        }
 
-    public GenericWindow Open(Windows id)
-    {
-        return Open((int)id);
-    }
+        public GenericWindow Open(int id)
+        {
+            if (id < 0 || windows.Length <= id)
+                return null;
 
-    public void AllClose()
-    {
-        foreach (var window in windows)
-            window.Close();
+            currentWndId = id;
+            ToggleWindow(currentWndId);
+            return GetWindow(currentWndId);
+        }
 
-        currentWndId = -1;
+        public GenericWindow Open(Windows id)
+        {
+            return Open((int)id);
+        }
+
+        public void AllClose()
+        {
+            foreach (var window in windows)
+                window.Close();
+
+            currentWndId = -1;
+        }
     }
 }

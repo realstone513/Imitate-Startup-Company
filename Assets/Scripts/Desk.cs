@@ -1,37 +1,40 @@
-using UnityEngine;
-
-public class Desk : MonoBehaviour
+namespace Realstone
 {
-    private Employee owner = null;
+    using UnityEngine;
 
-    public Employee GetOwner()
+    public class Desk : MonoBehaviour
     {
-        return owner;
-    }
+        private Employee owner = null;
 
-    public void SetOwner(Employee employee)
-    {
-        if (owner != null)
+        public Employee GetOwner()
         {
-            GameManager.instance.employeeManager.MoveToUnassign(owner.gameObject);
-            owner.UnassignOnDesk();
+            return owner;
         }
-        owner = employee;
-    }
 
-    public void RemoveOwner()
-    {
-        owner = null;
-    }
+        public void SetOwner(Employee employee)
+        {
+            if (owner != null)
+            {
+                GameManager.instance.employeeManager.MoveToUnassign(owner.gameObject);
+                owner.UnassignOnDesk();
+            }
+            owner = employee;
+        }
 
-    public void SetOrigin()
-    {
-        Utils.CopyTransform(owner.gameObject, transform);
-    }
+        public void RemoveOwner()
+        {
+            owner = null;
+        }
 
-    public void SetOffWork()
-    {
-        Utils.CopyTransform(owner.gameObject, transform);
-        owner.gameObject.transform.position += Vector3.down * 10;
+        public void SetOrigin()
+        {
+            Utils.CopyTransform(owner.gameObject, transform);
+        }
+
+        public void SetOffWork()
+        {
+            Utils.CopyTransform(owner.gameObject, transform);
+            owner.gameObject.transform.position += Vector3.down * 10;
+        }
     }
 }

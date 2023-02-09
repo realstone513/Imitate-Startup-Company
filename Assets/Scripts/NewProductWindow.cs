@@ -1,75 +1,77 @@
-using System;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-
-public enum WorkLevel
+namespace Realstone
 {
-    minimum,
-    fast,
-    quality,
-    best,
-}
+    using System;
+    using TMPro;
+    using UnityEngine.UI;
 
-public class NewProductWindow : GenericWindow
-{
-    public TMP_InputField projectNameInput;
-    public Button submitButton;
-    private WorkLevel planLevel;
-    private WorkLevel devLevel;
-    private WorkLevel artLevel;
-
-    private void OnEnable()
+    public enum WorkLevel
     {
-        submitButton.interactable = false;
-        projectNameInput.text = "";
-        projectNameInput.text = string.Empty;
-        GameManager.instance.inputFieldMode = false;
+        minimum,
+        fast,
+        quality,
+        best,
     }
 
-    public void EditName()
+    public class NewProductWindow : GenericWindow
     {
-        GameManager.instance.inputFieldMode = true;
-        submitButton.interactable = projectNameInput.text != string.Empty;
-        LimitTextSize(10);
-    }
+        public TMP_InputField projectNameInput;
+        public Button submitButton;
+        private WorkLevel planLevel;
+        private WorkLevel devLevel;
+        private WorkLevel artLevel;
 
-    public void EndEdit()
-    {
-        GameManager.instance.inputFieldMode = false;
-        LimitTextSize(10);
-    }
+        private void OnEnable()
+        {
+            submitButton.interactable = false;
+            projectNameInput.text = "";
+            projectNameInput.text = string.Empty;
+            GameManager.instance.inputFieldMode = false;
+        }
 
-    private void LimitTextSize(int size)
-    {
-        if (projectNameInput.text.Length > size)
-            projectNameInput.text = projectNameInput.text[..size];
-    }
+        public void EditName()
+        {
+            GameManager.instance.inputFieldMode = true;
+            submitButton.interactable = projectNameInput.text != string.Empty;
+            LimitTextSize(10);
+        }
 
-    public void GetPlanLevel(Int32 value)
-    {
-        planLevel = (WorkLevel)value;
-    }
+        public void EndEdit()
+        {
+            GameManager.instance.inputFieldMode = false;
+            LimitTextSize(10);
+        }
 
-    public void GetDevLevel(Int32 value)
-    {
-        devLevel = (WorkLevel)value;
-    }
+        private void LimitTextSize(int size)
+        {
+            if (projectNameInput.text.Length > size)
+                projectNameInput.text = projectNameInput.text[..size];
+        }
 
-    public void GetArtLevel(Int32 value)
-    {
-        artLevel = (WorkLevel)value;
-    }
+        public void GetPlanLevel(Int32 value)
+        {
+            planLevel = (WorkLevel)value;
+        }
 
-    public void Submit()
-    {
-        int plan = (int)planLevel;
-        int dev = (int)devLevel;
-        int art = (int)artLevel;
+        public void GetDevLevel(Int32 value)
+        {
+            devLevel = (WorkLevel)value;
+        }
 
-        GameManager gm = GameManager.instance;
-        gm.productManager.NewProduct(
-            projectNameInput.text, gm.gameRule.planAmountChart[plan], gm.gameRule.planAmountChart[dev], gm.gameRule.planAmountChart[art]);
-        Close();
+        public void GetArtLevel(Int32 value)
+        {
+            artLevel = (WorkLevel)value;
+        }
+
+        public void Submit()
+        {
+            int plan = (int)planLevel;
+            int dev = (int)devLevel;
+            int art = (int)artLevel;
+
+            GameManager gm = GameManager.instance;
+            gm.productManager.NewProduct(
+                projectNameInput.text, gm.gameRule.planAmountChart[plan], gm.gameRule.planAmountChart[dev], gm.gameRule.planAmountChart[art]);
+            Close();
+        }
     }
 }

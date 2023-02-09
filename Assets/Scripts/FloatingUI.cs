@@ -1,44 +1,47 @@
-using TMPro;
-using UnityEngine;
-
-public class FloatingUI : MonoBehaviour
+namespace Realstone
 {
-    TextMeshProUGUI text;
+    using TMPro;
+    using UnityEngine;
 
-    Vector3 delta = new(0, 0.15f, 0);
-    float timer = 0f;
-    public float duration = 0.5f;
-
-    void Awake()
+    public class FloatingUI : MonoBehaviour
     {
-        text = GetComponent<TextMeshProUGUI>();
-        gameObject.SetActive(false);
-    }
+        TextMeshProUGUI text;
 
-    public void SetStartPosition(Vector3 pos)
-    {
-        text.rectTransform.position = pos;
-    }
+        Vector3 delta = new(0, 0.15f, 0);
+        float timer = 0f;
+        public float duration = 0.5f;
 
-    public void SetText(string str, Color color)
-    {
-        text.color = color;
-        text.text = str;
-    }
-
-    private void OnEnable()
-    {
-        timer = 0f;
-    }
-
-    void Update()
-    {
-        timer += Time.deltaTime;
-        text.rectTransform.position += delta;
-        if (timer > duration)
+        void Awake()
         {
-            GameManager.instance.EnqueueFloatingUI(this.gameObject);
+            text = GetComponent<TextMeshProUGUI>();
             gameObject.SetActive(false);
+        }
+
+        public void SetStartPosition(Vector3 pos)
+        {
+            text.rectTransform.position = pos;
+        }
+
+        public void SetText(string str, Color color)
+        {
+            text.color = color;
+            text.text = str;
+        }
+
+        private void OnEnable()
+        {
+            timer = 0f;
+        }
+
+        void Update()
+        {
+            timer += Time.deltaTime;
+            text.rectTransform.position += delta;
+            if (timer > duration)
+            {
+                GameManager.instance.EnqueueFloatingUI(this.gameObject);
+                gameObject.SetActive(false);
+            }
         }
     }
 }

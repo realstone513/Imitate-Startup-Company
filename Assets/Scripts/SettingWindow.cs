@@ -1,9 +1,12 @@
-using UnityEngine;
-
-public class SettingWindow : GenericWindow
+namespace Realstone
 {
-    public void Quit()
+    using UnityEngine;
+
+    public class SettingWindow : GenericWindow
     {
-        Application.Quit();
+        public void Quit()
+        {
+            Application.Quit();
+        }
     }
 }

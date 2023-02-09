@@ -1,33 +1,36 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-public class EmptyWorkspace : GenericWindow
+namespace Realstone
 {
-    public GameObject infoPrefab;
-    public Transform infoSpawnTransform;
-    public List<GameObject> infos;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    private void OnEnable()
+    public class EmptyWorkspace : GenericWindow
     {
-        List<GameObject> unassignEmployeeList = GameManager.instance.employeeManager.GetUnassign();
-        if (unassignEmployeeList.Count == 0)
+        public GameObject infoPrefab;
+        public Transform infoSpawnTransform;
+        public List<GameObject> infos;
+
+        private void OnEnable()
         {
-            gameObject.SetActive(false);
-            return;
+            List<GameObject> unassignEmployeeList = GameManager.instance.employeeManager.GetUnassign();
+            if (unassignEmployeeList.Count == 0)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            foreach (GameObject emp in unassignEmployeeList)
+            {
+                GameObject info = Instantiate(infoPrefab, infoSpawnTransform);
+                info.GetComponent<EmployeeAssignRow>().SetInit(emp);
+                infos.Add(info);
+            }
         }
 
-        foreach (GameObject emp in unassignEmployeeList)
+        private void OnDisable()
         {
-            GameObject info = Instantiate(infoPrefab, infoSpawnTransform);
-            info.GetComponent<EmployeeAssignRow>().SetInit(emp);
-            infos.Add(info);
+            foreach (GameObject info in infos)
+                Destroy(info);
+            infos.Clear();
         }
-    }
-
-    private void OnDisable()
-    {
-        foreach (GameObject info in infos)
-            Destroy(info);
-        infos.Clear();
     }
 }

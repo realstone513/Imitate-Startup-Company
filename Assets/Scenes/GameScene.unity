@@ -8065,7 +8065,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -20}
+  m_AnchoredPosition: {x: 0, y: -20.00003}
   m_SizeDelta: {x: 500, y: -670}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1925606060
@@ -9227,34 +9227,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1978138086338623545, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1978138086338623545, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1978138086338623545, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5279578928134964814}
-    - target: {fileID: 1978138086338623545, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1978138086338623545, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GiveBonus
-      objectReference: {fileID: 0}
-    - target: {fileID: 1978138086338623545, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SelectEmployeeWindow, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1978138086338623545, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 2248916719952302735, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9323,10 +9295,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Select Employee Window
       objectReference: {fileID: 0}
-    - target: {fileID: 2793123432011901776, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2930442027608014501, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9462,34 +9430,6 @@ PrefabInstance:
     - target: {fileID: 3909256404085268091, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813670882437020276, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813670882437020276, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813670882437020276, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5279578928134964814}
-    - target: {fileID: 4813670882437020276, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813670882437020276, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: FireEmployee
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813670882437020276, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SelectEmployeeWindow, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813670882437020276, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5192378946516763664, guid: 982566d1bb4cda74792b9b3ec1530679, type: 3}
       propertyPath: m_AnchorMax.y

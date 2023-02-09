@@ -1,33 +1,38 @@
-using UnityEngine;
-using UnityEngine.EventSystems;
-
-public class GenericWindow : MonoBehaviour
+namespace Realstone
 {
-    public GameObject firstSelected;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
 
-    protected virtual void Awake()
+    public class GenericWindow : MonoBehaviour
     {
-        Close();
-    }
+        public GameObject firstSelected;
 
-    public void OnFocus()
-    {
-        EventSystem.current.SetSelectedGameObject(firstSelected);
-    }
+        protected virtual void Awake()
+        {
+            Close();
+        }
 
-    protected void Display(bool active)
-    {
-        gameObject.SetActive(active);
-    }
+        public void OnFocus()
+        {
+            EventSystem.current.SetSelectedGameObject(firstSelected);
+        }
 
-    public virtual void Open()
-    {
-        Display(true);
-        OnFocus();
-    }
+        protected void Display(bool active)
+        {
+            gameObject.SetActive(active);
+        }
 
-    public virtual void Close()
-    {
-        Display(false);
+        public virtual void Open()
+        {
+            GameManager.instance.popupMode = true;
+            Display(true);
+            OnFocus();
+        }
+
+        public virtual void Close()
+        {
+            GameManager.instance.popupMode = false;
+            Display(false);
+        }
     }
 }
