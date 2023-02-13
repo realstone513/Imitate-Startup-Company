@@ -49,8 +49,8 @@ namespace Realstone
             }
 
             hired.text = employee.hiredDate.GetString();
-            select.onClick.AddListener(WindowManager.instance.AllClose);
             select.onClick.AddListener(AssignOnDesk);
+            select.onClick.AddListener(WindowManager.instance.AllClose);
         }
 
         private void AssignOnDesk()

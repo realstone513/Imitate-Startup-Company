@@ -101,6 +101,7 @@ namespace Realstone
         {
             currentDesk = desks[0];
             money = gameRule.seedMoney;
+            moneyText.text = $"{money}";
             inputFieldMode = false;
         }
 
@@ -131,73 +132,72 @@ namespace Realstone
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickableLayer))
                 {
-                    if (Input.GetMouseButtonDown(0) && !popupMode)
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        currentDesk = hit.collider.gameObject.GetComponent<Desk>();
-                        if (currentDesk.GetOwner() == null)
-                            WindowManager.instance.Open(Windows.EmptyWorkspace);
-                        else
+                        if (!popupMode)
                         {
-                            WindowManager.instance.Open(Windows.SelectEmployee);
+                            currentDesk = hit.collider.gameObject.GetComponent<Desk>();
+                            Debug.Log(hit.collider.name);
+                            WindowManager.instance.Open(
+                                currentDesk.GetOwner() == null ?
+                                Windows.EmptyWorkspace :
+                                Windows.SelectEmployee);
                         }
                     }
                 }
             }
 
+            deltaTime = Time.deltaTime * (onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale);
+
+            if (timeScale == 0)
+                return;
+
+            timer.minute += deltaTime;
+            timerSlider.value += deltaTime;
+            if (timer.minute >= 60f)
             {
-                //deltaTime = Time.deltaTime;
-                //if (!isMeeting)
-
-                deltaTime = Time.deltaTime * (onSkip ? gameRule.constantSkipSpeed : gameRule.constantSpeed * timeScale);
-
-                if (timeScale == 0)
-                    return;
-
-                timer.minute += deltaTime;
-                timerSlider.value += deltaTime;
-                if (timer.minute >= 60f)
-                {
-                    timer.minute = 0f;
-                    timer.hour++;
-                }
-                timerText.text = $"{timer.hour:00.}:{timer.minute:00.}";
-
-                if (timer.hour >= 24f)
-                {
-                    timer = (0f, 0f);
-                    timerSlider.value = 0f;
-                    date.day++;
-                    if (date.day > 4)
-                    {
-                        date.month++;
-                        date.day = 1;
-                        CalculateMonthIncome();
-                        ClearSalarys();
-                        ClearProductIncome();
-                        SetSalarys();
-                    }
-                    if (date.month > 12)
-                    {
-                        date.year++;
-                        date.month = 1;
-                    }
-                    SetYmdText();
-                }
-
-                beforeWorkTime = workTime;
-                workTime = !(AfterOffWorkTime() || BeforeGoToWorkTime());
-                if (!beforeWorkTime && workTime)
-                    employeeManager.GotoWorkTrigger();
-
-                if (timeScale == 3)
-                    SetSkipMode(!workTime);
+                timer.minute = 0f;
+                timer.hour++;
             }
+            timerText.text = $"{timer.hour:00.}:{timer.minute:00.}";
+
+            if (timer.hour >= 24f)
+            {
+                timer = (0f, 0f);
+                timerSlider.value = 0f;
+                date.day++;
+                if (date.day > 4)
+                {
+                    date.month++;
+                    date.day = 1;
+                    CalculateMonthIncome();
+                    ClearSalarys();
+                    ClearProductIncome();
+                    SetSalarys();
+                }
+                if (date.month > 12)
+                {
+                    date.year++;
+                    date.month = 1;
+                }
+                SetYmdText();
+            }
+
+            beforeWorkTime = workTime;
+            workTime = !(AfterOffWorkTime() || BeforeGoToWorkTime());
+            if (!beforeWorkTime && workTime)
+                employeeManager.GotoWorkTrigger();
+
+            if (timeScale == 3)
+                SetSkipMode(!workTime);
         }
 
         private void SetYmdText()
         {
             ymwText.text = date.GetString();
+#if UNITY_STANDALONE_WIN
             retirementText.text = $"{gameRule.endYear - date.year}년 뒤에 종료";
+#endif
         }
 
         public void SetTimeScale(int value)
@@ -265,16 +265,6 @@ namespace Realstone
                 (timer.hour == offWorkTime.hour &&
                 timer.minute >= offWorkTime.minute);
         }
-
-        //public (float hour, float minute) GetGoToWorkTime()
-        //{
-        //    return goToWorkTime;
-        //}
-
-        //public (float hour, float minute) GetOffWorkTime()
-        //{
-        //    return offWorkTime;
-        //}
 
         public Date GetToday()
         {

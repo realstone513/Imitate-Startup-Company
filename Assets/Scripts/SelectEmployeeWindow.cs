@@ -23,6 +23,7 @@ namespace Realstone
 
         public void FireEmployee()
         {
+            GameManager.instance.GetCurrentDesk().RemoveOwner();
             GameManager.instance.employeeManager.FireEmployee(currentEmployee.gameObject);
             Close();
         }
