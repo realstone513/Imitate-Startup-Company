@@ -111,6 +111,7 @@ namespace Realstone
             (int min, int max) = Utils.GetIntRange(rule.averageSalary[(int)thisEmployee.grade] * 1.1f, rule.salaryRangeRatio);
             salarySlider.minValue = min;
             salarySlider.maxValue = max;
+            salarySlider.value = thisEmployee.fakeSalary;
             bonusSlider.value = 0;
             FirstLog(thisEmployee);
             foreach (var log in logs)

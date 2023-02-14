@@ -6,6 +6,11 @@ namespace Realstone
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
 
+    public struct SaveData
+    {
+
+    }
+
     public struct Date
     {
         public int year;
@@ -69,10 +74,6 @@ namespace Realstone
 
         public bool popupMode;
 
-        //public List<GameObject> chairs;
-        //public bool isMeeting;
-        //private MainCameraManager mcm;
-
         private void Awake()
         {
             if (instance == null)
@@ -88,12 +89,10 @@ namespace Realstone
             date.SetInit(1, 1, 1);
             SetYmdText();
             timerText.text = "00:00";
-            //isMeeting = false;
 
             floatingUIQueue = new Queue<GameObject>(queueSize);
             for (int i = 0; i < queueSize; i++)
                 floatingUIQueue.Enqueue(Instantiate(floatingTextPrefab, floatingUITransform));
-            //mcm = Camera.main.GetComponent<MainCameraManager>();
             popupMode = false;
         }
 

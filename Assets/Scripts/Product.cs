@@ -137,7 +137,7 @@ namespace Realstone
             if (numberOfUsers <= 0)
                 numberOfUsers = 0;
             float beforeIncome = monthlyIncome;
-            monthlyIncome = (adder * 0.1f);
+            monthlyIncome += (adder * 0.1f);
 
             if (beforeIncome > monthlyIncome)
                 ClearDictionaryElem();
