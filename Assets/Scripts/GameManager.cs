@@ -137,11 +137,13 @@ namespace Realstone
                         if (!popupMode)
                         {
                             currentDesk = hit.collider.gameObject.GetComponent<Desk>();
-                            Debug.Log(hit.collider.name);
-                            WindowManager.instance.Open(
-                                currentDesk.GetOwner() == null ?
-                                Windows.EmptyWorkspace :
-                                Windows.SelectEmployee);
+                            if (employeeManager.GetEmployeeCount() > 0)
+                            {
+                                WindowManager.instance.Open(
+                                    currentDesk.GetOwner() == null ?
+                                    Windows.EmptyWorkspace :
+                                    Windows.SelectEmployee);
+                            }
                         }
                     }
                 }
@@ -172,7 +174,7 @@ namespace Realstone
                     date.day = 1;
                     CalculateMonthIncome();
                     ClearSalarys();
-                    ClearProductIncome();
+                    ClearProductsIncome();
                     SetSalarys();
                 }
                 if (date.month > 12)
@@ -361,7 +363,7 @@ namespace Realstone
             }
         }
 
-        private void ClearProductIncome()
+        private void ClearProductsIncome()
         {
             var products = productManager.products;
             foreach (var product in products)

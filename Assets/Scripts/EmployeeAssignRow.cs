@@ -8,13 +8,14 @@ namespace Realstone
     {
         public TextMeshProUGUI eType;
         public TextMeshProUGUI eName;
-        public TextMeshProUGUI rating;
+        public TextMeshProUGUI grade;
         public TextMeshProUGUI hired;
         public Button select;
         private GameObject employeePrefab;
 
         public void SetInit(GameObject gameObject)
         {
+            GameRule rule = GameManager.instance.gameRule;
             Employee employee = gameObject.GetComponent<Employee>();
             employeePrefab = gameObject;
 
@@ -32,21 +33,23 @@ namespace Realstone
                     eType.text = "아트";
                     break;
             }
+            eType.color = rule.typeColors[(int)employee.eType];
 
             eName.text = employee.empName;
 
-            switch (employee.rating)
+            switch (employee.grade)
             {
-                case EmployeeRating.Beginner:
-                    rating.text = "입문";
+                case EmployeeGrade.Beginner:
+                    grade.text = "입문";
                     break;
-                case EmployeeRating.Intermediate:
-                    rating.text = "중급";
+                case EmployeeGrade.Intermediate:
+                    grade.text = "중급";
                     break;
-                case EmployeeRating.Expert:
-                    rating.text = "전문";
+                case EmployeeGrade.Expert:
+                    grade.text = "전문";
                     break;
             }
+            grade.color = rule.gradeColors[(int)employee.grade];
 
             hired.text = employee.hiredDate.GetString();
             select.onClick.AddListener(AssignOnDesk);

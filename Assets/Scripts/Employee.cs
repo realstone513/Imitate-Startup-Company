@@ -104,7 +104,7 @@ namespace Realstone
         private (float current, float amount) workload;
         public States state;
         public WorkType eType;
-        public EmployeeRating rating;
+        public EmployeeGrade grade;
         public Date hiredDate;
         private int hpConstant;
         private int cumulateWorkload;
@@ -276,10 +276,10 @@ namespace Realstone
                 ability.hp.current = ability.hp.limit;
         }
 
-        public void SetInit(WorkType _eType, EmployeeRating _rating, string _name, EmployeeBaseAblity _ability)
+        public void SetInit(WorkType _eType, EmployeeGrade _grade, string _name, EmployeeBaseAblity _ability)
         {
             eType = _eType;
-            rating = _rating;
+            grade = _grade;
             empName = _name;
             ability = _ability;
             State = States.Unassign;
@@ -287,7 +287,7 @@ namespace Realstone
             hiredDate = gm.GetToday();
             gameObject.name = _name;
 
-            (float min, float max) salaryRange = Utils.GetIntRange(gm.gameRule.averageSalary[(int)rating], gm.gameRule.salaryRangeRatio);
+            (float min, float max) salaryRange = Utils.GetIntRange(gm.gameRule.averageSalary[(int)grade], gm.gameRule.salaryRangeRatio);
             salary = (int)NormalDistribution.GetData(salaryRange);
             fakeSalary = (int)(salary * NormalDistribution.GetData(1f, 1.2f));
 
@@ -346,7 +346,7 @@ namespace Realstone
 
         public void TestPrint()
         {
-            Debug.Log($"{eType} {rating} {empName} " +
+            Debug.Log($"{eType} {grade} {empName} " +
                 $"{hiredDate.GetString()}¿¡ Ã¤¿ë\n" +
                 $"Èû: {ability.strong} " +
                 $"¹Î: {ability.dexterity} " +
@@ -394,7 +394,7 @@ namespace Realstone
 
         private float GetQuality()
         {
-            return (ability.strong.current * 0.36f + ability.dexterity.current * 0.24f + ability.intelligence.current * 0.4f) * 0.1f;
+            return (ability.strong.current + ability.dexterity.current + ability.intelligence.current) / 30;
         }
 
         public float RequireBonus()

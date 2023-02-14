@@ -36,19 +36,19 @@ namespace Realstone
 
             employeeName.text = employee.empName;
 
-            switch (employee.rating)
+            switch (employee.grade)
             {
-                case EmployeeRating.Beginner:
+                case EmployeeGrade.Beginner:
                     grade.text = "입문";
                     break;
-                case EmployeeRating.Intermediate:
+                case EmployeeGrade.Intermediate:
                     grade.text = "중급";
                     break;
-                case EmployeeRating.Expert:
+                case EmployeeGrade.Expert:
                     grade.text = "전문";
                     break;
             }
-            grade.color = rule.gradeColors[(int)employee.rating];
+            grade.color = rule.gradeColors[(int)employee.grade];
 
             str.text = $"{employee.ability.strong}";
             dex.text = $"{employee.ability.dexterity}";

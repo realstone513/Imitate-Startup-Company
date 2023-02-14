@@ -41,7 +41,7 @@ namespace Realstone
                 products[idx].prodPlan.plan.current = products[idx].prodPlan.plan.max;
 
             products[idx].prodPlan.originality.count++;
-            products[idx].prodPlan.originality.current += NormalDistribution.GetData(quality * 0.5f, 1f + quality);
+            products[idx].prodPlan.originality.current += Mathf.Clamp01(NormalDistribution.GetData(0f, 1f + quality * 0.5f));
             products[idx].UpdatePlan();
             return true;
         }

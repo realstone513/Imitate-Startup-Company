@@ -12,11 +12,12 @@ namespace Realstone
         public List<GameObject> employeeInfoList = new();
         private List<GameObject> employeeList = new();
         private List<GameObject> logs = new();
-        private EmployeeRating rating = EmployeeRating.Beginner;
+        private EmployeeGrade grade = EmployeeGrade.Beginner;
         private WorkType workType = WorkType.Planner;
         private int cost = 10;
         private int offerIndex = -1;
         public GameObject offerWindow;
+        public GameObject negotiateWindow;
         public TextMeshProUGUI firstLog;
         public GameObject logPrefab;
         public Transform logTransform;
@@ -36,8 +37,9 @@ namespace Realstone
 
         private void OnEnable()
         {
+            negotiateWindow.SetActive(false);
+            offerWindow.SetActive(true);
             InfoActive(false);
-            offerWindow.SetActive(false);
         }
 
         public void ChangeCostText(Int32 num)
@@ -47,17 +49,17 @@ namespace Realstone
             {
                 case 0:
                     cost = gm.gameRule.jobOfferCostBeginner;
-                    rating = EmployeeRating.Beginner;
+                    grade = EmployeeGrade.Beginner;
                     bonusSlider.maxValue = gm.money < 10000 ? gm.money : 10000;
                     break;
                 case 1:
                     cost = gm.gameRule.jobOfferCostIntermediate;
-                    rating = EmployeeRating.Intermediate;
+                    grade = EmployeeGrade.Intermediate;
                     bonusSlider.maxValue = gm.money < 20000 ? gm.money : 20000;
                     break;
                 case 2:
                     cost = gm.gameRule.jobOfferCostExpert;
-                    rating = EmployeeRating.Expert;
+                    grade = EmployeeGrade.Expert;
                     bonusSlider.maxValue = gm.money < 50000 ? gm.money : 50000;
                     break;
             }
@@ -88,7 +90,8 @@ namespace Realstone
             offerIndex = -1;
             CreateNewEmployees();
             InfoActive(true);
-            offerWindow.SetActive(false);
+            negotiateWindow.SetActive(false);
+            offerWindow.SetActive(true);
             submitCount = 0;
             submitButton.interactable = true;
             confirmButton.interactable = false;
@@ -101,10 +104,11 @@ namespace Realstone
         public void SelectInfo(int idx)
         {
             offerIndex = idx;
-            offerWindow.SetActive(true);
+            offerWindow.SetActive(false);
+            negotiateWindow.SetActive(true);
             Employee thisEmployee = employeeList[offerIndex].GetComponent<Employee>();
             GameRule rule = GameManager.instance.gameRule;
-            (int min, int max) = Utils.GetIntRange(rule.averageSalary[(int)thisEmployee.rating] * 1.1f, rule.salaryRangeRatio);
+            (int min, int max) = Utils.GetIntRange(rule.averageSalary[(int)thisEmployee.grade] * 1.1f, rule.salaryRangeRatio);
             salarySlider.minValue = min;
             salarySlider.maxValue = max;
             bonusSlider.value = 0;
@@ -116,7 +120,7 @@ namespace Realstone
 
         private void FirstLog(Employee thisEmployee)
         {
-            firstLog.text = $"{thisEmployee.empName}은(는)\n{thisEmployee.fakeSalary}만원을 원합니다.";
+            firstLog.text = $"{thisEmployee.empName}은(는) {thisEmployee.fakeSalary}만원을 원합니다.";
         }
 
         public void ChangeSalaryValue()
@@ -201,7 +205,7 @@ namespace Realstone
             GameManager.instance.TranslateGameMoney(-cost);
             for (int i = 0; i < 3; i++)
             {
-                employeeList.Add(GameManager.instance.employeeManager.CreateNewEmployee(rating, workType));
+                employeeList.Add(GameManager.instance.employeeManager.CreateNewEmployee(grade, workType));
                 employeeInfoList[i].GetComponent<EmployeeInfo>().SetInfo(employeeList[i].GetComponent<Employee>(), true);
             }
         }

@@ -9,7 +9,7 @@ namespace Realstone
         Female,
     }
 
-    public enum EmployeeRating
+    public enum EmployeeGrade
     {
         Beginner,
         Intermediate,
@@ -32,67 +32,16 @@ namespace Realstone
             nameTable = CSVReader.Read("NameTable");
             tableLength = nameTable.Count;
             employeeSpawnPosition = new Vector3(0, -10, 0);
-            GameObject player = CreateNewEmployee(EmployeeRating.Expert, WorkType.Player);
+            GameObject player = CreateNewEmployee(EmployeeGrade.Expert, WorkType.Player);
             player.GetComponent<Employee>().AssignOnDesk(GameManager.instance.GetCurrentDesk());
             MoveToAssign(player);
         }
 
-        /*private void Update()
+        public int GetEmployeeCount()
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                Debug.Log("미배치 직원");
-                foreach (GameObject emp in unassign)
-                {
-                    emp.GetComponent<Employee>().TestPrint();
-                }
-                Debug.Log("배치 된 직원");
-                foreach (GameObject emp in assign)
-                {
-                    emp.GetComponent<Employee>().TestPrint();
-                }
-            }
-
-            // Update Cheat Key
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Beginner, WorkType.Planner));
-            }
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Planner));
-            }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Expert, WorkType.Planner));
-            }
-
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Beginner, WorkType.Developer));
-            }
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Developer));
-            }
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Expert, WorkType.Developer));
-            }
-
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Beginner, WorkType.Artist));
-            }
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Intermediate, WorkType.Artist));
-            }
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                AddToUnassign(CreateNewEmployee(EmployeeRating.Expert, WorkType.Artist));
-            }
-        }*/
+            // - player
+            return assign.Count + unassign.Count - 1;
+        }
 
         public void MoveToAssign(GameObject select)
         {
@@ -111,18 +60,18 @@ namespace Realstone
             unassign.Add(select);
         }
 
-        public GameObject CreateNewEmployee(EmployeeRating rating, WorkType eType)
+        public GameObject CreateNewEmployee(EmployeeGrade grade, WorkType eType)
         {
-            List<GameObject> tempList = rating switch
+            List<GameObject> tempList = grade switch
             {
-                EmployeeRating.Intermediate => employeeIntermediates,
-                EmployeeRating.Expert => employeeExperts,
+                EmployeeGrade.Intermediate => employeeIntermediates,
+                EmployeeGrade.Expert => employeeExperts,
                 _ => employeeBeginners,
             };
             int random = Random.Range(0, tempList.Count);
             GameObject employee =
                 Instantiate(tempList[random], employeeSpawnPosition, Quaternion.identity, gameObject.transform);
-            employee.AddComponent<Employee>().SetInit(eType, rating, CreateName(), CreateEmployeeBaseAbility(rating));
+            employee.AddComponent<Employee>().SetInit(eType, grade, CreateName(), CreateEmployeeBaseAbility(grade));
             return employee;
         }
 
@@ -138,7 +87,7 @@ namespace Realstone
             return name;
         }
 
-        private EmployeeBaseAblity CreateEmployeeBaseAbility(EmployeeRating rating)
+        private EmployeeBaseAblity CreateEmployeeBaseAbility(EmployeeGrade grade)
         {
             int min = GameManager.instance.gameRule.abilityMin;
             int max = GameManager.instance.gameRule.abilityMax;
@@ -146,10 +95,10 @@ namespace Realstone
             int minmid = (int)Utils.GetAverage(min, mid);
 
             // min 1, max 10 - 1~6, 3~8, 5~10
-            var range = rating switch
+            var range = grade switch
             {
-                EmployeeRating.Intermediate => (minmid, minmid + mid),
-                EmployeeRating.Expert => (mid, max),
+                EmployeeGrade.Intermediate => (minmid, minmid + mid),
+                EmployeeGrade.Expert => (mid, max),
                 _ => (min, min + mid),
             };
             GameRule rule = GameManager.instance.gameRule;
@@ -194,44 +143,5 @@ namespace Realstone
             gm.financeLossDictionary.Remove(key);
             Destroy(gameObject);
         }
-
-        // Test Code
-        /*public int tryCount = 100000;
-        public int rangeMin = 1;
-        public int rangeMax = 10;
-
-        public int innerSumPoint;
-
-        private void TestND()
-        {
-            Dictionary<int, int> result = NormalDistribution.GetRange(tryCount, rangeMin, rangeMax);
-
-            int sum = 0;
-            int ispIdx = 0;
-            int count = 0;
-            var sort = result.OrderBy(x => x.Key);
-            int[] points = { innerSumPoint, rangeMax - innerSumPoint, sort.Last().Key };
-            int before = rangeMin;
-
-            foreach (var i in sort)
-            {
-                Debug.Log(i);
-            }
-
-            foreach (var i in sort)
-            {
-                //Debug.Log(i);
-                sum += i.Value;
-                count++;
-
-                if (count == points[ispIdx])
-                {
-                    Debug.Log($"{before} ~ {count} : {(float)sum / tryCount * 100}");
-                    ispIdx++;
-                    before = count;
-                    sum = 0;
-                }
-            }
-        }*/
     }
 }

@@ -84,7 +84,7 @@ namespace Realstone
         private GameManager gm;
         private float evaluationPoint;
         private int numberOfUsers;
-        private int monthlyIncome;
+        private float monthlyIncome;
 
         private void Start()
         {
@@ -112,17 +112,17 @@ namespace Realstone
             {
                 timer.current = 0f;
                 int serviceDate = Utils.GetNumberFromDate(gm.GetToday()) - Utils.GetNumberFromDate(serviceStartDate);
-                if (serviceDate < evaluationPoint)
+                if (serviceDate < evaluationPoint * 10)
                 {
-                    UpdateUserAndIncome(evaluationPoint);
+                    UpdateUserAndIncome(10f);
                 }
-                if (serviceDate < evaluationPoint * 2)
+                if (serviceDate < evaluationPoint * 20)
                 {
-                    UpdateUserAndIncome(evaluationPoint * 0.5f);
+                    UpdateUserAndIncome(5f);
                 }
                 else
                 {
-                    UpdateUserAndIncome(-0.25f);
+                    UpdateUserAndIncome(-1f);
                 }
                 numberOfUsersText.text = $"{numberOfUsers}";
                 monthlyIncomeText.text = $"{monthlyIncome}";
@@ -136,16 +136,16 @@ namespace Realstone
             numberOfUsers += adder;
             if (numberOfUsers <= 0)
                 numberOfUsers = 0;
-            int beforeIncome = monthlyIncome;
-            monthlyIncome = (int)(numberOfUsers * 0.01f);
+            float beforeIncome = monthlyIncome;
+            monthlyIncome = (adder * 0.1f);
 
             if (beforeIncome > monthlyIncome)
                 ClearDictionaryElem();
 
             if (monthlyIncome >= 0)
-                gm.financeProfitDictionary[productName] = monthlyIncome;
+                gm.financeProfitDictionary[productName] = (int)monthlyIncome;
             else
-                gm.financeLossDictionary[productName] = monthlyIncome;
+                gm.financeLossDictionary[productName] = (int)monthlyIncome;
         }
 
         public void SetPlan(string name, int plan, int dev, int art)
@@ -175,7 +175,7 @@ namespace Realstone
             evaluationPointText.text = $"{evaluationPoint:0.00}";
             numberOfUsersText.text = "0";
             monthlyIncomeText.text = "0";
-            gm.financeProfitDictionary.Add(productName, monthlyIncome);
+            gm.financeProfitDictionary.Add(productName, (int)monthlyIncome);
         }
 
         public void PrintPlan()
@@ -193,6 +193,7 @@ namespace Realstone
         public void ClearMonthlyIncome()
         {
             monthlyIncome = 0;
+            monthlyIncomeText.text = "0";
             ClearDictionaryElem();
         }
 
